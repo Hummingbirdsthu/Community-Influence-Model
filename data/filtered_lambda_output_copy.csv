@@ -1,0 +1,860 @@
+Symbol,Lambda,Cluster,Close,Change,Volume,Market Cap,EPS,Beta (1Y),Sector,Name,image_url
+ON,0.6938958399168185,1,41.27,-2.4119177110427903,9857318,17246128398.0,1.4681,1.7531635,Electronic Technology,ON Semiconductor Corporation,https://logo.clearbit.com/on.com
+DGII,0.6938958570829682,1,32.16,-0.6487488415199285,173495,1192065065.9999998,1.151,1.2616867,Electronic Technology,Digi International Inc.,https://logo.clearbit.com/dgii.com
+PLAB,0.693895830772693,1,19.47,-1.91435768261966,380732,1237546457.0,2.3808,1.5224257,Electronic Technology,"Photronics, Inc.",https://financialmodelingprep.com/image-stock/PLAB.png
+SWBI,0.6938965210353167,1,9.4,-0.634249471458779,289727,413625407.0,0.6574,0.45893624,Electronic Technology,"Smith & Wesson Brands, Inc.",https://logo.clearbit.com/swbi.com
+OPXS,0.6938887188274815,1,8.29,1.0975609756097544,18816,57308099.0,0.7141,0.9937162,Electronic Technology,"Optex Systems Holdings, Inc.",https://financialmodelingprep.com/image-stock/OPXS.png
+IMMR,0.6938813063379704,1,7.28,-1.488497970230033,204253,235846024.0,2.6599,1.1009452,Electronic Technology,Immersion Corporation,https://financialmodelingprep.com/image-stock/IMMR.png
+STX,0.6938738680914389,1,112.74,3.564210913099389,5981623,23925396918.0,7.077,1.9094441,Electronic Technology,Seagate Technology Holdings PLC,https://logo.clearbit.com/stx.com
+SMCI,0.6938682250145809,1,40.09,-2.976766698935133,37900688,23926418756.000004,2.0446,3.573023,Electronic Technology,"Super Micro Computer, Inc.",https://logo.clearbit.com/smci.com
+BELFA,0.6938616315032475,1,64.43,-1.6335877862595316,4442,901105278.0,2.9945,1.3839709,Electronic Technology,Bel Fuse Inc.,https://financialmodelingprep.com/image-stock/BELFA.png
+FEIM,0.6938558278552067,1,19.07,-1.650335224342446,188247,184531095.0,2.4072,0.4333083,Electronic Technology,"Frequency Electronics, Inc.",https://logo.clearbit.com/feim.com
+BELFB,0.6938504990582005,1,72.48,-0.0689369915896831,46842,901105278.0,3.4968,1.610232,Electronic Technology,Bel Fuse Inc.,https://financialmodelingprep.com/image-stock/BELFB.png
+CGNX,0.6938455696374334,1,29.72,-0.5687520910003402,2310435,4988941046.0,0.6885,1.2968991,Electronic Technology,Cognex Corporation,https://logo.clearbit.com/cgnx.com
+KE,0.6938409342501899,1,17.5,-0.7936507936507969,172620,426656895.00000006,0.7188,1.146919,Electronic Technology,"Kimball Electronics, Inc.",https://logo.clearbit.com/ke.com
+ISSC,0.6938356347980951,1,10.45,4.395604395604391,136271,183963412.0,0.6171,1.6238425,Electronic Technology,"Innovative Solutions and Support, Inc.",https://logo.clearbit.com/issc.com
+CAMT,0.6938324674778724,1,64.99,-0.0153846153846232,287457,2963184571.0,2.8094,1.940475,Electronic Technology,Camtek Ltd.,https://logo.clearbit.com/camt.com
+TRNS,0.693828852625488,1,91.32,-0.3383171450398366,70643,850140813.9999999,1.584,0.8664828,Electronic Technology,"Transcat, Inc.",https://financialmodelingprep.com/image-stock/TRNS.png
+NXT,0.6938251420399546,1,56.05,0.0,1882488,8198094946.999999,3.5453,1.2476546,Electronic Technology,Nextracker Inc.,https://financialmodelingprep.com/image-stock/NXT.png
+AMKR,0.6938217072234631,1,18.27,-2.35168359166222,1474290,4513718247.0,1.2829,2.0213015,Electronic Technology,"Amkor Technology, Inc.",https://financialmodelingprep.com/image-stock/AMKR.png
+ITRI,0.6938185114517003,1,112.63,0.3206555624832987,363493,5134584189.0,5.5875,0.9418562,Electronic Technology,"Itron, Inc.",https://logo.clearbit.com/itri.com
+TTMI,0.6938154336328892,1,28.59,-1.5495867768595015,533092,2905611234.0,0.7673,1.8820852,Electronic Technology,"TTM Technologies, Inc.",https://financialmodelingprep.com/image-stock/TTMI.png
+NVEC,0.6938122658858042,1,71.75,-1.927282668124653,26867,347066647.99999994,3.1158,0.9864251,Electronic Technology,NVE Corporation,https://financialmodelingprep.com/image-stock/NVEC.png
+ENPH,0.6938085192432549,1,39.64,4.302065517695035,10168324,5201046034.000001,1.108,0.33049828,Electronic Technology,"Enphase Energy, Inc.",https://financialmodelingprep.com/image-stock/ENPH.png
+HIMX,0.6938066504739833,1,8.21,-0.1216545012165424,801412,1435929007.0,0.5011,2.1320791,Electronic Technology,"Himax Technologies, Inc.",https://financialmodelingprep.com/image-stock/HIMX.png
+MPWR,0.6938040795994357,1,662.18,-1.4906277893484223,508537,31705178757.000004,37.8166,2.188125,Electronic Technology,"Monolithic Power Systems, Inc.",https://financialmodelingprep.com/image-stock/MPWR.png
+POWI,0.6938014843647,1,49.86,-1.286873886359134,479531,2806635647.0,0.6523,1.3888317,Electronic Technology,"Power Integrations, Inc.",https://financialmodelingprep.com/image-stock/POWI.png
+LFUS,0.6937991051737734,1,205.4,-1.3353828417715443,165016,5076484778.0,4.362,1.7616009,Electronic Technology,"Littelfuse, Inc.",https://financialmodelingprep.com/image-stock/LFUS.png
+MCTR,0.6937968560977095,1,5.955,0.8569880089424871,12884,91111500.0,0.0023,2.3159256,Electronic Technology,CTRL Group Limited,https://financialmodelingprep.com/image-stock/MCTR.png
+NTAP,0.6937945408237189,1,98.0,-1.7839246341952306,2840413,20224912994.0,5.5479,1.5017772,Electronic Technology,"NetApp, Inc.",https://financialmodelingprep.com/image-stock/NTAP.png
+VECO,0.693792351312979,1,19.2,-1.1837364899639755,592545,1150756540.0000002,1.1488,1.5510751,Electronic Technology,Veeco Instruments Inc.,https://logo.clearbit.com/veco.com
+TER,0.6937902200525781,1,76.98,-1.92381195056694,1813539,12349154314.999998,3.5864,1.7905004,Electronic Technology,"Teradyne, Inc.",https://financialmodelingprep.com/image-stock/TER.png
+SANM,0.6937882272722986,1,84.2,-0.2960331557134399,412783,4501652636.0,4.4302,1.480238,Electronic Technology,Sanmina Corporation,https://logo.clearbit.com/sanm.com
+HLIT,0.6937863436892265,1,8.94,-1.650165016501654,613530,1011085428.0,0.4556,1.0401565,Electronic Technology,Harmonic Inc.,https://financialmodelingprep.com/image-stock/HLIT.png
+NOVT,0.6937845912353802,1,120.13,-1.4520098441345448,344006,4321176048.0,1.9627,1.4450501,Electronic Technology,Novanta Inc.,https://financialmodelingprep.com/image-stock/NOVT.png
+LOGI,0.693782646226183,1,83.84,-3.119944534319393,636856,12519948776.488283,4.177936555,1.8224612,Electronic Technology,Logitech International S.A. - Registered Shares,https://logo.clearbit.com/logi.com
+AEIS,0.6937811811791986,1,113.87,-1.7854062446092749,169742,4287818687.0,1.9629,1.9105378,Electronic Technology,"Advanced Energy Industries, Inc.",https://logo.clearbit.com/aeis.com
+FTAIM,0.6937792635177069,1,26.115,2.0515826494724445,8320,11750864017.0,0.2253,0.044732645,Electronic Technology,FTAI Aviation Ltd. - 9.500% Fixed-Rate Reset Series D Cumulative Perpetual Redeemable Preferred Shares,https://financialmodelingprep.com/image-stock/FTAIM.png
+FTAIN,0.6937778223930108,1,25.2,0.318471337579611,1469,11750864017.0,0.2253,0.099324346,Electronic Technology,FTAI Aviation Ltd. - 8.25% Fixed-Rate Reset Series C Cumulative Perpetual Redeemable Preferred Shares,https://financialmodelingprep.com/image-stock/FTAIN.png
+FTAI,0.6937762538333014,1,114.58,1.4610820862481106,1206500,11750864017.0,0.2253,1.1656115,Electronic Technology,FTAI Aviation Ltd.,https://financialmodelingprep.com/image-stock/FTAI.png
+RDWR,0.6937747621297761,1,23.3,-1.3965298349555575,75693,994596230.0,0.2746,0.8057321,Electronic Technology,Radware Ltd.,https://financialmodelingprep.com/image-stock/RDWR.png
+BYRN,0.6937731876468956,1,23.85,1.879538658692872,429022,540613550.0,0.6397,1.6495643,Electronic Technology,"Byrna Technologies, Inc.",https://financialmodelingprep.com/image-stock/BYRN.png
+WDC,0.6937717467208633,1,50.18,0.6821829855537646,5763168,17506717589.0,5.4448,2.3022456,Electronic Technology,Western Digital Corporation,https://logo.clearbit.com/wdc.com
+ZBRA,0.6937702367696139,1,284.21,-1.4391732556526682,325273,14453308171.0,10.6615,1.5378823,Electronic Technology,Zebra Technologies Corporation,https://financialmodelingprep.com/image-stock/ZBRA.png
+OSIS,0.6937687529836126,1,227.44,-0.5422424348434534,115768,3818403339.0,8.4035,1.499358,Electronic Technology,"OSI Systems, Inc.",https://financialmodelingprep.com/image-stock/OSIS.png
+FLEX,0.6937672908107951,1,41.48,0.0965250965250944,2822073,15485131448.0,2.1483,1.9168559,Electronic Technology,Flex Ltd.,https://logo.clearbit.com/flex.com
+ALAB,0.6937659463360791,1,94.62,0.339342523860029,3226967,15604428927.999998,0.2509,2.5160456,Electronic Technology,"Astera Labs, Inc.",https://logo.clearbit.com/alab.com
+ELTK,0.6937645857115002,1,10.01,1.1111111111111052,869,67207540.0,0.5198,0.14265862,Electronic Technology,Eltek Ltd.,https://financialmodelingprep.com/image-stock/ELTK.png
+CODA,0.6937626883923524,1,7.25,3.853316143818939,22749,81419301.0,0.3514,0.50330997,Electronic Technology,"Coda Octopus Group, Inc.",https://logo.clearbit.com/coda.com
+CRNT,0.6937620907973573,1,2.27,-2.5751072961373414,401440,201664712.0,0.2633,1.0405501,Electronic Technology,Ceragon Networks Ltd.,https://financialmodelingprep.com/image-stock/CRNT.png
+SWKS,0.6937611469414237,1,69.39,-1.378624218305854,3902241,10417460595.0,2.5758,1.4385302,Electronic Technology,"Skyworks Solutions, Inc.",https://financialmodelingprep.com/image-stock/SWKS.png
+PLXS,0.6937599646467978,1,129.57,-0.6822014410547407,99562,3510046328.0,5.2512,1.180472,Electronic Technology,Plexus Corp.,https://financialmodelingprep.com/image-stock/PLXS.png
+ESLT,0.6937587773456051,1,378.93,0.6373994104055545,278536,16948206804.41511,7.87092018,0.27427214,Electronic Technology,Elbit Systems Ltd.,https://financialmodelingprep.com/image-stock/ESLT.png
+FSLR,0.6937576764412449,1,158.38,1.298369043811961,3562490,16985380683.0,11.8152,0.86922336,Electronic Technology,"First Solar, Inc.",https://financialmodelingprep.com/image-stock/FSLR.png
+LSCC,0.6937566644607307,1,46.64,-1.6656124815517586,1874672,6413351481.0,0.373,2.4669366,Electronic Technology,Lattice Semiconductor Corporation,https://financialmodelingprep.com/image-stock/LSCC.png
+DRS,0.6937554984090394,1,41.04,0.7858546168958749,951236,10918660432.000002,0.8846,1.1763223,Electronic Technology,"Leonardo DRS, Inc.",https://logo.clearbit.com/drs.com
+TATT,0.6937544148433007,1,30.33,-1.108575154874481,37259,331821062.0,1.1971,0.6736272,Electronic Technology,TAT Technologies Ltd.,https://financialmodelingprep.com/image-stock/TATT.png
+ERIC,0.6937534408188788,1,8.66,-1.2542759407069493,28475057,28889145885.639606,0.0469,0.5510286,Electronic Technology,Ericsson,https://logo.clearbit.com/eric.com
+TSEM,0.6937522939331494,1,40.63,-0.3189401373895865,273861,4540671684.0,1.8269,1.7286568,Electronic Technology,Tower Semiconductor Ltd.,https://logo.clearbit.com/tsem.com
+RMBS,0.693751371542158,1,53.48,-1.907556859867949,772083,5744388952.0,1.9338,2.2449663,Electronic Technology,"Rambus, Inc.",https://logo.clearbit.com/rmbs.com
+SYNA,0.693750251784999,1,58.86,-3.0313014827018177,279689,2268785560.0,4.1794,2.0095205,Electronic Technology,Synaptics Incorporated,https://financialmodelingprep.com/image-stock/SYNA.png
+VICR,0.6937494185638073,1,41.67,0.2888086642599387,149924,1883827059.0,0.5124,1.5890738,Electronic Technology,Vicor Corporation,https://logo.clearbit.com/vicr.com
+TOYO,0.6937484137861402,1,3.4025,-0.2228673645934151,1533,114309507.0,1.1038,0.28655973,Electronic Technology,"TOYO Co., Ltd",https://logo.clearbit.com/toyo.com
+ELSE,0.6937467687862381,1,4.07,3.0379746835443067,36294,14037516.0,0.1081,-0.07703845,Electronic Technology,"Electro-Sensors, Inc.",https://financialmodelingprep.com/image-stock/ELSE.png
+SHLS,0.6937462925253542,1,4.59,0.4376367614879556,4217752,767332449.0,0.113,0.37710452,Electronic Technology,"Shoals Technologies Group, Inc.",https://financialmodelingprep.com/image-stock/SHLS.png
+KLAC,0.693745406683988,1,757.17,-1.3472137170851235,941948,100129248728.00002,27.6643,1.8746336,Electronic Technology,KLA Corporation,https://financialmodelingprep.com/image-stock/KLAC.png
+AMD,0.6937444441261628,1,110.31,-0.3613043085538718,30867274,178857104029.99997,1.3743,2.1083117,Electronic Technology,"Advanced Micro Devices, Inc.",https://logo.clearbit.com/amd.com
+QRVO,0.6937434819684204,1,74.6,-1.971090670170828,2134256,6939678061.999999,0.5944,1.7561789,Electronic Technology,"Qorvo, Inc.",https://financialmodelingprep.com/image-stock/QRVO.png
+MU,0.6937426669065805,1,93.37,-1.5395971738901126,16544976,104347657124.99998,4.2033,2.4619393,Electronic Technology,"Micron Technology, Inc.",https://logo.clearbit.com/mu.com
+TXN,0.6937413806951062,1,176.3,-2.1696909161533746,7417050,160163624464.0,5.317,1.149556,Electronic Technology,Texas Instruments Incorporated,https://logo.clearbit.com/txn.com
+QCOM,0.6937402437447261,1,145.38,-1.350342674899918,8994607,159627245361.0,9.9385,1.4980419,Electronic Technology,QUALCOMM Incorporated,https://logo.clearbit.com/qcom.com
+SIMO,0.6937389613958186,1,63.7,-2.105424927001676,470664,2146124370.0,2.7934,1.8744475,Electronic Technology,Silicon Motion Technology Corporation,https://logo.clearbit.com/simo.com
+ADI,0.6937377353805958,1,210.47,-0.6889067144812003,4848159,104445359146.99998,3.6904,1.5719942,Electronic Technology,"Analog Devices, Inc.",https://logo.clearbit.com/adi.com
+AEHR,0.6937365989541835,1,8.85,0.2265005662514108,371229,263476990.0,0.7906,1.3185902,Electronic Technology,Aehr Test Systems,https://logo.clearbit.com/aehr.com
+HON,0.6937356041961434,1,222.03,-0.7154675133032216,2537518,142694888468.0,8.7577,0.7174304,Electronic Technology,Honeywell International Inc.,https://logo.clearbit.com/hon.com
+ARM,0.6937347463835942,1,127.18,-1.6243811881188075,2966784,134429260323.0,0.7542,2.9926846,Electronic Technology,Arm Holdings plc,https://logo.clearbit.com/arm.com
+ASML,0.6937337979330781,1,732.49,-1.108410962602948,1525225,283009983171.3607,23.7445,1.3658419,Electronic Technology,ASML Holding N.V. - New York Registry Shares,https://logo.clearbit.com/asml.com
+BOSC,0.6937329783325995,1,3.91,-0.3821656050955332,35895,23161117.0,0.3998,0.5953072,Electronic Technology,B.O.S. Better Online Solutions,https://financialmodelingprep.com/image-stock/BOSC.png
+CSCO,0.6937321800782206,1,63.11,-0.394570707070707,15645591,249915494563.0,2.4546,0.994423,Electronic Technology,"Cisco Systems, Inc.",https://financialmodelingprep.com/image-stock/CSCO.png
+HOVR,0.6937270795220513,1,0.922,8.957693216733643,1956091,28937105.0,0.3112,0.77993035,Electronic Technology,New Horizon Aircraft Ltd.,https://financialmodelingprep.com/image-stock/HOVR.png
+CRUS,0.6937304893074875,1,99.89,-2.241143080837744,769253,5308646442.000001,6.2413,1.2267798,Electronic Technology,"Cirrus Logic, Inc.",https://financialmodelingprep.com/image-stock/CRUS.png
+NVDA,0.6937300618730159,1,131.29,-1.1593766468418432,198821324,3201842404039.0,2.9689,2.3596532,Electronic Technology,NVIDIA Corporation,https://logo.clearbit.com/nvda.com
+NVMI,0.6937288609064087,1,183.0,-0.925775540035736,122707,5361942444.000001,6.3087,1.7150906,Electronic Technology,Nova Ltd.,https://financialmodelingprep.com/image-stock/NVMI.png
+INSG,0.693727983042025,1,8.14,-1.2135922330097044,98684,122161557.0,0.3818,2.041026,Electronic Technology,Inseego Corp.,https://financialmodelingprep.com/image-stock/INSG.png
+AVAV,0.6937270242163405,1,169.07,0.8530183727034162,278365,7717148321.0,1.1803,1.3373955,Electronic Technology,"AeroVironment, Inc.",https://financialmodelingprep.com/image-stock/AVAV.png
+AAPL,0.6937257247021354,1,195.27,-3.024433849821217,78432918,2916518840395.0,6.4358,1.0798686,Electronic Technology,Apple Inc.,https://financialmodelingprep.com/image-stock/AAPL.png
+GILT,0.693724949795153,1,5.48,-2.8368794326241007,373349,312453340.00000006,0.2436,1.0749773,Electronic Technology,Gilat Satellite Networks Ltd.,https://logo.clearbit.com/gilt.com
+AUDC,0.6937241798528411,1,8.97,1.0135135135135118,66949,266227421.0,0.5754,0.7740963,Electronic Technology,AudioCodes Ltd.,https://financialmodelingprep.com/image-stock/AUDC.png
+NXPI,0.6937231775303232,1,192.15,-2.2187166047529314,3674264,48542604678.00001,9.2747,1.4062197,Electronic Technology,NXP Semiconductors N.V.,https://financialmodelingprep.com/image-stock/NXPI.png
+IMOS,0.6937222013232135,1,18.92,0.7991475759190311,10245,690072961.30775,0.9836,1.077228,Electronic Technology,ChipMOS TECHNOLOGIES INC.,https://logo.clearbit.com/imos.com
+CLWT,0.6937212147304482,1,1.1172,-2.3341201153946978,16596,8509538.0,0.0951,0.24332938,Electronic Technology,Euro Tech Holdings Company Limited,https://financialmodelingprep.com/image-stock/CLWT.png
+WETH,0.6937205480048652,1,0.978,-0.2040816326530614,6465,11669007.0,0.2796,1.3318666,Electronic Technology,Wetouch Technology Inc.,https://financialmodelingprep.com/image-stock/WETH.png
+OLED,0.6937193773703125,1,143.01,-1.7113402061855731,435262,6796713869.0,4.8215,1.813892,Electronic Technology,Universal Display Corporation,https://logo.clearbit.com/oled.com
+KTOS,0.6937173258344538,1,36.01,2.301136363636349,2389570,5525494564.0,0.1277,1.345305,Electronic Technology,"Kratos Defense & Security Solutions, Inc.",https://financialmodelingprep.com/image-stock/KTOS.png
+AVGO,0.6937155462844999,1,228.72,-0.7851472693358792,15385632,1075429719372.0,2.1503,2.514157,Electronic Technology,Broadcom Inc.,https://financialmodelingprep.com/image-stock/AVGO.png
+DIOD,0.6937136228417531,1,45.05,-1.701941959415233,379781,2090381213.0,0.5522,1.8043354,Electronic Technology,Diodes Incorporated,https://financialmodelingprep.com/image-stock/DIOD.png
+FORM,0.6937116919551859,1,30.37,-1.3320337881741395,583079,2340817539.0,0.7015,2.1314085,Electronic Technology,"FormFactor, Inc.",https://logo.clearbit.com/form.com
+AXON,0.6937096218226783,1,731.37,1.0528497409326432,422654,56937750054.0,4.3403,1.6606283,Electronic Technology,"Axon Enterprise, Inc.",https://logo.clearbit.com/axon.com
+OCFCP,0.6937213438522892,1,24.9999,0.079663730984787,915,970334185.0,1.5289,0.035354227,Finance,OceanFirst Financial Corp. - Depositary Shares,https://financialmodelingprep.com/image-stock/OCFCP.png
+FSUN,0.6937192929475615,1,35.39,-0.5898876404494405,70684,985023292.0,3.1485,0.6251348,Finance,FirstSun Capital Bancorp,https://financialmodelingprep.com/image-stock/FSUN.png
+VABK,0.6937171873291893,1,36.91,0.8469945355191124,4666,199017952.0,3.3137,0.6463386,Finance,Virginia National Bankshares Corporation,https://financialmodelingprep.com/image-stock/VABK.png
+CHMG,0.6937150485033852,1,46.73,-0.637890708058695,6316,223851893.0,4.7398,0.47526783,Finance,Chemung Financial Corp,https://financialmodelingprep.com/image-stock/CHMG.png
+OCFC,0.6937128712314319,1,16.62,-1.012507444907672,236056,970334185.0,1.5289,1.0777245,Finance,OceanFirst Financial Corp.,https://logo.clearbit.com/ocfc.com
+OPOF,0.6937106435512197,1,39.01,-0.989847715736042,13426,199147158.0,1.9599,-0.421727,Finance,Old Point Financial Corporation,https://financialmodelingprep.com/image-stock/OPOF.png
+WRLD,0.6937080840835073,1,143.45,0.4622172421037864,25057,761333208.0,16.5629,1.404378,Finance,World Acceptance Corporation,https://financialmodelingprep.com/image-stock/WRLD.png
+FMBH,0.6937054757322713,1,34.97,-0.5686664771111823,64536,838895170.0,3.3752,0.8474926,Finance,"First Mid Bancshares, Inc.",https://financialmodelingprep.com/image-stock/FMBH.png
+LCNB,0.6937028136510573,1,14.46,0.6263048016701576,13516,204861010.0,1.142,0.61452866,Finance,LCNB Corporation,https://logo.clearbit.com/lcnb.com
+UVSP,0.6937001258316443,1,29.38,-0.8102633355840714,87718,848498890.0,2.6806,0.85275364,Finance,Univest Financial Corporation,https://financialmodelingprep.com/image-stock/UVSP.png
+HWBK,0.6936973413921883,1,29.56,-2.151605428666012,7280,205343140.0,2.745,0.48432526,Finance,"Hawthorn Bancshares, Inc.",https://financialmodelingprep.com/image-stock/HWBK.png
+MYFW,0.6936946070533802,1,21.15,-1.6736401673640304,13793,205481366.0,1.0479,0.96714336,Finance,"First Western Financial, Inc.",https://logo.clearbit.com/myfw.com
+BHRB,0.6936918079565338,1,55.38,-0.3777657852131693,32468,831000108.0,3.5334,0.87809783,Finance,Burke & Herbert Financial Services Corp.,https://financialmodelingprep.com/image-stock/BHRB.png
+CNOBP,0.693688914976227,1,22.69,0.3316382931682637,3935,876730841.0,1.8424,0.2655945,Finance,"ConnectOne Bancorp, Inc. - Depositary Shares (each representing a 1/40th interest in a share of 5.25% Fixed-Rate Reset Non-Cumulative Perpetual Preferred Stock,",https://financialmodelingprep.com/image-stock/CNOBP.png
+FVCB,0.69368596985546,1,11.43,-0.2617801047120517,122351,205643165.0,1.0389,1.1431283,Finance,"FVCBankcorp, Inc.",https://financialmodelingprep.com/image-stock/FVCB.png
+CNOB,0.6936829802563639,1,22.79,0.6625441696113011,179800,876730841.0000001,1.8424,0.8792115,Finance,"ConnectOne Bancorp, Inc.",https://logo.clearbit.com/cnob.com
+AMSF,0.6936799439818354,1,46.39,0.0431313349148223,61171,883744052.0,2.4915,0.3098085,Finance,"AMERISAFE, Inc.",https://financialmodelingprep.com/image-stock/AMSF.png
+OVLY,0.6936770569120226,1,24.72,-0.4830917874396175,8285,207204566.0,2.9813,0.7434312,Finance,Oak Valley Bancorp (CA),https://financialmodelingprep.com/image-stock/OVLY.png
+BPRN,0.6936741521353726,1,30.24,-0.8524590163934478,4430,209536892.0,1.6702,0.6893007,Finance,"Princeton Bancorp, Inc.",https://financialmodelingprep.com/image-stock/BPRN.png
+TIPT,0.6936712192653794,1,21.75,0.5547850208044429,86765,815559205.0000001,1.3389,0.4953728,Finance,Tiptree Inc.,https://logo.clearbit.com/tipt.com
+PWOD,0.6936682498772311,1,29.19,-1.0172939979654023,12725,222258909.0,2.8181,0.5722417,Finance,"Penns Woods Bancorp, Inc.",https://logo.clearbit.com/pwod.com
+AMAL,0.6936651966431125,1,29.57,-0.2024974687816359,141084,904538343.0,3.4015,0.9616759,Finance,Amalgamated Financial Corp.,https://logo.clearbit.com/amal.com
+WLFC,0.6936610129042081,1,131.05,-0.5841298740706887,45340,904634906.0,15.1708,1.3719676,Finance,Willis Lease Finance Corporation,https://financialmodelingprep.com/image-stock/WLFC.png
+CTBI,0.6936552487471116,1,50.82,-0.6839945280437785,55470,920397625.0,4.7923,0.8125469,Finance,"Community Trust Bancorp, Inc.",https://logo.clearbit.com/ctbi.com
+INBK,0.6936493890681774,1,23.59,-0.4641350210970441,47011,205164245.0,2.4268,0.9050803,Finance,First Internet Bancorp,https://logo.clearbit.com/inbk.com
+BRKL,0.693643462194057,1,10.35,-1.0516252390057477,555771,922232634.0,0.8216,0.79900074,Finance,"Brookline Bancorp, Inc.",https://financialmodelingprep.com/image-stock/BRKL.png
+HFWA,0.6936375121013894,1,23.1,0.3039513677811562,220241,787837399.0,1.5006,0.75008875,Finance,Heritage Financial Corporation,https://financialmodelingprep.com/image-stock/HFWA.png
+INBKZ,0.693631461663835,1,23.7,-1.7294782540189382,3535,205164245.0,2.4268,0.09258136,Finance,First Internet Bancorp - Fixed-to-Floating Rate Subordinated Notes Due 2029,https://financialmodelingprep.com/image-stock/INBKZ.png
+ISBA,0.6936236872865088,1,27.8,0.1440922190201698,9612,205230543.00000003,1.9761,0.6208586,Finance,Isabella Bank Corporation,https://financialmodelingprep.com/image-stock/ISBA.png
+TRINZ,0.6936151718040224,1,25.27,0.0792079207920775,6671,935497131.0,2.2679,0.0227378,Finance,Trinity Capital Inc. - 7.875% Notes due 2029,https://financialmodelingprep.com/image-stock/TRINZ.png
+GIG,0.693606603678455,1,10.25,0.0,791,205000000.0,0.1203,-0.0013625196,Finance,GigCapital7 Corp.,https://logo.clearbit.com/gig.com
+MFIN,0.6935977839146974,1,9.22,-2.22693531283138,18304,214240358.0,1.681,0.44125155,Finance,Medallion Financial Corp.,https://logo.clearbit.com/mfin.com
+HLXB,0.6935891913978425,1,10.8401,0.1857670979667221,1297,204975450.9,0.2557,0.010947449,Finance,Helix Acquisition Corp. II,https://financialmodelingprep.com/image-stock/HLXB.png
+CFFI,0.6935802969843585,1,65.0,-1.8126888217522703,6196,210586874.0,6.6778,0.752269,Finance,C&F Financial Corporation,https://financialmodelingprep.com/image-stock/CFFI.png
+TRIN,0.6935713320648352,1,14.47,0.5559416261292569,294425,935497131.0,2.2679,0.46604338,Finance,Trinity Capital Inc.,https://logo.clearbit.com/trin.com
+TRINI,0.6935618252964155,1,25.3999,0.3036764996248407,2817,935497131.0,2.2679,0.04302551,Finance,Trinity Capital Inc. - 7.875% Notes Due 2029,https://financialmodelingprep.com/image-stock/TRINI.png
+UNIT,0.6935513522047208,1,4.2,-4.545454545454549,2993374,1030904296.0,0.2622,0.3999679,Finance,Uniti Group Inc.,https://logo.clearbit.com/unit.com
+GABC,0.6935426387946965,1,37.9,-0.2631578947368458,129028,1420518208.0,2.4865,0.7562073,Finance,"German American Bancorp, Inc.",https://logo.clearbit.com/gabc.com
+MBINN,0.69353293636576,1,19.78,-0.4028197381671616,1041,1443438436.0,5.4542,0.21252593,Finance,Merchants Bancorp - Depositary Shares 6.00% Fixed Rate Series C Non-Cumulative Perpetual Preferred Stock,https://financialmodelingprep.com/image-stock/MBINN.png
+MBINL,0.6935231296455587,1,23.33,-0.2565198802907322,12753,1443438436.0,5.4542,0.20144138,Finance,"Merchants Bancorp - Depositary Shares, Each Representing a 1/40th Interest in a Share of 7.625% Fixed Rate Series E Non-Cumulative Perpetual Preferred Stock, wi",https://financialmodelingprep.com/image-stock/MBINL.png
+MBINM,0.693513268325129,1,25.3825,-0.0295391886569526,2871,1443438436.0,5.4542,0.120811515,Finance,"Merchants Bancorp - Depositary Shares, Each Representing a 1/40th Interest in a Share of 8.25% Fixed-Rate Reset Series D Non-Cumulative Perpetual Preferred Stoc",https://financialmodelingprep.com/image-stock/MBINM.png
+MBIN,0.6935033983150973,1,31.46,-0.6317119393556516,102287,1443438436.0,5.4542,0.9894996,Finance,Merchants Bancorp,https://logo.clearbit.com/mbin.com
+FSFG,0.6934932390442734,1,26.54,-2.6769343601026785,26174,183633877.00000003,2.8419,0.46440014,Finance,"First Savings Financial Group, Inc.",https://financialmodelingprep.com/image-stock/FSFG.png
+SRCE,0.6934834361831036,1,60.13,-0.6608293408227303,72885,1476967808.9999998,5.7493,0.8287404,Finance,1st Source Corporation,https://logo.clearbit.com/srce.com
+SIEB,0.693472266084451,1,4.54,6.323185011709613,161241,183461121.0,0.4556,0.75060815,Finance,Siebert Financial Corp.,https://logo.clearbit.com/sieb.com
+LKFN,0.6934631492279224,1,58.64,-1.3126893301918563,85955,1498656826.0,3.5096,0.8169858,Finance,Lakeland Financial Corporation,https://financialmodelingprep.com/image-stock/LKFN.png
+FXNC,0.6934529262353557,1,20.39,-0.5365853658536558,12534,183238731.0,0.8204,0.6845838,Finance,First National Corporation,https://financialmodelingprep.com/image-stock/FXNC.png
+TIGR,0.6934426276297849,1,8.75,-1.241534988713312,1812743,1534106447.0,0.3726,1.3795013,Finance,UP Fintech Holding Limited,https://financialmodelingprep.com/image-stock/TIGR.png
+NTWO,0.6934322119570434,1,10.16,0.0,809,182863490.0,0.113,0.007415556,Finance,Newbury Street II Acquisition Corp,https://logo.clearbit.com/ntwo.com
+FCCO,0.6934217801347923,1,23.25,-1.0638297872340423,32030,178597224.00000003,2.0102,0.8310178,Finance,First Community Corporation,https://financialmodelingprep.com/image-stock/FCCO.png
+NWBI,0.6934112743770442,1,12.17,-0.5718954248366036,553326,1554747407.0,0.8985,0.66763806,Finance,"Northwest Bancshares, Inc.",https://financialmodelingprep.com/image-stock/NWBI.png
+SWKH,0.6934006910176964,1,14.14,0.0,15934,173492349.0,1.4857,0.16466223,Finance,SWK Holdings Corporation,https://financialmodelingprep.com/image-stock/SWKH.png
+SWKHL,0.6933900311017035,1,25.52,0.0,1828,173492349.0,1.4857,0.022374492,Finance,SWK Holdings Corporation - 9.00% Senior Notes due 2027,https://financialmodelingprep.com/image-stock/SWKHL.png
+SEVN,0.6933794424894874,1,11.57,-0.9417808219178032,38240,172459493.0,1.1492,0.6213987,Finance,Seven Hills Realty Trust,https://financialmodelingprep.com/image-stock/SEVN.png
+FRAF,0.6933688501473357,1,38.55,-0.3618506073920924,9151,171867374.0,2.616,0.22713439,Finance,Franklin Financial Services Corporation,https://financialmodelingprep.com/image-stock/FRAF.png
+FBNC,0.6933581936970107,1,41.0,-0.4854368932038904,137426,1698226650.0,2.1181,0.9557296,Finance,First Bancorp,https://logo.clearbit.com/fbnc.com
+CHCO,0.6933474437724576,1,118.16,-0.5470919956232688,48063,1711253502.0,7.9829,0.5461325,Finance,City Holding Company,https://financialmodelingprep.com/image-stock/CHCO.png
+LARK,0.6933366338116972,1,29.23,-0.2048480710139936,6877,168908760.0,2.588,0.12700133,Finance,Landmark Bancorp Inc.,https://logo.clearbit.com/lark.com
+NKSH,0.6933256768631841,1,26.46,1.8867924528301967,23284,168374788.0,1.3635,0.6632558,Finance,"National Bankshares, Inc.",https://financialmodelingprep.com/image-stock/NKSH.png
+EFSI,0.6933147211733415,1,31.0,-0.2574002574002519,16015,166729212.99999997,2.0769,0.14230973,Finance,Eagle Financial Services Inc,https://financialmodelingprep.com/image-stock/EFSI.png
+MACI,0.6933036345955881,1,10.35,0.1936108422071594,1311,165600000.0,0.2685,0.0008450585,Finance,Melar Acquisition Corp. I,https://logo.clearbit.com/maci.com
+HNVR,0.6932924781208698,1,22.9,-0.4996741255702889,24663,165537941.0,1.307,0.9552257,Finance,"Hanover Bancorp, Inc.",https://logo.clearbit.com/hnvr.com
+CASH,0.6932812963152482,1,77.28,-0.3995360226833384,137420,1842782200.0,7.4269,0.9520542,Finance,"Pathward Financial, Inc.",https://logo.clearbit.com/cash.com
+BUSE,0.693270030185553,1,21.61,-0.9170105456212716,420903,1933890779.0,1.0966,1.0081502,Finance,First Busey Corporation,https://logo.clearbit.com/buse.com
+NMRK,0.6932586980763714,1,10.48,0.1912045889101297,1066399,1934100540.0,0.4037,1.1504958,Finance,"Newmark Group, Inc.",https://logo.clearbit.com/nmrk.com
+EFSCP,0.6932472839836464,1,19.2639,1.1228346456692857,1961,1941920289.0,5.1335,0.43703964,Finance,Enterprise Financial Services Corporation - Depositary Shares Each Representing a 1/40th Interest in a Share of 5% Fixed Rate Non-Cumulative Perpetual Preferred,https://financialmodelingprep.com/image-stock/EFSCP.png
+STBA,0.6932358500831617,1,36.49,-0.3549972692517626,118591,1398673801.9999998,3.4878,0.7178168,Finance,"S&T Bancorp, Inc.",https://financialmodelingprep.com/image-stock/STBA.png
+TFINP,0.693224356000558,1,21.153,-0.22169811320755,1419,1377275072.0,0.3749,-0.016223272,Finance,"Triumph Financial, Inc. - Depositary Shares, Each Representing a 1/40th Interest in a Share of Series C Fixed-Rate Non-Cumulative Perpetual Preferred Stock",https://financialmodelingprep.com/image-stock/TFINP.png
+TFIN,0.6932128556967938,1,58.17,0.2585315408479809,162225,1377275071.9999998,0.3749,1.2398518,Finance,"Triumph Financial, Inc.",https://logo.clearbit.com/tfin.com
+OPBK,0.6932011525765011,1,12.37,-3.018424147393191,87876,183680571.0,1.4187,0.67113465,Finance,OP Bancorp,https://financialmodelingprep.com/image-stock/OPBK.png
+IGIC,0.6931896548841117,1,23.09,0.6100217864923773,140737,1041565346.0000002,2.7216,0.9753744,Finance,International General Insurance Holdings Ltd.,https://financialmodelingprep.com/image-stock/IGIC.png
+PEBO,0.6931780507907709,1,29.26,-0.6788866259334667,94272,1042996831.0,3.1982,0.8923358,Finance,Peoples Bancorp Inc.,https://financialmodelingprep.com/image-stock/PEBO.png
+FUNC,0.6931662836846776,1,29.94,-0.8116614212357046,17706,193970302.0,3.498,0.92141426,Finance,First,https://financialmodelingprep.com/image-stock/FUNC.png
+FINW,0.6931544225083953,1,14.445,-1.331967213114756,14613,190888180.0,0.9696,0.69530565,Finance,FinWise Bancorp,https://financialmodelingprep.com/image-stock/FINW.png
+CSWC,0.6931425353461541,1,20.6,0.0485672656629507,665770,1106441482.0,1.4573,0.65775853,Finance,Capital Southwest Corporation,https://financialmodelingprep.com/image-stock/CSWC.png
+CSWCZ,0.6931305677595134,1,25.6,0.4670146383579913,2056,1106441482.0,1.4573,0.03681013,Finance,Capital Southwest Corporation - 7.75% Notes due 2028,https://financialmodelingprep.com/image-stock/CSWCZ.png
+WNEB,0.6931185582101694,1,9.16,-0.1090512540894197,45784,189713005.0,0.5312,0.69740474,Finance,"Western New England Bancorp, Inc.",https://financialmodelingprep.com/image-stock/WNEB.png
+DCOMP,0.6931063672456744,1,18.2,-0.1941279050637727,4218,1108171462.0,0.6352,0.104251236,Finance,"Dime Community Bancshares, Inc. - Fixed-Rate Non-Cumulative Perpetual Preferred Stock, Series A",https://logo.clearbit.com/dcomp.com
+DCOMG,0.6930940957411302,1,26.28,0.9216589861751228,1206,1108171462.0,0.6352,0.22886053,Finance,"Dime Community Bancshares, Inc. - 9.000% Fixed-to-Floating Rate Subordinated Notes due 2034",https://financialmodelingprep.com/image-stock/DCOMG.png
+DCOM,0.6930818173799855,1,25.29,0.2378121284185443,157371,1108171462.0,0.6352,0.9479529,Finance,"Dime Community Bancshares, Inc.",https://financialmodelingprep.com/image-stock/DCOM.png
+PFBC,0.6930695154799902,1,83.08,0.703030303030301,87410,1112668647.0,9.5797,0.78784305,Finance,Preferred Bank,https://financialmodelingprep.com/image-stock/PFBC.png
+CPSS,0.6930570587879306,1,8.77,-2.447163515016692,8399,189079415.0,0.9036,0.095643446,Finance,"Consumer Portfolio Services, Inc.",https://financialmodelingprep.com/image-stock/CPSS.png
+BFC,0.6930446847663776,1,114.46,-0.0523925951798832,30592,1135182641.0,6.8132,0.83548105,Finance,Bank First Corporation,https://logo.clearbit.com/bfc.com
+QCRH,0.6930321011802001,1,67.67,-0.7771260997067465,66544,1145748988.9999998,6.6986,0.78089917,Finance,"QCR Holdings, Inc.",https://logo.clearbit.com/qcrh.com
+PVBC,0.6930194518191163,1,11.01,-0.0907441016333919,50044,195846284.0,0.2646,0.6925426,Finance,"Provident Bancorp, Inc.",https://logo.clearbit.com/pvbc.com
+FACT,0.6930067251742089,1,10.22,0.590551181102367,126,188948637.5,0.0554,-0.006462817,Finance,FACT II Acquisition Corp.,https://financialmodelingprep.com/image-stock/FACT.png
+PLMK,0.6929939549124307,1,10.15,0.0,87,187702671.1,0.045,0.020069836,Finance,Plum Acquisition Corp. IV,https://financialmodelingprep.com/image-stock/PLMK.png
+AHCO,0.6929811184101181,1,8.78,-1.7897091722595095,764686,1184842583.0000002,0.5776,0.32191613,Finance,AdaptHealth Corp.,https://logo.clearbit.com/ahco.com
+RBCAA,0.6929712875108562,1,69.87,-0.7810281170122083,16957,1213972774.0,6.0479,0.8303451,Finance,"Republic Bancorp, Inc.",https://financialmodelingprep.com/image-stock/RBCAA.png
+SAFT,0.692962137405882,1,81.62,-0.3053621595211921,34392,1215611741.0,4.8983,0.47258356,Finance,"Safety Insurance Group, Inc.",https://logo.clearbit.com/saft.com
+WABC,0.692952836964258,1,47.97,-0.7756748371082842,148796,1255887036.0,4.9952,0.7845486,Finance,Westamerica Bancorporation,https://logo.clearbit.com/wabc.com
+HOPE,0.6929436070244246,1,10.02,-0.5952380952381001,581078,1283121941.0,0.7857,0.8814713,Finance,"Hope Bancorp, Inc.",https://logo.clearbit.com/hope.com
+TCBK,0.6929344417501297,1,39.33,-0.8070617906683487,77110,1292322670.9999998,3.4371,0.8979221,Finance,TriCo Bancshares,https://logo.clearbit.com/tcbk.com
+CCB,0.6929253041604246,1,86.01,-1.5903890160183072,63681,1292409752.9999998,3.4821,0.887959,Finance,Coastal Financial Corporation,https://logo.clearbit.com/ccb.com
+ESSA,0.6929162115313382,1,18.27,-1.2432432432432454,13658,185525717.0,1.5515,0.81313384,Finance,"ESSA Bancorp, Inc.",https://logo.clearbit.com/essa.com
+VBTX,0.6929072059968433,1,23.98,-0.3325020781379812,273511,1301431085.0,2.0595,1.0704054,Finance,"Veritex Holdings, Inc.",https://financialmodelingprep.com/image-stock/VBTX.png
+LX,0.6928982725633123,1,7.82,1.164294954721861,3095731,1315820603.0,1.1025,1.4244723,Finance,LexinFintech Holdings Ltd.,https://logo.clearbit.com/lx.com
+ISTR,0.6928894307168839,1,18.72,0.5370569280343602,18285,184295542.0,2.2217,0.8965176,Finance,Investar Holding Corporation,https://logo.clearbit.com/istr.com
+UPBD,0.6928806677131675,1,22.88,-2.263989747970957,467033,1323048188.0,2.1947,0.9069664,Finance,"Upbound Group, Inc.",https://logo.clearbit.com/upbd.com
+NAVI,0.6928720243502042,1,13.25,0.151171579743005,525637,1340240351.0,0.5191,1.000802,Finance,Navient Corporation,https://logo.clearbit.com/navi.com
+SAMG,0.692863904377588,1,14.06,-1.986754966887418,35773,188540211.0,0.9452,0.74210244,Finance,Silvercrest Asset Management Group Inc.,https://financialmodelingprep.com/image-stock/SAMG.png
+ESQ,0.6928559972439862,1,88.69,-0.8496366685299107,32708,750449963.0,5.7197,0.6975197,Finance,"Esquire Financial Holdings, Inc.",https://logo.clearbit.com/esq.com
+MBCN,0.6928482432976014,1,29.08,-0.4450530640191802,6307,235001091.00000003,2.0046,0.9170333,Finance,Middlefield Banc Corp.,https://financialmodelingprep.com/image-stock/MBCN.png
+HBT,0.692840550723632,1,23.67,-0.8378718056137382,24837,745496921.0000001,2.3945,0.94111735,Finance,"HBT Financial, Inc.",https://financialmodelingprep.com/image-stock/HBT.png
+JMSB,0.6928330723392503,1,17.29,-0.4892086330935301,16204,246872435.0,1.2455,0.9900603,Finance,"John Marshall Bancorp, Inc.",https://financialmodelingprep.com/image-stock/JMSB.png
+BSVN,0.692825907185433,1,37.39,0.42976094547409,11760,353306961.0,4.7921,0.8239087,Finance,Bank7 Corp.,https://financialmodelingprep.com/image-stock/BSVN.png
+RWAYL,0.6928192461538544,1,24.975,-0.0999999999999943,16219,361896592.0,1.6673,0.03587525,Finance,Runway Growth Finance Corp. - 7.50% Notes due 2027,https://financialmodelingprep.com/image-stock/RWAYL.png
+RWAYZ,0.6928128355533315,1,25.14,0.1593625498007934,2913,361896592.0,1.6673,0.015846726,Finance,Runway Growth Finance Corp. - 8.00% Notes due 2027,https://financialmodelingprep.com/image-stock/RWAYZ.png
+RWAY,0.6928065506696999,1,9.69,0.9374999999999986,242810,361896592.00000006,1.6673,0.57734066,Finance,Runway Growth Finance Corp.,https://financialmodelingprep.com/image-stock/RWAY.png
+FRBA,0.6928003552401251,1,14.4,-0.6896551724137907,38426,361935397.00000006,1.5556,0.61455023,Finance,First Bank,https://financialmodelingprep.com/image-stock/FRBA.png
+RRBI,0.6927941034911388,1,55.39,0.0180570603105778,5374,370186637.00000006,5.3324,0.66226065,Finance,"Red River Bancshares, Inc.",https://financialmodelingprep.com/image-stock/RRBI.png
+CARE,0.6927866608558886,1,16.0,0.1878522229179672,85324,370544220.0,1.1986,0.7430116,Finance,"Carter Bankshares, Inc.",https://logo.clearbit.com/care.com
+BSRR,0.6927792578545452,1,27.09,-0.441014332965825,42593,374350467.0,2.855,0.97978836,Finance,Sierra Bancorp,https://financialmodelingprep.com/image-stock/BSRR.png
+GCBC,0.6927720344650035,1,22.02,-2.1333333333333355,19820,374930777.0,1.676,0.92099977,Finance,"Greene County Bancorp, Inc.",https://logo.clearbit.com/gcbc.com
+DHIL,0.6927648952539752,1,138.02,-0.9117668174312455,9400,376475915.0,14.8111,0.66293305,Finance,"Diamond Hill Investment Group, Inc.",https://financialmodelingprep.com/image-stock/DHIL.png
+GPAT,0.6927581344697055,1,10.48,-0.0953288846520475,8503,376624984.0,0.3239,0.017140841,Finance,GP-Act III Acquisition Corp.,https://financialmodelingprep.com/image-stock/GPAT.png
+VBNK,0.6927515977174564,1,11.68,0.6896551724137937,38960,379819392.00999993,0.8897045239999999,1.8641368,Finance,VersaBank,https://financialmodelingprep.com/image-stock/VBNK.png
+MVBF,0.6927452421756025,1,18.97,-0.2104155707522498,91044,246510146.0,1.4842,0.9468226,Finance,MVB Financial Corp.,https://financialmodelingprep.com/image-stock/MVBF.png
+HBCP,0.692739049656579,1,49.09,-1.1478050745066315,29344,382969168.0,4.8064,1.0317773,Finance,"Home Bancorp, Inc.",https://financialmodelingprep.com/image-stock/HBCP.png
+FBIZ,0.6927329798730331,1,47.75,0.0628667225482002,52845,397224611.0,5.5012,0.83245516,Finance,"First Business Financial Services, Inc.",https://logo.clearbit.com/fbiz.com
+BWB,0.692727070599927,1,14.7,-0.8766014834794389,68163,403367190.0,1.1136,1.0466949,Finance,"Bridgewater Bancshares, Inc.",https://logo.clearbit.com/bwb.com
+CCNE,0.6927213138779843,1,21.74,-1.091901728844413,44352,456090921.0,2.3364,0.92667854,Finance,CNB Financial Corporation,https://financialmodelingprep.com/image-stock/CCNE.png
+TSBK,0.6927156885129377,1,30.25,-0.4606778545574221,8433,239013718.0,3.2521,0.7419052,Finance,"Timberland Bancorp, Inc.",https://financialmodelingprep.com/image-stock/TSBK.png
+COFS,0.6927102143033388,1,29.37,-0.8105369807497413,78418,440087521.0,1.2237,0.74470013,Finance,"ChoiceOne Financial Services, Inc.",https://financialmodelingprep.com/image-stock/COFS.png
+ACNB,0.6927049496744829,1,41.98,-1.177024482109228,26923,439685303.0,2.9205,0.89007217,Finance,ACNB Corporation,https://logo.clearbit.com/acnb.com
+SNFCA,0.6926998190111545,1,9.72,-0.8163265306122455,18980,239523865.0,0.989,1.3461988,Finance,Security National Financial Corporation,https://financialmodelingprep.com/image-stock/SNFCA.png
+UNTY,0.6926947683970521,1,43.36,0.7669068092028777,54608,434949341.0,4.3406,0.9909506,Finance,"Unity Bancorp, Inc.",https://financialmodelingprep.com/image-stock/UNTY.png
+CIVB,0.6926898015286143,1,22.05,-1.2539184952977949,35319,342195538.0,2.2656,0.82782215,Finance,"Civista Bancshares, Inc.",https://logo.clearbit.com/civb.com
+ITIC,0.6926849867571567,1,229.73,-0.0304612706701573,123279,433332317.0,15.7703,0.6187443,Finance,Investors Title Company,https://financialmodelingprep.com/image-stock/ITIC.png
+AROW,0.6926803158325409,1,25.62,-1.233616037008482,63842,427222193.0,1.6988,0.8872811,Finance,Arrow Financial Corporation,https://financialmodelingprep.com/image-stock/AROW.png
+MLAC,0.6926758292846621,1,10.16,0.0,250080,241858800.0,0.0792,-0.004937427,Finance,Mountain Lake Acquisition Corp.,https://financialmodelingprep.com/image-stock/MLAC.png
+TCBX,0.6926714955515452,1,30.48,-0.8780487804878035,75231,421638647.0,3.3676,0.9763635,Finance,"Third Coast Bancshares, Inc.",https://financialmodelingprep.com/image-stock/TCBX.png
+NETD,0.692668889380209,1,11.05,0.0905797101449417,171966,421281257.0,0.2369,0.010772593,Finance,Nabors Energy Transition Corp. II,https://logo.clearbit.com/netd.com
+POLE,0.6926669278946246,1,10.28,0.0,3732,244252800.0,0.1797,0.005199849,Finance,Andretti Acquisition Corp. II,https://financialmodelingprep.com/image-stock/POLE.png
+BWBBP,0.6926651524677202,1,18.72,-0.1930028470585774,419,403367190.0,1.1136,0.13103856,Finance,"Bridgewater Bancshares, Inc. - Depositary Shares, Each Representing a 1/100th Interest in a Share of 5.875% Non-Cumulative Perpetual Preferred Stock, Series A",https://financialmodelingprep.com/image-stock/BWBBP.png
+WSBF,0.69266357642906,1,12.62,-0.2371541501976374,37352,240733031.00000003,1.0164,0.60164416,Finance,"Waterstone Financial, Inc.",https://logo.clearbit.com/wsbf.com
+SSBK,0.6926621982740181,1,34.45,-0.4622941346431568,23180,342007533.00000006,3.8442,0.48889887,Finance,"Southern States Bancshares, Inc.",https://financialmodelingprep.com/image-stock/SSBK.png
+GSRT,0.6926612652021586,1,10.6,2.9126213592232904,5728509,248278500.0,0.0724,0.02071225,Finance,GSR III Acquisition Corp.,https://financialmodelingprep.com/image-stock/GSRT.png
+CWBC,0.692660102615951,1,17.68,-0.952380952380962,29294,337004570.00000006,0.6489,0.7915102,Finance,Community West Bancshares,https://financialmodelingprep.com/image-stock/CWBC.png
+SFST,0.6926592572987338,1,35.95,-1.2091233855454733,12856,293670710.0,2.2657,0.9354445,Finance,"Southern First Bancshares, Inc.",https://logo.clearbit.com/sfst.com
+BCML,0.6926586036880196,1,26.23,-1.242469879518066,21656,288712128.0,2.0995,0.7901073,Finance,BayCom Corp,https://financialmodelingprep.com/image-stock/BCML.png
+OBT,0.6926581576692675,1,25.15,-1.3725490196078487,15274,286301018.99999994,2.4132,0.8380156,Finance,"Orange County Bancorp, Inc.",https://logo.clearbit.com/obt.com
+RBB,0.6926578830221783,1,16.13,-1.1036174126302865,41777,286143905.00000006,1.164,0.8477814,Finance,RBB Bancorp,https://financialmodelingprep.com/image-stock/RBB.png
+NEWTH,0.6926576981534461,1,24.57,-0.0813338755591686,8314,283440224.0,1.9205,0.038730327,Finance,"NewtekOne, Inc. - 8.625% Fixed Rate Senior Notes due 2029",https://financialmodelingprep.com/image-stock/NEWTH.png
+NEWT,0.6926576720147926,1,10.76,0.373134328358201,133672,283440224.0,1.9205,1.2381206,Finance,"NewtekOne, Inc.",https://logo.clearbit.com/newt.com
+CZNC,0.6926578590656087,1,18.99,0.0,27667,294242275.0,1.7427,0.7463787,Finance,Citizens & Northern Corp,https://financialmodelingprep.com/image-stock/CZNC.png
+NEWTZ,0.692658280058698,1,24.6606,-0.0227031322214251,175,283440224.0,1.9205,0.06816111,Finance,"NewtekOne, Inc. - 5.50% Notes Due 2026",https://financialmodelingprep.com/image-stock/NEWTZ.png
+NEWTG,0.692658970522711,1,24.55,-1.1674718196457292,9798,283440224.0,1.9205,0.031684674,Finance,"NewtekOne, Inc. - 8.50% Fixed Rate Senior Notes due 2029",https://financialmodelingprep.com/image-stock/NEWTG.png
+CZFS,0.6926584098175661,1,59.05,-5.580428525743527,6802,281058610.0,5.9823,1.1663473,Finance,"Citizens Financial Services, Inc.",https://financialmodelingprep.com/image-stock/CZFS.png
+PCB,0.6926517226787504,1,19.5,-1.5151515151515187,26040,280549923.0,1.961,0.82028294,Finance,PCB Bancorp,https://logo.clearbit.com/pcb.com
+BWFG,0.6926452756470407,1,33.47,-0.8590047393364905,14979,263522284.0,1.5802,0.92089546,Finance,"Bankwell Financial Group, Inc.",https://financialmodelingprep.com/image-stock/BWFG.png
+HOND,0.6926382979294168,1,11.75,7.404021937842783,4761482,270250000.0,0.1426,-0.038661756,Finance,HCM II Acquisition Corp.,https://financialmodelingprep.com/image-stock/HOND.png
+FLIC,0.6926310020312724,1,11.79,0.8554319931565411,35443,267391513.0,0.7272,0.78367627,Finance,The First of Long Island Corporation,https://financialmodelingprep.com/image-stock/FLIC.png
+NEWTI,0.6926240722643415,1,24.88,0.3225806451612834,1089,283440224.0,1.9205,-0.053737517,Finance,"NewtekOne, Inc. - 8.00% Fixed Rate Senior Notes due 2028",https://financialmodelingprep.com/image-stock/NEWTI.png
+CCNEP,0.6926172913262537,1,24.2,0.0,125,456090921.0,2.3364,-0.3130615,Finance,"CNB Financial Corporation - Depositary shares, each representing a 1/40th ownership interest in a share of 7.125% Series A Fixed- Rate Non-Cumulative Perpetual",https://financialmodelingprep.com/image-stock/CCNEP.png
+FSBW,0.692610668745604,1,38.63,0.3376623376623443,13721,297351697.0,4.4306,0.739497,Finance,"FS Bancorp, Inc.",https://logo.clearbit.com/fsbw.com
+ATII,0.6926042213759207,1,10.08,0.0993048659384288,16700,298267200.0,0.0362,0.019132942,Finance,Archimedes Tech SPAC Partners II Co.,https://financialmodelingprep.com/image-stock/ATII.png
+USCB,0.6925978946747896,1,16.65,0.3012048192770912,14110,333805612.99999994,1.4014,0.97368103,Finance,"USCB Financial Holdings, Inc.",https://financialmodelingprep.com/image-stock/USCB.png
+CCIX,0.6925925743676851,1,11.2,0.9009009009008978,561213,330120000.0,0.3145,0.11153427,Finance,Churchill Capital Corp IX,https://financialmodelingprep.com/image-stock/CCIX.png
+LNKB,0.6925875869878362,1,6.88,0.4379562043795657,23639,257209711.00000003,0.967,0.56667745,Finance,"LINKBANCORP, Inc.",https://financialmodelingprep.com/image-stock/LNKB.png
+WTBA,0.692582818742778,1,19.34,-0.1033057851239647,30978,327296215.00000006,1.5494,0.862298,Finance,West Bancorporation,https://financialmodelingprep.com/image-stock/WTBA.png
+FMAO,0.6925781941927985,1,23.58,-0.7575757575757713,12388,323472473.0,1.9885,1.0333414,Finance,"Farmers & Merchants Bancorp, Inc.",https://financialmodelingprep.com/image-stock/FMAO.png
+BACQ,0.6925739388228411,1,10.17,0.0984251968503916,344,258572250.0,0.1175,0.026762575,Finance,Bleichroeder Acquisition Corp. I,https://logo.clearbit.com/bacq.com
+PBFS,0.6925698975295456,1,11.52,-0.6039689387402958,12915,297827634.0,0.7021,0.3693489,Finance,"Pioneer Bancorp, Inc.",https://financialmodelingprep.com/image-stock/PBFS.png
+NECB,0.6925649439388917,1,22.89,-0.3916449086161873,20214,320995057.0,3.582,0.8770983,Finance,"NorthEast Community Bancorp, Inc.",https://financialmodelingprep.com/image-stock/NECB.png
+WTF,0.6925594324630641,1,6.51,-3.412462908011876,26141,309753761.73,0.0046,-0.32712784,Finance,Waton Financial Limited,https://financialmodelingprep.com/image-stock/WTF.png
+REFI,0.6925539274370475,1,14.5,-0.206469373709562,94531,304028124.0,1.926,0.48056126,Finance,"Chicago Atlantic Real Estate Finance, Inc.",https://logo.clearbit.com/refi.com
+PLBC,0.6925488497722841,1,43.73,-0.4552697473252967,5474,259279792.0,5.007,0.46584016,Finance,Plumas Bancorp,https://financialmodelingprep.com/image-stock/PLBC.png
+MBAV,0.6925441439204539,1,10.45,0.0,41745,300437500.0,0.2269,0.013614975,Finance,M3-Brigade Acquisition V Corp.,https://financialmodelingprep.com/image-stock/MBAV.png
+ALF,0.6925396853462054,1,10.43,-0.3820439350525398,535,299862500.0,0.3001,0.013122213,Finance,Centurion Acquisition Corp.,https://logo.clearbit.com/alf.com
+VACH,0.6925355348317551,1,10.31,0.0,105,260843000.0,0.2095,0.018408978,Finance,Voyager Acquisition Corp,https://financialmodelingprep.com/image-stock/VACH.png
+PDLB,0.6925317279272609,1,13.3,0.6051437216338886,44373,318997849.0,0.6032,0.926895,Finance,"Ponce Financial Group, Inc.",https://financialmodelingprep.com/image-stock/PDLB.png
+RMR,0.6925283098374388,1,14.47,0.2772002772002836,88693,461263757.0,1.1996,0.57641894,Finance,The RMR Group Inc.,https://logo.clearbit.com/rmr.com
+ANSC,0.6925252899629238,1,10.74,0.0,387,463162490.0,0.1912,0.00010844088,Finance,Agriculture & Natural Solutions Acquisition Corporation,https://financialmodelingprep.com/image-stock/ANSC.png
+GLRE,0.6925226999609728,1,13.5,-0.2954209748892109,129805,466498323.00000006,1.3512,0.50837743,Finance,"Greenlight Reinsurance, Ltd.",https://financialmodelingprep.com/image-stock/GLRE.png
+FRST,0.6925207243601686,1,9.28,-0.2150537634408747,75454,229426969.00000003,0.1612,1.0034921,Finance,Primis Financial Corp.,https://logo.clearbit.com/frst.com
+JFIN,0.692519967741473,1,12.82,-5.037037037037035,90595,684197563.0,2.7647,0.5195608,Finance,Jiayin Group Inc.,https://financialmodelingprep.com/image-stock/JFIN.png
+LIEN,0.6925183217500864,1,10.17,-1.739130434782606,44831,232083550.00000003,0.8646,0.27093616,Finance,"Chicago Atlantic BDC, Inc.",https://financialmodelingprep.com/image-stock/LIEN.png
+CAC,0.6925179419685565,1,39.32,-0.7070707070707098,56489,664592951.0,3.1596,0.92901546,Finance,Camden National Corporation,https://logo.clearbit.com/cac.com
+EFSC,0.692518865151479,1,52.58,-0.2277039848197429,119259,1941920289.0,5.1335,0.77260613,Finance,Enterprise Financial Services Corporation,https://financialmodelingprep.com/image-stock/EFSC.png
+NBN,0.6925209453930226,1,81.9,-1.3253012048192705,39609,653372802.0,9.1817,0.88609123,Finance,Northeast Bank,https://logo.clearbit.com/nbn.com
+HAFC,0.6925252628861367,1,22.81,-0.1750547045951977,93281,689137877.0,2.1405,0.8246161,Finance,Hanmi Financial Corporation,https://financialmodelingprep.com/image-stock/HAFC.png
+IBCP,0.6925314650279168,1,31.44,-0.5063291139240511,77221,651466353.0,3.1753,0.86674154,Finance,Independent Bank Corporation,https://logo.clearbit.com/ibcp.com
+HBNC,0.6925381780616886,1,14.7,-0.6085192697768753,127879,648230154.9999999,1.0374,1.0105292,Finance,"Horizon Bancorp, Inc.",https://financialmodelingprep.com/image-stock/HBNC.png
+GOODN,0.6925453273876185,1,22.2016,0.6532925308851778,1863,645324667.0,0.2892,0.058406748,Finance,Gladstone Commercial Corporation - 6.625% Series E Cumulative Redeemable Preferred Stock,https://financialmodelingprep.com/image-stock/GOODN.png
+GOODO,0.6925529812131394,1,20.11,0.1993024414549035,2380,645324667.0,0.2892,0.15029986,Finance,"Gladstone Commercial Corporation - 6.00% Series G Cumulative Redeemable Preferred Stock, par value $0.001 per share",https://financialmodelingprep.com/image-stock/GOODO.png
+GOOD,0.6925610696456497,1,13.85,0.5809731299927383,334358,645324667.0,0.2892,0.5322134,Finance,Gladstone Commercial Corporation - Real Estate Investment Trust,https://logo.clearbit.com/good.com
+GSBC,0.6925696379600733,1,56.01,-0.3380782918149552,26726,642318197.0,5.621,0.76987565,Finance,"Great Southern Bancorp, Inc.",https://financialmodelingprep.com/image-stock/GSBC.png
+BEAGU,0.6925787940211274,1,10.98,0.6416131989000942,3326,641055540.0,0.1436,0.08542675,Finance,Bold Eagle Acquisition Corp.,https://financialmodelingprep.com/image-stock/BEAGU.png
+NWFL,0.6925884936069414,1,25.43,-0.741608118657304,7911,235495099.0,0.0879,0.65453064,Finance,Norwood Financial Corp.,https://financialmodelingprep.com/image-stock/NWFL.png
+CCBG,0.6925987171761663,1,37.24,-0.9574468085106368,16605,635126179.9999999,3.3725,0.63403314,Finance,Capital City Bank Group,https://logo.clearbit.com/ccbg.com
+FCBC,0.6926094351248103,1,37.71,0.0,37381,689305939.0,2.762,0.7726132,Finance,"First Community Bankshares, Inc.",https://logo.clearbit.com/fcbc.com
+BFST,0.6926205822384404,1,23.59,-0.6736842105263163,78089,700504732.0,2.4506,1.0078019,Finance,"Business First Bancshares, Inc.",https://financialmodelingprep.com/image-stock/BFST.png
+CFFN,0.6926322779093611,1,5.6,-0.4444444444444507,650311,743684790.0,0.4039,0.81842875,Finance,"Capitol Federal Financial, Inc.",https://financialmodelingprep.com/image-stock/CFFN.png
+DGICB,0.6926445987372218,1,17.81,-0.1681614349775848,411,741966118.1945525,1.8516,-0.053615842,Finance,"Donegal Group, Inc.",https://financialmodelingprep.com/image-stock/DGICB.png
+VCIC,0.692656753167148,1,10.3,-0.0969932104752646,156471,226600000.00000003,0.141,0.0073661194,Finance,Vine Hill Capital Investment Corp.,https://financialmodelingprep.com/image-stock/VCIC.png
+OSBC,0.6926690313909185,1,16.41,-0.6658595641646454,166262,739371954.0,1.8668,0.8658282,Finance,"Old Second Bancorp, Inc.",https://financialmodelingprep.com/image-stock/OSBC.png
+EZPW,0.6926829876634469,1,13.4,1.9786910197869083,841971,737184486.0,1.6325,0.0027990923,Finance,"EZCORP, Inc.",https://financialmodelingprep.com/image-stock/EZPW.png
+FDBC,0.6926966965375672,1,39.38,-2.210081946858705,5281,227124153.0,3.7846,0.7153043,Finance,"Fidelity D & D Bancorp, Inc.",https://financialmodelingprep.com/image-stock/FDBC.png
+DGICA,0.69270970192826,1,19.75,-0.6539235412474799,82065,695931724.0000001,2.0573,0.2920306,Finance,"Donegal Group, Inc.",https://financialmodelingprep.com/image-stock/DGICA.png
+PKBK,0.6927253823662051,1,19.33,-0.8209338122113913,13465,228931539.0,2.4426,0.7032626,Finance,"Parke Bancorp, Inc.",https://logo.clearbit.com/pkbk.com
+ATLCZ,0.6927420491693947,1,25.15,-0.0397456279809283,6401,717285720.0,6.4054,0.22109693,Finance,Atlanticus Holdings Corporation - 9.25% Senior Notes due 2029,https://financialmodelingprep.com/image-stock/ATLCZ.png
+ATLC,0.692760668605587,1,47.42,-2.024793388429745,47481,717285720.0,6.4054,1.7416036,Finance,Atlanticus Holdings Corporation,https://logo.clearbit.com/atlc.com
+ATLCL,0.6927774633656637,1,24.05,0.2083333333333362,1927,717285720.0,6.4054,0.110471234,Finance,Atlanticus Holdings Corporation - 6.125% Senior Notes due 2026,https://financialmodelingprep.com/image-stock/ATLCL.png
+MBWM,0.6927893650237835,1,43.69,-1.3769751693002246,36407,709316238.0,4.8027,1.0219043,Finance,Mercantile Bank Corporation,https://logo.clearbit.com/mbwm.com
+UFCS,0.6928013216774517,1,27.8,0.7976794778825325,76805,707534181.0,2.6074,0.8954361,Finance,"United Fire Group, Inc",https://financialmodelingprep.com/image-stock/UFCS.png
+MCBS,0.6928139325276242,1,27.58,-1.0405453893075087,23504,700573598.0,2.6117,0.9943963,Finance,"MetroCity Bankshares, Inc.",https://logo.clearbit.com/mcbs.com
+ATLCP,0.6928272190711514,1,23.21,-0.1720430107526845,2152,717285720.0,6.4054,0.10754766,Finance,"Atlanticus Holdings Corporation - 7.625% Series B Cumulative Perpetual Preferred Stock, no par value per share",https://logo.clearbit.com/atlcp.com
+PMTS,0.6928411938795823,1,19.98,-0.5475360876057712,142139,225404152.0,1.6894,1.8541956,Finance,CPI Card Group Inc.,https://logo.clearbit.com/pmts.com
+VINP,0.6928559245385784,1,9.78,0.3076923076923011,24751,626373337.0,0.3989509,0.65855616,Finance,Vinci Partners Investments Ltd.,https://financialmodelingprep.com/image-stock/VINP.png
+MPB,0.6928713699456738,1,26.65,-0.8925251022685087,59858,611814837.0,2.8821,0.8486914,Finance,Mid Penn Bancorp,https://logo.clearbit.com/mpb.com
+SIMA,0.6928875697030762,1,10.33,0.0,30002,237590000.0,0.2282,-0.004903502,Finance,SIM Acquisition Corp. I,https://logo.clearbit.com/sima.com
+FRPH,0.692904527992272,1,26.47,-0.4512974802557389,61134,505241709.00000006,0.3587,0.41350228,Finance,"FRP Holdings, Inc.",https://financialmodelingprep.com/image-stock/FRPH.png
+LPAA,0.6929223549715859,1,10.37,0.1932367149758413,51643,238510000.0,0.2589,0.01410302,Finance,Launch One Acquisition Corp.,https://logo.clearbit.com/lpaa.com
+AMRK,0.6929412171940357,1,20.14,1.6145307769929378,263918,495942184.0,1.5619,0.60715324,Finance,"A-Mark Precious Metals, Inc.",https://financialmodelingprep.com/image-stock/AMRK.png
+FMNB,0.6929606004550638,1,13.03,-0.9125475285171176,49345,490455992.00000006,1.2903,0.7940188,Finance,Farmers National Banc Corp.,https://logo.clearbit.com/fmnb.com
+NFBK,0.6929810941509741,1,11.42,-0.5226480836236976,129365,486789919.0,0.7687,1.0804777,Finance,"Northfield Bancorp, Inc.",https://financialmodelingprep.com/image-stock/NFBK.png
+TWFG,0.6930070673207303,1,35.15,0.5722460658082853,36234,523878517.45,0.7423,0.2828295,Finance,"TWFG, Inc.",https://logo.clearbit.com/twfg.com
+NRIM,0.6930388744524838,1,88.13,0.8929593589009746,47862,486556209.00000006,7.641,1.062531,Finance,Northrim BanCorp Inc,https://financialmodelingprep.com/image-stock/NRIM.png
+PFIS,0.6930718273368814,1,48.31,-0.514827018121911,15425,482881771.0,2.1418,0.87698907,Finance,Peoples Financial Services Corp.,https://financialmodelingprep.com/image-stock/PFIS.png
+CEP,0.6931140701028092,1,46.5,-6.906906906906912,2006216,478950000.0,0.1778,3.177228,Finance,"Cantor Equity Partners, Inc.",https://logo.clearbit.com/cep.com
+SHBI,0.6931416762813779,1,14.34,-0.829875518672206,105601,478586947.0,1.4851,0.952819,Finance,"Shore Bancshares, Inc.",https://logo.clearbit.com/shbi.com
+BCAL,0.6931789488858331,1,14.75,-1.0067114093959757,74529,478090823.00000006,0.4575,0.86613894,Finance,California BanCorp,https://financialmodelingprep.com/image-stock/BCAL.png
+EBTC,0.6932175450970064,1,38.19,-0.5209690023443678,13682,477695231.0,3.2711,0.99452823,Finance,Enterprise Bancorp Inc,https://logo.clearbit.com/ebtc.com
+PGC,0.6932572709824995,1,26.87,-0.775480059084185,81248,476564799.0,1.8117,1.066899,Finance,Peapack-Gladstone Financial Corporation,https://logo.clearbit.com/pgc.com
+HONE,0.693297996359563,1,11.25,-0.4424778761062009,264112,484773531.0,0.6271,1.0720584,Finance,"HarborOne Bancorp, Inc.",https://financialmodelingprep.com/image-stock/HONE.png
+NBBK,0.693339560935647,1,16.78,-0.6512729425695644,137956,626310338.0,1.1778,1.0261196,Finance,"NB Bancorp, Inc.",https://financialmodelingprep.com/image-stock/NBBK.png
+ACIC,0.6933819995255,1,10.85,-1.0938924339106746,131263,524634504.00000006,1.549,0.5164126,Finance,American Coastal Insurance Corporation,https://logo.clearbit.com/acic.com
+CBNK,0.6934251164738586,1,32.04,-1.2025901942645716,61372,530721549.0,2.5037,0.7338585,Finance,"Capital Bancorp, Inc.",https://financialmodelingprep.com/image-stock/CBNK.png
+DMAA,0.6934690860039636,1,10.13,0.0,105238,236057500.0,0.0282,0.015657889,Finance,Drugs Made In America Acquisition Corp.,https://financialmodelingprep.com/image-stock/DMAA.png
+THFF,0.693514246432454,1,50.68,-0.7053291536050146,42392,600590647.0,4.6304,1.0301056,Finance,First Financial Corporation,https://financialmodelingprep.com/image-stock/THFF.png
+KINS,0.6935782502696182,1,16.93,8.31733845169545,520301,237118138.0,1.7455,0.6027979,Finance,"Kingstone Companies, Inc",https://logo.clearbit.com/kins.com
+GBFH,0.6936147095982957,1,42.05,1.9393939393939323,50541,600201473.9499999,1.4218,1.080923,Finance,GBank Financial Holdings Inc.,https://financialmodelingprep.com/image-stock/GBFH.png
+BEAG,0.6936605488417885,1,10.4,0.386100386100395,306140,597667200.0,0.1436,0.11506278,Finance,Bold Eagle Acquisition Corp.,https://financialmodelingprep.com/image-stock/BEAG.png
+SMBC,0.6937127528511531,1,52.54,-0.8866251650631936,21379,593700016.0,4.9871,0.98672336,Finance,"Southern Missouri Bancorp, Inc.",https://financialmodelingprep.com/image-stock/SMBC.png
+ALRS,0.6937524952669353,1,20.77,-0.953743443013826,50991,526844803.0,1.2247,1.0870037,Finance,Alerus Financial Corporation,https://financialmodelingprep.com/image-stock/ALRS.png
+FSBC,0.693788954956146,1,27.6,-0.5405405405405355,44914,589563347.0,2.2758,0.8102833,Finance,Five Star Bancorp,https://financialmodelingprep.com/image-stock/FSBC.png
+ORRF,0.6938262208160025,1,29.62,-0.5038629492777916,75416,577843117.0,1.9886,0.8382242,Finance,"Orrstown Financial Services, Inc.",https://financialmodelingprep.com/image-stock/ORRF.png
+CCAP,0.6938646292581939,1,15.39,0.3913894324853261,82554,570377210.9999999,1.3369,0.49551463,Finance,"Crescent Capital BDC, Inc.",https://financialmodelingprep.com/image-stock/CCAP.png
+SPFI,0.6939040001365009,1,34.8,-1.248581157775269,20801,564723458.0,3.1169,0.9354942,Finance,"South Plains Financial, Inc.",https://financialmodelingprep.com/image-stock/SPFI.png
+HTBK,0.6939447058156564,1,9.04,-0.6593406593406648,200710,556823463.9999999,0.6844,0.8536167,Finance,Heritage Commerce Corp,https://financialmodelingprep.com/image-stock/HTBK.png
+LPBB,0.6939862381989318,1,10.31,0.0,2842,237130000.0,0.1541,0.027721602,Finance,Launch Two Acquisition Corp.,https://financialmodelingprep.com/image-stock/LPBB.png
+HIFS,0.6940325297068249,1,245.74,-1.802197802197799,111618,535774630.00000006,13.0491,0.97969174,Finance,Hingham Institution for Savings,https://financialmodelingprep.com/image-stock/HIFS.png
+TRST,0.6940716007885924,1,30.72,-1.1264885741873236,87360,584286666.9999999,2.6809,0.783131,Finance,TrustCo Bank Corp NY,https://logo.clearbit.com/trst.com
+BVFL,0.6941154169222256,1,15.65,-0.318471337579611,20099,164774836.0,1.0677,0.54926777,Finance,"BV Financial, Inc.",https://financialmodelingprep.com/image-stock/BVFL.png
+MGRC,0.6941686391495613,1,113.38,-1.0213880401571382,79702,2790432314.9999995,9.6562,0.7309679,Finance,McGrath RentCorp,https://logo.clearbit.com/mgrc.com
+FCAP,0.694244368732782,1,48.7,-1.5166835187057632,5681,163405699.0,3.6523,0.118401885,Finance,"First Capital, Inc.",https://logo.clearbit.com/fcap.com
+HST,0.6943088914432314,1,14.7,-0.8766014834794389,6820609,10197601790.0,0.9662,0.96118593,Finance,"Host Hotels & Resorts, Inc.",https://financialmodelingprep.com/image-stock/HST.png
+FRHC,0.6943878101675174,1,169.0,-1.88394438154954,123869,10244817210.999998,5.413,1.1631397,Finance,Freedom Holding Corp.,https://financialmodelingprep.com/image-stock/FRHC.png
+HNNA,0.6944530465811856,1,10.58,0.331910858226649,4785,82372980.99999999,1.263,0.53635484,Finance,"Hennessy Advisors, Inc.",https://financialmodelingprep.com/image-stock/HNNA.png
+GGAL,0.6945266989916966,1,62.86,0.8503128509545984,823047,10416627913.127144,10.4927,0.50712585,Finance,Grupo Financiero Galicia S.A.,https://financialmodelingprep.com/image-stock/GGAL.png
+SEIC,0.6946010876593364,1,83.92,-0.6511187403811971,810970,10446919959.0,4.6685,0.9904193,Finance,SEI Investments Company,https://logo.clearbit.com/seic.com
+ISRL,0.6946864965774903,1,12.89,2.342199285430726,18177,81878558.0,0.1416,0.096402384,Finance,Israel Acquisitions Corp,https://financialmodelingprep.com/image-stock/ISRL.png
+IROQ,0.6947537618290248,1,24.27,-1.0195758564437194,1096,81341532.0,1.0216,-0.04842424,Finance,"IF Bancorp, Inc.",https://financialmodelingprep.com/image-stock/IROQ.png
+CAPN,0.6948355531411465,1,10.24,0.0,635,80179200.0,0.1174,-0.030597543,Finance,Cayson Acquisition Corp,https://financialmodelingprep.com/image-stock/CAPN.png
+UBCP,0.6949183379614136,1,13.61,0.740192450037007,4219,78856488.99999999,1.2336,-0.18403451,Finance,"United Bancorp, Inc.",https://logo.clearbit.com/ubcp.com
+FVN,0.6950004446186049,1,10.2882,0.0797665369649847,10100,77614180.8,0.0201,0.013852457,Finance,Future Vision II Acquisition Corporation,https://logo.clearbit.com/fvn.com
+LAMR,0.6950813757910453,1,115.31,0.5756650675970315,496838,11806595314.0,4.1242,0.88459694,Finance,Lamar Advertising Company,https://financialmodelingprep.com/image-stock/LAMR.png
+RDAC,0.6951625966356869,1,10.26,0.0,1224,76943587.5,0.0985,0.0029574514,Finance,Rising Dragon Acquisition Corp.,https://financialmodelingprep.com/image-stock/RDAC.png
+FUSB,0.6952457942571484,1,13.08,0.6153846153846159,755,75057644.03981622,1.3468,0.23146337,Finance,"First US Bancshares, Inc.",https://logo.clearbit.com/fusb.com
+HNNAZ,0.6953323756762543,1,24.41,-0.9736308316429958,3716,82372981.0,1.263,0.053141966,Finance,"Hennessy Advisors, Inc. - 4.875% Notes due 2026",https://financialmodelingprep.com/image-stock/HNNAZ.png
+HGBL,0.6954188489879188,1,2.12,-0.9345794392523372,27911,74783428.0,0.1223,0.13221206,Finance,Heritage Global Inc.,https://financialmodelingprep.com/image-stock/HGBL.png
+AUBN,0.6955229242957008,1,20.95,4.802401200600305,1484,73192998.00000001,1.8765,-0.06909547,Finance,"Auburn National Bancorporation, Inc.",https://financialmodelingprep.com/image-stock/AUBN.png
+GLPI,0.6955921442584138,1,46.23,0.4344992396263213,1183446,12705529825.0,2.8328,0.2434203,Finance,"Gaming and Leisure Properties, Inc.",https://financialmodelingprep.com/image-stock/GLPI.png
+MORN,0.6956785249663573,1,304.12,-0.8315127009489064,115052,12848823847.000002,8.9638,0.8606483,Finance,"Morningstar, Inc.",https://logo.clearbit.com/morn.com
+REGCO,0.6957650192177933,1,22.55,-0.3094606542882417,150,12968268433.0,2.1249,0.1749619,Finance,Regency Centers Corporation - 5.875% Series B Cumulative Redeemable Preferred Stock,https://financialmodelingprep.com/image-stock/REGCO.png
+REGCP,0.6958508134285546,1,23.51,0.384286934244235,280,12968268433.0,2.1249,0.18204546,Finance,Regency Centers Corporation - 6.25% Series A Cumulative Redeemable Preferred Stock,https://financialmodelingprep.com/image-stock/REGCP.png
+REG,0.6959311320553957,1,71.01,-0.0984805852560399,972165,12968268433.0,2.1249,0.3541113,Finance,Regency Centers Corporation,https://logo.clearbit.com/reg.com
+DYCQ,0.6960017382408016,1,10.67,-1.1121408711770089,729,72211668.42999999,0.2992,0.015708312,Finance,DT Cloud Acquisition Corporation,https://financialmodelingprep.com/image-stock/DYCQ.png
+FDSB,0.696068104982357,1,12.44,-0.0803212851405605,2932,69159844.11999999,0.0129,0.3230389,Finance,"Fifth District Bancorp, Inc.",https://logo.clearbit.com/fdsb.com
+AFJK,0.6961304799591215,1,11.15,-0.4464285714285619,1461,68257322.95,0.2244,0.028216176,Finance,"Aimei Health Technology Co., Ltd",https://financialmodelingprep.com/image-stock/AFJK.png
+SOFI,0.6961872513670159,1,13.09,-0.7581501137225144,44155340,14469203922.0,0.4346,2.3511777,Finance,"SoFi Technologies, Inc.",https://logo.clearbit.com/sofi.com
+JVSA,0.6962420515099464,1,10.8,0.0,231,67486500.0,0.2718,-0.0034091629,Finance,JVSPAC Acquisition Corp.,https://logo.clearbit.com/jvsa.com
+ARCC,0.6963017332886335,1,21.59,0.3252788104089232,2118511,14987384362.999996,2.0448,0.6416187,Finance,Ares Capital Corporation,https://logo.clearbit.com/arcc.com
+CG,0.6963549577285751,1,44.27,-0.3601170380373544,1766878,15987484876.000002,3.0308,1.6240599,Finance,The Carlyle Group Inc.,https://logo.clearbit.com/cg.com
+EWBC,0.6963913519424444,1,90.33,-0.6707719375412354,434556,12449748766.999998,8.4474,1.154166,Finance,"East West Bancorp, Inc.",https://logo.clearbit.com/ewbc.com
+XP,0.6964296190746536,1,18.64,-0.2675227394328555,7237543,9822201591.999998,1.5636774,1.011293,Finance,XP Inc.,https://financialmodelingprep.com/image-stock/XP.png
+HLNE,0.6964663627652321,1,165.41,0.9459294519711844,401837,9428678811.0,5.3964,1.2124687,Finance,Hamilton Lane Incorporated,https://financialmodelingprep.com/image-stock/HLNE.png
+AGNCL,0.6964979194305677,1,24.93,-0.7563694267515974,14031,9020118393.0,0.3934,0.016295532,Finance,"AGNC Investment Corp. - Depositary Shares Each Representing a 1/1,000th Interest in a Share of 7.75% Series G Fixed-Rate Reset Cumulative Redeemable Preferred S",https://financialmodelingprep.com/image-stock/AGNCL.png
+BKHA,0.6965279693800213,1,10.59,-0.0943396226415074,114,94563405.0,0.2917,0.016731141,Finance,Black Hawk Acquisition Corporation,https://financialmodelingprep.com/image-stock/BKHA.png
+PCSC,0.6965100042464079,1,10.54,1.5414258188824506,3732,93924575.0,0.2353,0.034068458,Finance,Perceptive Capital Solutions Corp,https://financialmodelingprep.com/image-stock/PCSC.png
+FSHP,0.696428630498314,1,10.48,0.963391136801538,2481,92884234.98084292,0.378,0.0011854183,Finance,Flag Ship Acquisition Corp.,https://financialmodelingprep.com/image-stock/FSHP.png
+IROH,0.696318548989234,1,10.46,-0.7590132827324317,164977,92748820.0,0.1112,0.0033868302,Finance,Iron Horse Acquisitions Corp.,https://financialmodelingprep.com/image-stock/IROH.png
+ONBPP,0.6961882696517614,1,25.02,-0.2392344497607604,521,7624239135.0,1.734,0.081047356,Finance,"Old National Bancorp - Depositary Shares, Each Representing a 1/40th Interest in a Share of Series A Preferred Stock",https://financialmodelingprep.com/image-stock/ONBPP.png
+IBAC,0.6962521649861818,1,10.4245,0.1392891450528334,2640,164176388.705,0.2464,-0.017751094,Finance,IB Acquisition Corp.,https://logo.clearbit.com/ibac.com
+ONB,0.6964378568933903,1,20.61,-0.6746987951807256,13105736,7624239135.0,1.734,1.3145434,Finance,Old National Bancorp,https://financialmodelingprep.com/image-stock/ONB.png
+HSPT,0.6965338645155,1,10.17,-0.3917727717923694,1033,92343600.0,0.0681,0.000837356,Finance,Horizon Space Acquisition II Corp.,https://financialmodelingprep.com/image-stock/HSPT.png
+UMBF,0.6964511385269143,1,101.5,-0.6168608636052046,634130,7705731907.0,8.0048,1.152861,Finance,UMB Financial Corporation,https://financialmodelingprep.com/image-stock/UMBF.png
+UMBFP,0.6963800670397293,1,25.1901,-0.0301614829924955,5940,7705731907.0,8.0048,0.083057836,Finance,"UMB Financial Corporation - Depositary Shares, each representing a 1/400th of 7.00% Fixed-Rate Reset Non-Cumulative Perpetual Preferred Stock",https://financialmodelingprep.com/image-stock/UMBFP.png
+DTSQ,0.6962619573316823,1,10.3,-0.1937984496123989,976,91679270.0,0.2061,-0.0053081606,Finance,DT Cloud Star Acquisition Corporation,https://financialmodelingprep.com/image-stock/DTSQ.png
+FSV,0.6961130902052,1,173.06,0.4061267115339919,66298,7864538621.796188,2.774357152,0.7857985,Finance,FirstService Corporation,https://financialmodelingprep.com/image-stock/FSV.png
+WTFCP,0.695960266358714,1,25.21,0.0793965859468025,17423,7911834055.0,10.2743,0.056197416,Finance,"Wintrust Financial Corporation - Depositary Shares, Each Representing a 1/1,000th Interest in a Share of 6.875% Fixed-Rate Reset Non-Cumulative Perpetual Prefer",https://financialmodelingprep.com/image-stock/WTFCP.png
+WTFCM,0.6957945229619632,1,25.0488,-0.2437275985663061,37112,7911834055.0,10.2743,0.048789073,Finance,"Wintrust Financial Corporation - Fixed-to-Floating Rate Non-Cumulative Perpetual Preferred Stock, Series D",https://financialmodelingprep.com/image-stock/WTFCM.png
+WTFC,0.6956147019280399,1,118.21,-0.4211945076236206,190291,7911834055.000001,10.2743,1.268886,Finance,Wintrust Financial Corporation,https://financialmodelingprep.com/image-stock/WTFC.png
+MKTX,0.6953869568742783,1,217.85,0.6654036319948236,317877,8169736727.999999,5.7705,-0.1675985,Finance,"MarketAxess Holdings, Inc.",https://logo.clearbit.com/mktx.com
+PNFP,0.6950890650563075,1,105.55,-0.4620897774424831,222496,8186045673.999999,6.2197,1.4070723,Finance,"Pinnacle Financial Partners, Inc.",https://logo.clearbit.com/pnfp.com
+PNFPP,0.6947254095991334,1,24.1,0.2079002079002108,12238,8186045674.0,6.2197,-0.0011339994,Finance,"Depositary shares of Pinnacle Financial Partners, Inc., each representing a 1/40th Interest in a share of its 6.75% Fixed-Rate",https://financialmodelingprep.com/image-stock/PNFPP.png
+CHAR,0.6942969560690622,1,10.1896,0.0943025540275119,5308,90076064.0,0.0911,0.015084812,Finance,Charlton Aria Acquisition Corporation,https://logo.clearbit.com/char.com
+COOP,0.6937879232470402,1,129.5,1.568627450980392,690939,8286107967.000001,8.9805,-0.07360119,Finance,Mr. Cooper Group Inc.,https://logo.clearbit.com/coop.com
+AIFE,0.6933502997798452,1,10.1,-0.098911968348168,855,89579425.0,0.052,0.008031701,Finance,Aifeex Nexus Acquisition Corporation,https://financialmodelingprep.com/image-stock/AIFE.png
+CBSH,0.6926902879817397,1,62.76,-0.743318045231692,484581,8373913850.999999,4.0341,0.80144876,Finance,"Commerce Bancshares, Inc.",https://logo.clearbit.com/cbsh.com
+LSBK,0.691901044862999,1,15.4,1.185978514405863,1773,87224879.0,0.8692,0.23368682,Finance,"Lake Shore Bancorp, Inc.",https://financialmodelingprep.com/image-stock/LSBK.png
+HQY,0.6911469628106309,1,99.01,-1.0691446842525911,908120,8577327615.0,1.1138,1.0542102,Finance,"HealthEquity, Inc.",https://financialmodelingprep.com/image-stock/HQY.png
+AGNC,0.6902550256350898,1,8.84,0.3405221339386987,36904727,9020118393.0,0.3934,0.5383045,Finance,AGNC Investment Corp.,https://logo.clearbit.com/agnc.com
+AGNCM,0.6889874536860643,1,24.6195,-0.4468257177517259,23096,9020118393.0,0.3934,0.10034793,Finance,AGNC Investment Corp. - Depositary Shares rep 6.875% Series D Fixed-to-Floating Cumulative Redeemable Preferred Stock,https://financialmodelingprep.com/image-stock/AGNCM.png
+AGNCO,0.6874311850954303,1,25.42,0.0787401574803272,4120,9020118393.0,0.3934,0.11037904,Finance,"AGNC Investment Corp. - Depositary Shares, each representing a 1/1,000th interest in a share of Series E Fixed-to-Floating Cumulative Redeemable Preferred Stock",https://financialmodelingprep.com/image-stock/AGNCO.png
+AGNCP,0.6857634630071153,1,24.9,-0.080256821829868,33748,9020118393.0,0.3934,0.0625264,Finance,"AGNC Investment Corp. - Depositary Shares Each Representing a 1/1,000th Interest in a Share of 6.125% Series F Fixed-to-Floating Rate Cumulative Redeemable Pref",https://financialmodelingprep.com/image-stock/AGNCP.png
+AGNCN,0.6840777205825141,1,25.57,-0.4671078240560568,22145,9020118393.0,0.3934,0.13213417,Finance,"AGNC Investment Corp. - Depositary Shares Each Representing a 1/1,000th Interest in a Share of 7.00% Series C Fixed-To-Floating Rate Cumulative Redeemable Prefe",https://financialmodelingprep.com/image-stock/AGNCN.png
+ASPC,0.6823395986628508,1,10.22,0.0,2114,66992100.00000001,0.003,-0.009383002,Finance,A SPAC III Acquisition Corp.,https://financialmodelingprep.com/image-stock/ASPC.png
+NOEM,0.6806889566824513,1,9.99,0.0,9784,95761642.5,0.0441,0.027170384,Finance,CO2 Energy Transition Corp.,https://logo.clearbit.com/noem.com
+ERIE,0.6825017612482692,1,348.8,0.0114692051840866,125929,16243743734.000002,13.1882,0.35615602,Finance,Erie Indemnity Company,https://logo.clearbit.com/erie.com
+BOTJ,0.6912777322514422,1,14.37,0.8421052631578891,8176,65287762.57282571,1.4522,0.225256,Finance,"Bank of the James Financial Group, Inc.",https://financialmodelingprep.com/image-stock/BOTJ.png
+ASRV,0.7131288081467639,1,2.62,0.7692307692307698,34296,43280479.99999999,0.2189,0.331114,Finance,AmeriServ Financial Inc.,https://logo.clearbit.com/asrv.com
+MDBH,0.6594802760203162,1,4.2201,-2.0858468677494018,3031,41992660.0,1.0881,-0.39969483,Finance,"MDB Capital Holdings, LLC",https://financialmodelingprep.com/image-stock/MDBH.png
+TW,0.2257128073017952,0,145.62,1.0618363522798258,673733,34430844853.00001,2.4555,0.45801848,Finance,Tradeweb Markets Inc.,https://financialmodelingprep.com/image-stock/TW.png
+ACGLO,0.2645963489413453,0,20.35,-0.1961745953898928,14719,34503648229.0,9.989,0.20806098,Finance,"Arch Capital Group Ltd. - Depositary Shares Each Representing 1/1,000th Interest in a Share of5.45% Non-Cumulative Preferred Shares, Series F",https://logo.clearbit.com/acglo.com
+ACGL,0.2845432709241889,0,92.07,0.108731107969984,977016,34503648229.0,9.989,0.5085087,Finance,Arch Capital Group Ltd.,https://financialmodelingprep.com/image-stock/ACGL.png
+ACGLN,0.2869305041514981,0,16.81,-0.3556609365738131,20323,34503648229.0,9.989,0.2864128,Finance,"Arch Capital Group Ltd. - Depositary Shares, each Representing a 1/1,000th Interest in a 4.550% Non-Cumulative Preferred Share, Series G",https://financialmodelingprep.com/image-stock/ACGLN.png
+ATMC,0.2840465554986537,0,11.82,1.0256410256410342,122,41008899.0,0.2096,0.0007850187,Finance,AlphaTime Acquisition Corp,https://logo.clearbit.com/atmc.com
+ICMB,0.2807874475590022,0,2.83,-7.817589576547224,88194,40791620.0,-0.0142,0.22269693,Finance,"Investcorp Credit Management BDC, Inc.",https://financialmodelingprep.com/image-stock/ICMB.png
+HFBL,0.279419274953172,0,13.0099,-0.5359327217125386,560,40626846.0,1.0942,-0.014680963,Finance,"Home Federal Bancorp, Inc. of Louisiana",https://financialmodelingprep.com/image-stock/HFBL.png
+QETA,0.2775454288236966,0,10.7,-0.186567164179117,1000,40100905.84844258,0.1209,0.026004896,Finance,Quetta Acquisition Corporation,https://financialmodelingprep.com/image-stock/QETA.png
+PBBK,0.2756537318300014,0,15.65,1.098191214470284,45589,39943731.48034398,0.8289,0.20827134,Finance,"PB Bankshares, Inc.",https://financialmodelingprep.com/image-stock/PBBK.png
+USIO,0.2743665460525148,0,1.41,-0.7042253521126767,39817,37514326.0,0.1215,0.13576588,Finance,"Usio, Inc.",https://logo.clearbit.com/usio.com
+NDAQ,0.2739074642034391,0,81.78,0.7018840044329608,3860017,46951667269.0,2.2217,0.8041986,Finance,"Nasdaq, Inc.",https://logo.clearbit.com/ndaq.com
+ATMV,0.2734383128136315,0,11.78,0.5977796754910205,437,45410203.92143466,0.2523,-0.012199348,Finance,AlphaVest Acquisition Corp,https://financialmodelingprep.com/image-stock/ATMV.png
+HOOD,0.2728772105783153,0,63.17,-2.4702794503628134,28585495,55745561139.0,1.7992,3.0930111,Finance,"Robinhood Markets, Inc.",https://logo.clearbit.com/hood.com
+ZBAO,0.2724175323978002,0,1.03,-4.629629629629633,180748,32469477.0,0.093,1.1928071,Finance,Zhibao Technology Inc.,https://financialmodelingprep.com/image-stock/ZBAO.png
+MBBC,0.2721590850796776,0,9.96,-0.5988023952095681,18091,29301622.8,0.1632,0.013344657,Finance,"Marathon Bancorp, Inc.",https://financialmodelingprep.com/image-stock/MBBC.png
+COIN,0.2718638443428607,0,263.16,-3.232211803640362,9290348,67028160224.00001,5.84,2.8850207,Finance,"Coinbase Global, Inc.",https://logo.clearbit.com/coin.com
+EQIX,0.271735089322172,0,863.46,-0.3508366993652583,441675,84462789512.0,9.6574,0.73354715,Finance,"Equinix, Inc.",https://financialmodelingprep.com/image-stock/EQIX.png
+GLBZ,0.2717205950949168,0,5.24,4.800000000000004,461,15199568.0,0.0132,0.082843155,Finance,Glen Burnie Bancorp,https://financialmodelingprep.com/image-stock/GLBZ.png
+IBKR,0.2717173889592845,0,206.61,-0.0532120743033984,968008,87313858524.0,7.302,1.646737,Finance,"Interactive Brokers Group, Inc.",https://logo.clearbit.com/ibkr.com
+CME,0.2716984973605643,0,284.07,0.7340425531914869,2323476,102367245441.00002,9.9625,0.079398476,Finance,CME Group Inc.,https://logo.clearbit.com/cme.com
+MCVT,0.2716849418350111,0,1.86,-2.105263157894727,20171,11276757.0,0.1945,0.66865945,Finance,"Mill City Ventures III, Ltd.",https://financialmodelingprep.com/image-stock/MCVT.png
+CNFR,0.2716750033031573,0,0.77,-2.2594567149022504,857,9411618.000000002,1.9617,-0.1438944,Finance,"Conifer Holdings, Inc.",https://logo.clearbit.com/cnfr.com
+CNFRZ,0.2716684112988802,0,18.43,-0.3244997295835518,364,9411618.0,1.9617,-0.4205262,Finance,"Conifer Holdings, Inc. - 9.75% Senior Unsecured Notes due 2028",https://financialmodelingprep.com/image-stock/CNFRZ.png
+STI,0.2716613176010155,0,3.16,-3.951367781155012,59229,8585423.000000002,7.5395,1.6575342,Finance,"Solidion Technology, Inc.",https://logo.clearbit.com/sti.com
+AIFU,0.2716718073451727,0,2.99,-11.53846153846153,121637,8477461.0,0.0551,0.7708724,Finance,AIFU Inc.,https://financialmodelingprep.com/image-stock/AIFU.png
+BSLK,0.271991350982402,0,3.26,-14.993481095176014,27175,6721399.999999999,0.521,1.0822744,Finance,"Bolt Projects Holdings, Inc.",https://financialmodelingprep.com/image-stock/BSLK.png
+BOWN,0.2720287810656504,0,11.89,-1.654259718775842,1653,35800468.97,0.3233,-0.6379449,Finance,Bowen Acquisition Corp,https://financialmodelingprep.com/image-stock/BOWN.png
+FORL,0.2722447012773471,0,11.36,-0.6124234470691189,238,46327817.35319895,0.0374,-0.003989302,Finance,Four Leaf Acquisition Corporation,https://financialmodelingprep.com/image-stock/FORL.png
+LPLA,0.2724664732069224,0,372.5,-1.298357180710116,459806,29790954075.0,14.5677,1.5180595,Finance,LPL Financial Holdings Inc.,https://financialmodelingprep.com/image-stock/LPLA.png
+MBNKP,0.2726334749448156,0,25.6999,-0.3837372911248162,1102,47287816.0,20.143,-0.07502548,Finance,"Medallion Bank - Fixed-to-Floating Rate Non-Cumulative Perpetual Preferred Stock, Series F",https://financialmodelingprep.com/image-stock/MBNKP.png
+EURK,0.2728228925389109,0,10.38,0.1930501930502061,150087,64439040.00000001,0.1687,-0.012472373,Finance,Eureka Acquisition Corp,https://financialmodelingprep.com/image-stock/EURK.png
+OAKU,0.2730101745383257,0,11.75,0.4273504273504335,1540,62957090.98221846,0.0171,0.024756756,Finance,Oak Woods Acquisition Corporation,https://financialmodelingprep.com/image-stock/OAKU.png
+PFG,0.273199637092997,0,77.01,-0.4395604395604256,846029,17264932496.0,4.772,0.9934995,Finance,Principal Financial Group Inc,https://logo.clearbit.com/pfg.com
+SELF,0.2733861520900053,0,5.55,-0.3590664272890567,30220,62928069.0,0.2132,0.0799301,Finance,"Global Self Storage, Inc.",https://logo.clearbit.com/self.com
+CPBI,0.2735706505170095,0,14.745,0.135823429541593,346,62549838.225,2.2299,0.17241797,Finance,"Central Plains Bancshares, Inc.",https://financialmodelingprep.com/image-stock/CPBI.png
+BAFN,0.2737245148601083,0,15.04,1.690331304935767,864,62100564.0,2.3963,0.4963325,Finance,BayFirst Financial Corp.,https://financialmodelingprep.com/image-stock/BAFN.png
+BAYA,0.2737889905059349,0,10.98,0.0,2,59747793.66894665,0.1754,0.020959485,Finance,Bayview Acquisition Corp,https://logo.clearbit.com/baya.com
+TROW,0.2738809191937885,0,93.02,-1.524454795680709,1105532,20493802982.0,8.8292,1.1120963,Finance,"T. Rowe Price Group, Inc.",https://financialmodelingprep.com/image-stock/TROW.png
+NTRS,0.2739568673513303,0,105.78,-0.5827067669172975,1159577,20578290143.0,10.7489,1.0579296,Finance,Northern Trust Corporation,https://logo.clearbit.com/ntrs.com
+NTRSO,0.2740373065755827,0,19.5646,0.8484536082474231,25912,20578290143.0,10.7489,0.24786685,Finance,"Northern Trust Corporation - Depositary Shares Each Representing a 1/1,000th Interest in a Share of Series E Non-Cumulative Perpetual Preferred Stock",https://financialmodelingprep.com/image-stock/NTRSO.png
+LOAN,0.2741183932680308,0,5.15,1.4778325123152742,23288,58909054.0,0.4798,-0.15277828,Finance,"Manhattan Bridge Capital, Inc",https://logo.clearbit.com/loan.com
+HBANL,0.2741830314951062,0,24.86,0.0402414486921449,14876,22318353965.0,1.3201,0.21937217,Finance,"Huntington Bancshares Incorporated - Depositary Shares, Each Representing a 1/40th Interest in a Share of 6.875% Series J Non-Cumulative Perpetual Preferred Sto",https://financialmodelingprep.com/image-stock/HBANL.png
+HBAN,0.2742692997017086,0,15.32,-0.7128969539857384,25782910,22318353965.0,1.3201,1.1138347,Finance,Huntington Bancshares Incorporated,https://financialmodelingprep.com/image-stock/HBAN.png
+HBANM,0.2743423048452495,0,21.7806,-0.476584311557277,2647,22318353965.0,1.3201,0.29102197,Finance,Huntington Bancshares Incorporated - Depositary Shares each representing a 1/1000th interest in a share of Huntington Series I Preferred Stock,https://logo.clearbit.com/hbanm.com
+HBANP,0.274404638891247,0,17.23,0.2326934264106989,16614,22318353965.0,1.3201,0.46760932,Finance,Huntington Bancshares Incorporated - Depositary Shares 4.500% Series H Non-Cumulative Perpetual Preferred Stock,https://financialmodelingprep.com/image-stock/HBANP.png
+CINF,0.274486093233043,0,145.83,0.3647625602202348,329731,22793754876.0,9.2604,0.55205995,Finance,Cincinnati Financial Corporation,https://financialmodelingprep.com/image-stock/CINF.png
+EMCG,0.2745460983999482,0,12.0,0.1669449081802969,2809,54240284.42211054,0.1595,0.024341777,Finance,Embrace Change Acquisition Corp,https://logo.clearbit.com/emcg.com
+ALCY,0.2746152513949338,0,11.5,0.1742160278745607,402,52123326.95346796,0.1326,-0.23595457,Finance,Alchemy Investments Acquisition Corp 1,https://financialmodelingprep.com/image-stock/ALCY.png
+FCNCA,0.2746952504066952,0,1822.27,-1.0195324381871107,45012,24018603858.0,174.6043,1.198567,Finance,"First Citizens BancShares, Inc.",https://financialmodelingprep.com/image-stock/FCNCA.png
+FCNCP,0.2747644645566355,0,21.37,0.7068803016022721,14193,24018603858.0,174.6043,0.33138454,Finance,"First Citizens BancShares, Inc. - Depositary Shares Each Representing a 1/40th Interest in a Share of 5.375% Non-Cumulative Perpetual Preferred Stock, Series A",https://financialmodelingprep.com/image-stock/FCNCP.png
+FCNCO,0.2748230479960096,0,22.39,-0.1338090990187383,8522,24018603858.0,174.6043,0.21716319,Finance,"First Citizens BancShares, Inc. - 5.625% Non-Cumulative Perpetual Preferred Stock, Series C",https://financialmodelingprep.com/image-stock/FCNCO.png
+HSPO,0.2748924387262216,0,11.95,0.2516778523489879,124,49816428.0,0.1961,0.033285763,Finance,Horizon Space Acquisition I Corp.,https://financialmodelingprep.com/image-stock/HSPO.png
+SBAC,0.274936886529304,0,229.52,0.5475971437332983,400822,24662331765.0,7.5839,0.00040730892,Finance,SBA Communications Corporation,https://financialmodelingprep.com/image-stock/SBAC.png
+CLST,0.2749406912966997,0,11.6448,-1.73164556962025,6213,48682231.00000001,0.5515,0.26736152,Finance,"Catalyst Bancorp, Inc.",https://logo.clearbit.com/clst.com
+FITB,0.2749807162660582,0,37.2,-0.8264462809917227,2975061,24830709884.0,3.1723,1.1012353,Finance,Fifth Third Bancorp,https://financialmodelingprep.com/image-stock/FITB.png
+FITBP,0.2750446191039537,0,24.23,0.0826104915324228,5815,24830709884.0,3.1723,0.16871347,Finance,Fifth Third Bancorp - Depositary Shares each representing 1/40th share of Fifth Third 6.00% Non-Cumulative Perpetual,https://financialmodelingprep.com/image-stock/FITBP.png
+FITBI,0.2751197566795114,0,25.51,0.2357563850687712,10663,24830709884.0,3.1723,0.05348395,Finance,Fifth Third Bancorp - Depositary Share repstg 1/1000th Ownership Interest Perp Pfd Series I,https://financialmodelingprep.com/image-stock/FITBI.png
+FITBO,0.2751921214018912,0,21.07,-0.1894836570345767,14808,24830709884.0,3.1723,0.38997203,Finance,"Fifth Third Bancorp - Depositary Shares each representing a 1/1000th ownership interest in a share of Non-Cumulative Perpetual Preferred Stock, Series K",https://financialmodelingprep.com/image-stock/FITBO.png
+TCBS,0.2752609901476742,0,15.5601,-0.0147792114326837,2406,47343970.0,0.6848,0.12252509,Finance,"Texas Community Bancshares, Inc.",https://financialmodelingprep.com/image-stock/TCBS.png
+KSPI,0.275314458122639,0,80.69,-0.2719070572240747,155994,16367318585.54353,11.6544,0.776361,Finance,Joint Stock Company Kaspi.kz - American Depository Shares,https://financialmodelingprep.com/image-stock/KSPI.png
+MGYR,0.2753560901174056,0,15.2306,-1.6111111111111087,812,98556426.0,1.4229,0.17224269,Finance,"Magyar Bancorp, Inc.",https://financialmodelingprep.com/image-stock/MGYR.png
+ONBPO,0.2753885525723901,0,24.835,-0.858283433133732,2979,7624239135.0,1.734,0.04592317,Finance,"Old National Bancorp - Depositary Shares, Each Representing a 1/40th Interest in a Share of Series C Preferred Stock",https://financialmodelingprep.com/image-stock/ONBPO.png
+SLMBP,0.275418802680498,0,75.73,0.2382528127068257,3338,7046981867.0,2.8335,0.398224,Finance,"SLM Corporation - Floating Rate Non-Cumulative Preferred Stock, Series B",https://financialmodelingprep.com/image-stock/SLMBP.png
+NMIH,0.2754287893953578,0,37.96,0.5030447445062157,672564,2965546733.0,4.7148,0.5299539,Finance,NMI Holdings Inc,https://financialmodelingprep.com/image-stock/NMIH.png
+ATLO,0.2754094385889998,0,17.41,0.2880184331797276,10745,155219843.99999997,1.2681,0.5091456,Finance,Ames National Corporation,https://financialmodelingprep.com/image-stock/ATLO.png
+WSFS,0.2753889442157283,0,52.76,-0.34000755572346,288935,2995554045.0,4.4683,0.9760913,Finance,WSFS Financial Corporation,https://logo.clearbit.com/wsfs.com
+CATY,0.2753674828075364,0,42.85,-0.6261595547309741,271136,3004229111.0,3.9747,0.92354774,Finance,Cathay General Bancorp,https://financialmodelingprep.com/image-stock/CATY.png
+PCH,0.2753451406938867,0,38.28,-0.2865329512893968,540759,3008654810.0,0.6064,0.54336625,Finance,PotlatchDeltic Corporation - Common Stock,https://logo.clearbit.com/pch.com
+UBFO,0.2753202581798076,0,8.71,-0.9101251422070342,19111,152215328.0,0.7734,0.7589767,Finance,United Security Bancshares,https://financialmodelingprep.com/image-stock/UBFO.png
+RITR,0.2752956642916515,0,3.59,0.2793296089385415,394617,151228750.0,0.084,-0.55090463,Finance,Reitar Logtech Holdings Limited,https://logo.clearbit.com/ritr.com
+FULT,0.2752701055584378,0,17.16,-0.6369426751592324,769356,3119593500.0,1.7198,1.2004948,Finance,Fulton Financial Corporation,https://logo.clearbit.com/fult.com
+FULTP,0.2752446612795416,0,18.41,0.1278111658009872,866,3119593500.0,1.7198,0.15673357,Finance,"Fulton Financial Corporation - Depositary Shares Each Representing a 1/40th Interest in a Share of Fixed Rate Non-Cumulative Perpetual Preferred Stock, Series A",https://financialmodelingprep.com/image-stock/FULTP.png
+INTR,0.2752159473526852,0,7.17,0.843881856540079,1468310,3152481699.0,0.4107433,0.3533319,Finance,Inter & Co. Inc.,https://financialmodelingprep.com/image-stock/INTR.png
+MRBK,0.2751861505979291,0,13.33,-0.7446016381236013,19018,150432759.00000003,1.4427,0.9149846,Finance,Meridian Corporation,https://financialmodelingprep.com/image-stock/MRBK.png
+TCBIO,0.2751543949000355,0,20.1979,1.2426065162907336,26091,3279337403.0,1.7513,0.3012205,Finance,"Texas Capital Bancshares, Inc. - Depositary Shares 5.75% Fixed Rate Non-Cumulative Perpetual Preferred Stock Series B",https://logo.clearbit.com/tcbio.com
+TCBI,0.2751222337597229,0,71.44,-0.8466342817487849,453986,3279337403.0,1.7513,0.93727165,Finance,"Texas Capital Bancshares, Inc.",https://financialmodelingprep.com/image-stock/TCBI.png
+FHB,0.2751105026342584,0,23.42,-0.7627118644067784,405579,2944346356.9999995,1.8465,0.7911067,Finance,"First Hawaiian, Inc.",https://logo.clearbit.com/fhb.com
+BHFAP,0.2751028594604428,0,19.45,-0.0513874614594119,28446,3324554321.0,8.5924,0.27315277,Finance,"Brighthouse Financial, Inc. - Depositary Shares 6.6% Non-Cumulative Preferred Stock, Series A",https://financialmodelingprep.com/image-stock/BHFAP.png
+BHFAM,0.275093284702643,0,14.42,-1.029512697323269,20893,3324554321.0,8.5924,0.30882895,Finance,"Brighthouse Financial, Inc. - Depositary shares each representing a 1/1,000th Interest in a Share of 4.625% Non-Cumulative Preferred Stock, Series D",https://financialmodelingprep.com/image-stock/BHFAM.png
+BHFAL,0.2750826697611073,0,19.876,-0.9172482552342848,9762,3324554321.0,8.5924,0.24262412,Finance,"Brighthouse Financial, Inc. - Junior Subordinated Debentures due 2058",https://financialmodelingprep.com/image-stock/BHFAL.png
+BHFAO,0.275071020029718,0,19.99,-0.7940446650124077,13522,3324554321.0,8.5924,0.329384,Finance,"Brighthouse Financial, Inc. - Depositary Shares, each representing a 1/1,000th interest in a share of 6.750% Non-Cumulative Preferred Stock, Series B",https://financialmodelingprep.com/image-stock/BHFAO.png
+BHF,0.2750579982153198,0,57.91,-1.4633316317849354,780144,3324554321.0000005,8.5924,1.1120088,Finance,"Brighthouse Financial, Inc.",https://logo.clearbit.com/bhf.com
+BFIN,0.2750446610708966,0,12.03,-0.6606110652353433,20907,149901954.0,0.3566,0.31113818,Finance,BankFinancial Corporation,https://logo.clearbit.com/bfin.com
+SLM,0.2750301952960159,0,33.58,-0.2080237741456175,2003589,7046981867.000001,2.8335,1.0191796,Finance,SLM Corporation,https://financialmodelingprep.com/image-stock/SLM.png
+HEES,0.2750144978637402,0,94.64,-0.336983993260313,247827,3470125850.0000005,2.5046,1.5101975,Finance,"H&E Equipment Services, Inc.",https://logo.clearbit.com/hees.com
+CZWI,0.2749976620643143,0,14.67,-0.8113590263691631,12963,146538593.0,1.2667,0.45995978,Finance,"Citizens Community Bancorp, Inc.",https://financialmodelingprep.com/image-stock/CZWI.png
+CBFV,0.2749799050950925,0,28.86,-1.26582278481013,10823,144970767.0,2.0076,0.51663524,Finance,"CB Financial Services, Inc.",https://financialmodelingprep.com/image-stock/CBFV.png
+SUNS,0.2749595339345181,0,10.56,0.1897533206831247,63770,141730987.0,1.0245,0.98089516,Finance,"Sunrise Realty Trust, Inc.",https://logo.clearbit.com/suns.com
+RMBI,0.274929880196839,0,13.3,-3.832248734634848,18772,138419591.0,0.8971,0.52106196,Finance,"Richmond Mutual Bancorporation, Inc.",https://financialmodelingprep.com/image-stock/RMBI.png
+TFSL,0.2749047760267291,0,13.16,0.1522070015220667,181478,3695814148.0,0.2881,0.5453461,Finance,TFS Financial Corporation,https://financialmodelingprep.com/image-stock/TFSL.png
+UNB,0.2748751924000768,0,30.46,-1.264181523500812,8397,138245751.00000003,1.9515,0.80961746,Finance,"Union Bankshares, Inc.",https://logo.clearbit.com/unb.com
+BHFAN,0.2748778904716925,0,16.27,0.5873261205564071,32177,3324554321.0,8.5924,0.2844212,Finance,"Brighthouse Financial, Inc. - depositary shares, each representing a 1/1,000th interest in a share of 5.375% Non-Cumulative Preferred Stock, Series C",https://financialmodelingprep.com/image-stock/BHFAN.png
+IBOC,0.2748804027777336,0,62.65,-0.4765687053216906,144532,3893192464.000001,6.5716,0.92239606,Finance,International Bancshares Corporation,https://logo.clearbit.com/iboc.com
+WSBC,0.274881117739703,0,30.4,-0.4258106780216264,610355,2908434937.0,1.5361,0.8993785,Finance,"WesBanco, Inc.",https://logo.clearbit.com/wsbc.com
+CFBK,0.2748810557427171,0,23.975,0.4819782062028582,11846,155365908.99999997,2.2831,1.1654377,Finance,CF Bankshares Inc.,https://financialmodelingprep.com/image-stock/CFBK.png
+PPBI,0.2748802979674731,0,21.05,-0.5668398677373688,914361,2043082200.0,1.5323,0.9569835,Finance,Pacific Premier Bancorp Inc,https://logo.clearbit.com/ppbi.com
+OVBC,0.2748797703830052,0,34.65,-2.1739130434782696,6229,163236189.0,2.6733,-0.045933735,Finance,Ohio Valley Banc Corp.,https://logo.clearbit.com/ovbc.com
+ROOT,0.274879259563106,0,129.6,-0.3076923076923121,242422,2085819246.0,3.4586,0.979762,Finance,"Root, Inc.",https://logo.clearbit.com/root.com
+TRMK,0.2748786041575551,0,34.61,-0.2881014116969214,396172,2093129116.0,0.1187,0.90865993,Finance,Trustmark Corporation,https://financialmodelingprep.com/image-stock/TRMK.png
+SBCF,0.2748773899695558,0,24.57,-0.1625355546525768,279655,2112662311.0,1.4966,0.88684756,Finance,Seacoast Banking Corporation of Florida,https://logo.clearbit.com/sbcf.com
+TAVI,0.2748756887214075,0,10.1902,0.2972440944881956,2011,162236472.4366,0.0676,0.022264801,Finance,Tavia Acquisition Corp.,https://financialmodelingprep.com/image-stock/TAVI.png
+BANR,0.2748751359025842,0,61.83,-0.4668383773341905,185443,2138083462.9999995,5.1152,0.9622653,Finance,Banner Corporation,https://financialmodelingprep.com/image-stock/BANR.png
+SYBT,0.2748775283108447,0,73.4,-0.2446316933949342,80059,2163018335.0000005,4.1592,1.041955,Finance,"Stock Yards Bancorp, Inc.",https://financialmodelingprep.com/image-stock/SYBT.png
+NBTB,0.2748794265205491,0,41.56,-0.6454697585464882,157320,2174587152.0,3.042,0.8951901,Finance,NBT Bancorp Inc.,https://financialmodelingprep.com/image-stock/NBTB.png
+FRMEP,0.2748806332795427,0,25.47,0.0,301,2177182932.0,3.5645,0.063456275,Finance,"First Merchants Corporation - Depository Shares, each representing a 1/100th interest in a share of 7.50% Non-Cumulative Perpetual Preferred Stock, A",https://financialmodelingprep.com/image-stock/FRMEP.png
+FRME,0.2748813130855727,0,37.34,-0.7970244420828829,272181,2177182932.0,3.5645,0.87767535,Finance,First Merchants Corporation,https://financialmodelingprep.com/image-stock/FRME.png
+WAFDP,0.2748814208537871,0,16.14,-1.3447432762836116,42762,2282105291.0,2.6416,0.28072268,Finance,"WaFd, Inc. - Depositary Shares",https://financialmodelingprep.com/image-stock/WAFDP.png
+WAFD,0.2748809739677336,0,28.47,-1.282940360610267,752559,2282105291.0,2.6416,0.6041185,Finance,"WaFd, Inc.",https://logo.clearbit.com/wafd.com
+WSBCP,0.2748804014414532,0,25.2001,-0.0789056304520214,32312,2908434937.0,1.5361,0.051460404,Finance,"WesBanco, Inc. - Depositary Shares, Each Representing a 1/40th Interest in a Share of 6.75% Fixed-Rate Reset Non-Cumulative Perpetual Preferred Stock, Series A",https://financialmodelingprep.com/image-stock/WSBCP.png
+FFBC,0.274879587637502,0,23.99,-0.4977187888842845,292049,2296710280.0,2.4277,0.8939045,Finance,First Financial Bancorp.,https://financialmodelingprep.com/image-stock/FFBC.png
+TBBK,0.2748785763529577,0,51.1,-1.3132483584395511,358650,2386868015.9999995,4.4918,1.3077857,Finance,"The Bancorp, Inc.",https://financialmodelingprep.com/image-stock/TBBK.png
+GCMG,0.2748774778907991,0,12.49,1.79299103504483,717054,2425928663.0,0.3775,0.60454935,Finance,GCM Grosvenor Inc.,https://financialmodelingprep.com/image-stock/GCMG.png
+SKWD,0.2748764157077841,0,60.97,0.826856292376385,265248,2463363508.9999995,3.1104,0.6558749,Finance,"Skyward Specialty Insurance Group, Inc.",https://financialmodelingprep.com/image-stock/SKWD.png
+TOWN,0.2748753982260552,0,33.93,-0.9053738317757074,222866,2549926812.0,2.3683,0.9401418,Finance,Towne Bank,https://logo.clearbit.com/town.com
+INDB,0.2748737335562279,0,60.78,-0.653808434128798,230801,2585234809.0,4.4411,0.9699223,Finance,Independent Bank Corp.,https://financialmodelingprep.com/image-stock/INDB.png
+CVBF,0.2748714435487189,0,18.94,-0.1581444385872303,583492,2610019409.9999995,1.4545,0.9304368,Finance,CVB Financial Corporation,https://financialmodelingprep.com/image-stock/CVBF.png
+BSII,0.2748684099854702,0,10.32,-0.2898550724637619,32146,157896000.0,0.0086,-0.014827469,Finance,Black Spade Acquisition II Co,https://financialmodelingprep.com/image-stock/BSII.png
+DAVE,0.2748636553030262,0,197.32,-0.7694241890872523,262507,2632316209.0,4.0612,2.17312,Finance,Dave Inc.,https://logo.clearbit.com/dave.com
+PRVA,0.2748577429688526,0,22.86,-1.0389610389610475,626232,2787080070.0,0.1302,0.73069227,Finance,"Privia Health Group, Inc.",https://financialmodelingprep.com/image-stock/PRVA.png
+FNLC,0.2748517865833471,0,23.67,-0.4625735912531515,12620,265158760.0,2.535,0.54613405,Finance,"First Bancorp, Inc (ME)",https://financialmodelingprep.com/image-stock/FNLC.png
+FIBK,0.2748455072179102,0,26.61,0.5289006422364964,1025197,2791046816.0,2.1142,0.9722875,Finance,"First Interstate BancSystem, Inc.",https://logo.clearbit.com/fibk.com
+RFAI,0.2748391119029819,0,10.48,-0.0696080020596242,6577,157331000.0,0.2116,-0.0075832214,Finance,RF Acquisition Corp II,https://financialmodelingprep.com/image-stock/RFAI.png
+PEBK,0.2748322150778666,0,28.67,-1.9829059829059767,8557,156522166.0,3.1433,0.8547239,Finance,"Peoples Bancorp of North Carolina, Inc.",https://financialmodelingprep.com/image-stock/PEBK.png
+SFNC,0.2748257350859862,0,18.8,-0.4764425622022226,510322,2367905458.0,1.164,0.91405725,Finance,Simmons First National Corporation,https://financialmodelingprep.com/image-stock/SFNC.png
+GBDC,0.2748189718532355,0,14.95,0.4029550033579497,673086,3982495082.000001,1.1238,0.5468818,Finance,"Golub Capital BDC, Inc.",https://financialmodelingprep.com/image-stock/GBDC.png
+ECBK,0.2748107224974616,0,16.28,-0.7921998781230896,11023,146970642.99999997,0.5671,0.2832132,Finance,"ECB Bancorp, Inc.",https://financialmodelingprep.com/image-stock/ECBK.png
+BANF,0.2748013899506243,0,122.86,-0.7753190114682553,68972,4084212039.0,6.7052,0.98888654,Finance,BancFirst Corporation,https://financialmodelingprep.com/image-stock/BANF.png
+OZKAP,0.2747915221670428,0,16.07,-0.0621890547263557,19277,5040913481.0,6.1351,0.34788698,Finance,Bank OZK - 4.625% Series A Non-Cumulative Perpetual Preferred Stock,https://logo.clearbit.com/ozkap.com
+OZK,0.2747799678462847,0,44.44,-0.6483344511513507,608636,5040913481.0,6.1351,1.1287749,Finance,Bank OZK,https://logo.clearbit.com/ozk.com
+KVAC,0.2747686876205298,0,11.31,0.088495575221237,75006,122382422.37,0.2974,-0.0022720867,Finance,Keen Vision Acquisition Corporation,https://financialmodelingprep.com/image-stock/KVAC.png
+UBSI,0.2747575513812655,0,36.01,-0.3321339606974938,539687,5115565437.999999,2.7034,0.80566174,Finance,"United Bankshares, Inc.",https://logo.clearbit.com/ubsi.com
+SIGIP,0.2747465359723854,0,17.02,0.4129793510324501,6452,5243619004.0,3.7005,0.21953273,Finance,"Selective Insurance Group, Inc. - Depositary Shares, each representing a 1/1,000th interest in a share of 4.60% Non-Cumulative Preferred Stock, Series B",https://financialmodelingprep.com/image-stock/SIGIP.png
+SIGI,0.2747356574247755,0,86.28,-0.3234750462107222,215253,5243619004.000001,3.7005,0.49869505,Finance,"Selective Insurance Group, Inc.",https://financialmodelingprep.com/image-stock/SIGI.png
+GSHD,0.274724808364917,0,108.8,1.4546810891458433,175005,4083580614.999999,1.2614,0.49026898,Finance,"Goosehead Insurance, Inc.",https://logo.clearbit.com/gshd.com
+RVSB,0.2747156553299651,0,5.79,-1.697792869269943,347165,121452198.0,0.2328,0.1400716,Finance,Riverview Bancorp Inc,https://financialmodelingprep.com/image-stock/RVSB.png
+FGBI,0.2747069310430788,0,9.35,0.3218884120171605,9956,120506769.0,0.1316,0.12964046,Finance,"First Guaranty Bancshares, Inc.",https://financialmodelingprep.com/image-stock/FGBI.png
+FGBIP,0.2746978016382061,0,19.35,-0.667861047941226,1023,120506769.0,0.1316,0.1492996,Finance,"First Guaranty Bancshares, Inc. - 6.75% Series A Fixed-Rate Non-Cumulative Perpetual Preferred Stock",https://financialmodelingprep.com/image-stock/FGBIP.png
+MAYA,0.2746890680832467,0,10.03,0.0,195,119451031.25,0.0247,-0.016060747,Finance,Maywood Acquisition Corp.,https://logo.clearbit.com/maya.com
+CACC,0.2746798860626606,0,476.81,-0.9658123208573874,99040,5532652704.000001,23.7703,1.1925029,Finance,Credit Acceptance Corporation,https://logo.clearbit.com/cacc.com
+SVII,0.2746709909733922,0,11.79,1.0282776349614329,158398,116486326.0,0.1925,0.021147113,Finance,Spring Valley Acquisition Corp. II,https://financialmodelingprep.com/image-stock/SVII.png
+AFBI,0.2746619845530087,0,18.32,-1.3462574044157245,11602,115710725.0,0.9261,0.11339459,Finance,"Affinity Bancshares, Inc.",https://logo.clearbit.com/afbi.com
+QFIN,0.2746530920688782,0,42.52,-1.0242085661080025,598054,5621784925.144071,6.6123,1.328424,Finance,"Qifu Technology, Inc",https://financialmodelingprep.com/image-stock/QFIN.png
+FCFS,0.2746442301841261,0,127.5,0.3937007874015747,258120,5656482267.000001,6.2752,0.011007025,Finance,"FirstCash Holdings, Inc.",https://financialmodelingprep.com/image-stock/FCFS.png
+CRVL,0.2746347773217817,0,110.36,-3.691421590016585,153028,5667994555.000001,1.8522,0.70569015,Finance,CorVel Corp.,https://financialmodelingprep.com/image-stock/CRVL.png
+BOKF,0.2746261711346476,0,92.9,-0.5672696136144719,130250,5969923693.0,8.716,0.90042794,Finance,BOK Financial Corporation,https://logo.clearbit.com/bokf.com
+CIGI,0.274617283214403,0,118.01,-0.1184934405416847,102885,5974082091.019546,2.757403056,1.3128787,Finance,Colliers International Group Inc. - Subordinate Voting Shares,https://logo.clearbit.com/cigi.com
+VIRT,0.2746081758410941,0,40.75,-0.5612493899463077,724095,6283578533.999999,3.4813,0.4296805,Finance,"Virtu Financial, Inc.",https://logo.clearbit.com/virt.com
+SRBK,0.2745989594107663,0,13.23,-0.1509433962264118,42689,108964939.0,0.0199,0.3564175,Finance,"SR Bancorp, Inc.",https://logo.clearbit.com/srbk.com
+SPKL,0.2745893452020045,0,10.85,-0.1839926402943843,844,108500000.0,0.178,0.029711436,Finance,Spark I Acquisition Corp.,https://financialmodelingprep.com/image-stock/SPKL.png
+AFCG,0.2745792695122033,0,4.72,-2.277432712215328,211815,106653154.0,0.9877,1.034222,Finance,Advanced Flower Capital Inc.,https://logo.clearbit.com/afcg.com
+PROV,0.2745725855598,0,14.96,-0.4326123128119767,2009,99052405.0,0.9697,0.3953496,Finance,"Provident Financial Holdings, Inc.",https://logo.clearbit.com/prov.com
+ZIONP,0.2745672807118395,0,22.9,-0.0872600349040275,3670,6873848881.0,5.1358,0.30650833,Finance,Zions Bancorporation N.A. - Depositary Shares each representing a 1/40th ownership interest in a share of Series A Floating-Rate Non-Cumulative Perpetual Prefer,https://financialmodelingprep.com/image-stock/ZIONP.png
+ZION,0.27456181547341,0,46.58,-0.8091993185690004,1350474,6873848881.0,5.1358,1.2981958,Finance,Zions Bancorporation N.A.,https://logo.clearbit.com/zion.com
+BPOP,0.2745565855367084,0,102.5,0.3328112764291341,340921,7022354202.0,9.6898,0.9817238,Finance,"Popular, Inc.",https://financialmodelingprep.com/image-stock/BPOP.png
+ESGRP,0.2745512372759828,0,20.6499,-0.8127152470567894,18595,4988621690.0,31.6857,0.50894374,Finance,Enstar Group Limited - Depositary Shares Each Representing 1/1000th of an interest in Preference Shares,https://financialmodelingprep.com/image-stock/ESGRP.png
+ESGR,0.2745462873556372,0,334.58,0.0239162929745841,86878,4988621690.0,31.6857,0.13069932,Finance,Enstar Group Limited,https://logo.clearbit.com/esgr.com
+ACT,0.274541422432534,0,35.17,-0.4528729125389091,288748,5277830940.0,4.4816,0.5596044,Finance,"Enact Holdings, Inc.",https://logo.clearbit.com/act.com
+NODK,0.2745369247071681,0,12.75,-0.3906250000000055,14123,263906819.0,0.2508,0.2611607,Finance,"NI Holdings, Inc.",https://logo.clearbit.com/nodk.com
+PLMR,0.2745324338910203,0,162.56,1.0819549807237965,211196,4347202183.0,5.1449,0.6044006,Finance,"Palomar Holdings, Inc.",https://logo.clearbit.com/plmr.com
+HWCPZ,0.274528186789938,0,23.99,1.84241806758362,7387,4646143389.0,5.4379,0.028528899,Finance,Hancock Whitney Corporation - 6.25% Subordinated Notes due 2060,https://financialmodelingprep.com/image-stock/HWCPZ.png
+EBMT,0.2745243192943351,0,16.75,-1.6152716593245144,28627,133198958.0,1.4189,0.6033089,Finance,"Eagle Bancorp Montana, Inc.",https://financialmodelingprep.com/image-stock/EBMT.png
+ESGRO,0.2745208287476752,0,20.18,0.4479840716774507,6193,4988621690.0,31.6857,0.5167021,Finance,"Enstar Group Limited - Depository Shares 7.00% Perpetual Non-Cumulative Preference Shares, Series E",https://financialmodelingprep.com/image-stock/ESGRO.png
+PECO,0.2745174724469132,0,33.94,-0.5858230814294166,1700013,4696854642.0,0.5763,0.29649767,Finance,"Phillips Edison & Company, Inc.",https://logo.clearbit.com/peco.com
+BCBP,0.2745142936481208,0,7.99,-0.8684863523573236,91820,137129380.0,0.1522,0.524175,Finance,"BCB Bancorp, Inc. (NJ)",https://logo.clearbit.com/bcbp.com
+HWC,0.2745112884471021,0,54.25,-1.093892433910668,509125,4646143389.0,5.4379,1.0789421,Finance,Hancock Whitney Corporation,https://financialmodelingprep.com/image-stock/HWC.png
+SNEX,0.2745085643597976,0,85.53,0.6709039548022686,241538,4183837002.000001,6.1633,1.034818,Finance,StoneX Group Inc.,https://financialmodelingprep.com/image-stock/SNEX.png
+SFBC,0.2745059591356932,0,50.25,-1.0632014176018885,3777,128944974.0,1.9654,0.11121101,Finance,"Sound Financial Bancorp, Inc.",https://logo.clearbit.com/sfbc.com
+SBFG,0.2745035453003008,0,19.26,-1.129363449691986,13831,125673946.0,1.6995,0.17183547,Finance,"SB Financial Group, Inc.",https://financialmodelingprep.com/image-stock/SBFG.png
+SBRA,0.2745011582783754,0,17.44,2.047981275599774,2710402,4149611765.0,0.5974,0.12671913,Finance,"Sabra Health Care REIT, Inc.",https://financialmodelingprep.com/image-stock/SBRA.png
+FNWD,0.274498962229816,0,30.35,1.1666666666666714,4297,131281619.0,0.7714,-0.018596489,Finance,Finward Bancorp,https://financialmodelingprep.com/image-stock/FNWD.png
+BGC,0.2744969387171212,0,9.33,-1.6859852476290849,2672182,4554657897.0,0.2669,1.0801312,Finance,"BGC Group, Inc.",https://financialmodelingprep.com/image-stock/BGC.png
+VLY,0.2744951666189639,0,8.7,0.1150747986190999,8485060,4874968216.0,0.6902,0.9791062,Finance,Valley National Bancorp,https://financialmodelingprep.com/image-stock/VLY.png
+VLYPN,0.2744934403656459,0,25.25,0.5575467941059361,2773,4874968216.0,0.6902,0.23982333,Finance,"Valley National Bancorp - 8.250% Fixed-Rate Reset Non-Cumulative Perpetual Preferred Stock, Series C",https://financialmodelingprep.com/image-stock/VLYPN.png
+VLYPP,0.2744918379155207,0,25.05,0.2000000000000028,4170,4874968216.0,0.6902,0.100250326,Finance,Valley National Bancorp - 6.25% Fixed-to-Floating Rate Series A Non-Cumulative Perpetual Preferred Stock,https://financialmodelingprep.com/image-stock/VLYPP.png
+VCTR,0.2744902816406172,0,61.09,-0.4562489815870849,393130,4107464965.000001,4.5777,1.3390713,Finance,"Victory Capital Holdings, Inc. Class A Common Stock",https://financialmodelingprep.com/image-stock/VCTR.png
+WSC,0.2744897909009108,0,27.32,-0.2555677254472445,1081046,4982883055.0,0.097,1.7953826,Finance,WillScot Holdings Corporation,https://financialmodelingprep.com/image-stock/WSC.png
+FUTU,0.2744892767002032,0,111.76,0.2871500358937611,1246471,4967062247.0,5.0553,1.3055799,Finance,Futu Holdings Limited,https://financialmodelingprep.com/image-stock/FUTU.png
+COLB,0.2744890811903206,0,23.59,-0.2958579881656817,1898310,4958636678.0,2.379,1.0569707,Finance,"Columbia Banking System, Inc.",https://financialmodelingprep.com/image-stock/COLB.png
+VLYPO,0.2744881513042891,0,25.135,-0.1192131929266742,3704,4874968216.0,0.6902,0.13790709,Finance,Valley National Bancorp - 5.5% Fixed to Floating Rate Series B Non-Cumulative Perpetual Preferred Stock,https://financialmodelingprep.com/image-stock/VLYPO.png
+FFIN,0.2744872072789974,0,34.21,-0.7542790832608007,425120,4893750913.0,1.6199,0.82662714,Finance,"First Financial Bankshares, Inc.",https://logo.clearbit.com/ffin.com
+NATR,0.2745466167394197,0,14.27,-1.0402219140083242,37197,261865945.00000003,0.5466,0.91523886,Health Technology,"Nature's Sunshine Products, Inc.",https://logo.clearbit.com/natr.com
+SYBX,0.2745462781654646,0,1.13,1.4635898356828574,2571,13216604.0,0.12,0.5627201,Health Technology,"Synlogic, Inc.",https://financialmodelingprep.com/image-stock/SYBX.png
+PMCB,0.2745454944663936,0,1.05,2.9411764705882377,9957,7206883.999999999,0.7604,0.6960308,Health Technology,"PharmaCyte Biotech, Inc.",https://financialmodelingprep.com/image-stock/PMCB.png
+MHUA,0.2745460468496919,0,0.381,-0.0262398320650718,16528,12067173.0,0.3962,0.99488413,Health Technology,"Meihua International Medical Technologies Co., Ltd.",https://financialmodelingprep.com/image-stock/MHUA.png
+BON,0.2745328316742541,0,1.8,-14.285714285714288,2200936,3878978.000000001,0.1021,2.209505,Health Technology,Bon Natural Life Limited,https://financialmodelingprep.com/image-stock/BON.png
+PAVM,0.274543928343132,0,0.6468,-0.4923076923076893,124525,11186159.0,6.6318,1.6133173,Health Technology,PAVmed Inc.,https://financialmodelingprep.com/image-stock/PAVM.png
+NERV,0.2745434982965967,0,1.46,0.6896551724137937,2476,10210373.0,0.8264,1.054481,Health Technology,"Minerva Neurosciences, Inc",https://financialmodelingprep.com/image-stock/NERV.png
+KEQU,0.2745409805837296,0,35.6,-3.4445348521833363,2932,101618916.0,6.1465,0.29090956,Health Technology,Kewaunee Scientific Corporation,https://financialmodelingprep.com/image-stock/KEQU.png
+ADXN,0.2745398525174564,0,8.4,2.314250913520091,3057,13016054.5053,9.2058,0.4597225,Health Technology,Addex Therapeutics Ltd,https://financialmodelingprep.com/image-stock/ADXN.png
+FTLF,0.2745374634857683,0,14.58,4.142857142857143,6882,136921833.0,0.9608,0.9764546,Health Technology,"FitLife Brands, Inc.",https://logo.clearbit.com/ftlf.com
+WHWK,0.274534118498516,0,1.76,-6.382978723404249,137214,82912352.0,0.1635,0.5692449,Health Technology,"Whitehawk Therapeutics, Inc.",https://financialmodelingprep.com/image-stock/WHWK.png
+SNYR,0.2745347576171924,0,1.96,-3.921568627450984,46216,17667657.0,1.1192,1.8738918,Health Technology,Synergy CHC Corp.,https://financialmodelingprep.com/image-stock/SNYR.png
+ZJYL,0.2745339949080994,0,0.7845,-1.1964735516372875,61724,122811191.0,0.0235,0.6224127,Health Technology,JIN MEDICAL INTERNATIONAL LTD.,https://financialmodelingprep.com/image-stock/ZJYL.png
+PDEX,0.2745321764423051,0,46.24,1.3590530469092603,32196,150790637.0,2.853,-0.1846277,Health Technology,"Pro-Dex, Inc.",https://logo.clearbit.com/pdex.com
+CSBR,0.2745313166437235,0,5.8,-0.1721170395869154,22402,80196048.0,0.4702,0.7551694,Health Technology,"Champions Oncology, Inc.",https://financialmodelingprep.com/image-stock/CSBR.png
+INBX,0.2745288073506358,0,12.86,2.5518341307815016,73683,186160126.0,119.2153,0.5429047,Health Technology,"Inhibrx Biosciences, Inc.",https://financialmodelingprep.com/image-stock/INBX.png
+GLUE,0.2745271734618216,0,3.97,-1.9753086419753,515621,244193983.00000003,0.0728,1.4782451,Health Technology,"Monte Rosa Therapeutics, Inc.",https://logo.clearbit.com/glue.com
+SRTS,0.2745263892258959,0,4.69,0.2136752136752281,41205,77127219.0,0.1106,0.84235805,Health Technology,"Sensus Healthcare, Inc.",https://logo.clearbit.com/srts.com
+ARAY,0.2745241879448315,0,1.57,-0.6329113924050638,519928,161731015.0,0.007,1.9845321,Health Technology,Accuray Incorporated,https://financialmodelingprep.com/image-stock/ARAY.png
+SXTC,0.2745244855274826,0,1.55,-3.726708074534165,174359,40343023.0,2.7259,0.3703067,Health Technology,"China SXT Pharmaceuticals, Inc.",https://financialmodelingprep.com/image-stock/SXTC.png
+UTMD,0.2745254354061878,0,53.76,0.1863585538576247,14844,174623762.00000003,3.7837,0.40158457,Health Technology,"Utah Medical Products, Inc.",https://financialmodelingprep.com/image-stock/UTMD.png
+BWAY,0.2745268064249307,0,10.73,2.8763183125599303,14400,199329782.88326,0.2166,1.2670543,Health Technology,BrainsWay Ltd.,https://logo.clearbit.com/bway.com
+PBYI,0.2745276077727953,0,3.235,-0.4615384615384654,170321,160579223.0,0.774,0.602819,Health Technology,Puma Biotechnology Inc,https://financialmodelingprep.com/image-stock/PBYI.png
+TCMD,0.2745285282895852,0,9.42,-3.975535168195724,311003,218999496.00000003,0.6742,0.670921,Health Technology,"Tactile Systems Technology, Inc.",https://financialmodelingprep.com/image-stock/TCMD.png
+NEPH,0.2745279493343767,0,2.92,11.02661596958175,75106,30953021.0,0.0756,-0.7979901,Health Technology,"Nephros, Inc.",https://financialmodelingprep.com/image-stock/NEPH.png
+XFOR,0.2745297454636417,0,3.1,-4.024767801857582,168478,17945109.0,2.2686,0.86082536,Health Technology,"X4 Pharmaceuticals, Inc.",https://financialmodelingprep.com/image-stock/XFOR.png
+LFVN,0.2745302513462164,0,12.66,-4.090909090909085,133630,159366388.0,0.7464,-0.22895457,Health Technology,Lifevantage Corporation,https://financialmodelingprep.com/image-stock/LFVN.png
+BDTX,0.2745308733333266,0,2.01,-2.42718446601943,719628,114293899.0,0.0792,2.3080368,Health Technology,"Black Diamond Therapeutics, Inc.",https://logo.clearbit.com/bdtx.com
+SCNI,0.2745312295895352,0,2.76,-2.4734982332155577,1235,2354269.0,2.7387,1.0318927,Health Technology,Scinai Immunotherapeutics Ltd.,https://financialmodelingprep.com/image-stock/SCNI.png
+TRDA,0.2745316540733758,0,7.5,-1.5748031496063006,103059,284650640.00000006,0.87,1.7554061,Health Technology,"Entrada Therapeutics, Inc.",https://financialmodelingprep.com/image-stock/TRDA.png
+MMSI,0.2745319525376632,0,95.38,0.2838818210493071,401921,5636913666.999999,2.0922,0.6359741,Health Technology,"Merit Medical Systems, Inc.",https://financialmodelingprep.com/image-stock/MMSI.png
+TLX,0.2745321867440258,0,16.6,2.469135802469149,71629,5596789032.7328,0.0996,1.866939,Health Technology,Telix Pharmaceuticals Limited,https://logo.clearbit.com/tlx.com
+TGTX,0.2745324730783102,0,34.57,0.9637850467289668,1042896,5488161525.0,0.2694,0.7190177,Health Technology,"TG Therapeutics, Inc.",https://financialmodelingprep.com/image-stock/TGTX.png
+LNTH,0.2745327431014797,0,73.86,-1.1906354515050177,671628,5110065948.0,3.674,0.65578,Health Technology,"Lantheus Holdings, Inc.",https://logo.clearbit.com/lnth.com
+ADMA,0.2745329523769124,0,20.42,1.289682539682547,1317030,4874953463.0,0.8774,0.93026626,Health Technology,ADMA Biologics Inc,https://financialmodelingprep.com/image-stock/ADMA.png
+ALKS,0.2745331324449276,0,29.35,-2.3294509151414284,2005528,4839852503.000001,2.1503,0.91887265,Health Technology,Alkermes plc,https://logo.clearbit.com/alks.com
+TMDX,0.2745333721796362,0,124.25,0.7377979568671935,445103,4203848386.0,1.46,0.92810863,Health Technology,"TransMedics Group, Inc.",https://financialmodelingprep.com/image-stock/TMDX.png
+ACAD,0.2745335462652465,0,21.98,1.9953596287703,1671767,3678613319.000001,1.376,1.1800399,Health Technology,ACADIA Pharmaceuticals Inc.,https://financialmodelingprep.com/image-stock/ACAD.png
+PTCT,0.2745336494704519,0,45.93,0.9007029876977077,782553,3640274909.0,7.5608,1.4811941,Health Technology,"PTC Therapeutics, Inc.",https://financialmodelingprep.com/image-stock/PTCT.png
+KRYS,0.2745338055803761,0,125.05,-0.1915555910288204,298646,3613779989.000001,4.3126,0.77335876,Health Technology,"Krystal Biotech, Inc.",https://logo.clearbit.com/krys.com
+SHC,0.2745337038061215,0,12.16,-0.8156606851549727,664349,3451677632.0,0.0877,0.80781406,Health Technology,Sotera Health Company,https://financialmodelingprep.com/image-stock/SHC.png
+ALVO,0.2745333675497733,0,10.28,3.420523138832997,268212,3102562460.0000005,0.3372,0.85936636,Health Technology,Alvotech,https://logo.clearbit.com/alvo.com
+CPRX,0.2745336300493723,0,24.49,1.5761094981335506,772953,2987171422.0,1.6478,0.80836916,Health Technology,"Catalyst Pharmaceuticals, Inc.",https://financialmodelingprep.com/image-stock/CPRX.png
+PTGX,0.2745337721535928,0,45.66,-0.5445436724025268,486198,2830095949.0,0.8904,0.36650705,Health Technology,"Protagonist Therapeutics, Inc.",https://financialmodelingprep.com/image-stock/PTGX.png
+HCM,0.2745337294522885,0,13.4,0.9796533534287926,42598,2369464161.74708,0.219,0.090520285,Health Technology,HUTCHMED (China) Limited,https://logo.clearbit.com/hcm.com
+VCYT,0.2745341365660068,0,27.16,-0.8759124087591185,612390,2127024679.0,0.4279,1.2117057,Health Technology,"Veracyte, Inc.",https://financialmodelingprep.com/image-stock/VCYT.png
+VCEL,0.2745345724880624,0,40.92,-1.111648139197682,300723,2060034158.0,0.0605,0.8117651,Health Technology,Vericel Corporation,https://logo.clearbit.com/vcel.com
+HRMY,0.2745350026412287,0,34.17,0.1171989452094906,393292,1962188917.0,2.676,1.1787686,Health Technology,"Harmony Biosciences Holdings, Inc.",https://financialmodelingprep.com/image-stock/HRMY.png
+LMAT,0.2745354517832515,0,81.4,2.881698685540952,205755,1839181122.0,2.007,0.70762837,Health Technology,"LeMaitre Vascular, Inc.",https://financialmodelingprep.com/image-stock/LMAT.png
+SUPN,0.2745358878951172,0,32.1,0.1872659176030033,330988,1797266722.9999998,1.1249,0.4881525,Health Technology,"Supernus Pharmaceuticals, Inc.",https://financialmodelingprep.com/image-stock/SUPN.png
+AGIO,0.2745362516117992,0,29.8,0.709699222710378,440665,1725872894.0,11.7129,1.7183518,Health Technology,"Agios Pharmaceuticals, Inc.",https://logo.clearbit.com/agio.com
+MNKD,0.2745365880754464,0,4.12,-2.3696682464454897,2032145,1252203228.0000002,0.1046,0.6403321,Health Technology,MannKind Corporation,https://logo.clearbit.com/mnkd.com
+NVAX,0.2745370268451413,0,7.25,-0.5486968449931418,5596612,1174284943.0,3.0512,1.0528867,Health Technology,"Novavax, Inc.",https://financialmodelingprep.com/image-stock/NVAX.png
+GRFS,0.2745373934859427,0,8.11,-0.1846153846153916,1008607,6564671874.723181,0.3076,0.8796197,Health Technology,"Grifols, S.A.",https://financialmodelingprep.com/image-stock/GRFS.png
+AMPH,0.2745378311620892,0,24.47,1.1157024793388413,548566,1153493443.0,2.9295,0.49722594,Health Technology,"Amphastar Pharmaceuticals, Inc.",https://logo.clearbit.com/amph.com
+JAZZ,0.2745382167464962,0,108.07,0.236516254695539,958802,6660660914.0,7.8218,0.94530296,Health Technology,Jazz Pharmaceuticals plc,https://financialmodelingprep.com/image-stock/JAZZ.png
+TECH,0.2745387518734854,0,46.78,-1.1411665257819086,1471200,7333574265.000001,0.8327,0.7179543,Health Technology,Bio-Techne Corp,https://financialmodelingprep.com/image-stock/TECH.png
+AZN,0.2745392875925709,0,70.41,0.6576125804145728,3958322,219013467781.4136,2.5071,0.21865769,Health Technology,AstraZeneca PLC,https://logo.clearbit.com/azn.com
+ISRG,0.2745398142716633,0,539.54,-0.5767777839202454,1138633,193380971173.0,6.95,1.1366452,Health Technology,"Intuitive Surgical, Inc.",https://financialmodelingprep.com/image-stock/ISRG.png
+AMGN,0.2745402996580207,0,271.66,-0.0882677454946496,2532123,146073245365.99997,11.0424,0.36571664,Health Technology,Amgen Inc.,https://logo.clearbit.com/amgn.com
+GILD,0.2745409438691288,0,107.37,0.5902192242833143,6037524,133560668430.00002,4.7832,0.3323644,Health Technology,"Gilead Sciences, Inc.",https://logo.clearbit.com/gild.com
+SNY,0.2745415339107504,0,51.98,-1.0093315558941176,1833762,127653649323.97977,2.4033,0.32154834,Health Technology,Sanofi,https://financialmodelingprep.com/image-stock/SNY.png
+REGN,0.274542108106198,0,588.34,-1.42581888246628,656257,63520424919.99999,41.7592,0.8405703,Health Technology,"Regeneron Pharmaceuticals, Inc.",https://financialmodelingprep.com/image-stock/REGN.png
+IDXX,0.2745426421979693,0,501.57,-0.645761939662855,443607,40337219566.0,10.9146,0.71770734,Health Technology,"IDEXX Laboratories, Inc.",https://financialmodelingprep.com/image-stock/IDXX.png
+ARGX,0.2745431333775611,0,587.61,1.0611585030269604,227650,35696424668.34396,13.8902,0.31201714,Health Technology,argenx SE,https://financialmodelingprep.com/image-stock/ARGX.png
+DXCM,0.2745436026159738,0,84.51,-0.3772250383119099,2599356,33137006797.0,1.3588,1.1531309,Health Technology,"DexCom, Inc.",https://financialmodelingprep.com/image-stock/DXCM.png
+GEHC,0.2745441084360089,0,69.16,-0.4032258064516145,2486599,31667328952.0,4.7768,1.198139,Health Technology,GE HealthCare Technologies Inc.,https://logo.clearbit.com/gehc.com
+PODD,0.274544569005361,0,321.36,0.1121495327102846,693225,22615684451.000004,5.7361,0.78098285,Health Technology,Insulet Corporation,https://financialmodelingprep.com/image-stock/PODD.png
+BIIB,0.2745451326188723,0,125.81,-0.3879651623119516,837407,18434666190.0,10.152,0.4529576,Health Technology,Biogen Inc.,https://financialmodelingprep.com/image-stock/BIIB.png
+RPRX,0.2745456856868247,0,32.45,0.4333023831631091,2514302,18246319966.0,2.4562,0.11107434,Health Technology,Royalty Pharma plc,https://logo.clearbit.com/rprx.com
+COO,0.2745462785904555,0,78.83,-0.5926860025220667,1548959,15764517251.999998,2.0838,0.6854112,Health Technology,"The Cooper Companies, Inc.",https://financialmodelingprep.com/image-stock/COO.png
+UTHR,0.274546791446799,0,307.65,-0.3465923814459866,269594,13877051609.999998,27.1104,0.54658353,Health Technology,United Therapeutics Corporation,https://logo.clearbit.com/uthr.com
+GMAB,0.2745474385477294,0,20.81,-1.0461245839277338,1247688,12699777878.600405,1.7814,0.43927374,Health Technology,Genmab A/S,https://financialmodelingprep.com/image-stock/GMAB.png
+INCY,0.2745479993830406,0,64.245,-0.4107890249573718,873888,12435900751.0,0.3733,0.43775272,Health Technology,Incyte Corporation,https://financialmodelingprep.com/image-stock/INCY.png
+ALGN,0.2745486934832279,0,170.8,-1.0486066855917977,493926,12380410960.0,5.4983,1.1780248,Health Technology,"Align Technology, Inc.",https://financialmodelingprep.com/image-stock/ALGN.png
+HOLX,0.2745492898903499,0,54.28,-0.3671071953010201,2268541,12096039645.999998,2.3888,-0.19078036,Health Technology,"Hologic, Inc.",https://financialmodelingprep.com/image-stock/HOLX.png
+NBIX,0.2745500389763596,0,120.18,0.8898589657488265,882195,11893712315.000002,3.039,0.6468543,Health Technology,"Neurocrine Biosciences, Inc.",https://financialmodelingprep.com/image-stock/NBIX.png
+EXEL,0.2745507067851948,0,42.39,-1.0965935604293022,2940539,11560103927.000002,2.2589,0.7641924,Health Technology,"Exelixis, Inc.",https://logo.clearbit.com/exel.com
+BMRN,0.2745511752989349,0,57.55,-0.7929667298741611,1732322,11036689391.0,2.7484,0.5520501,Health Technology,BioMarin Pharmaceutical Inc.,https://logo.clearbit.com/bmrn.com
+CORT,0.2745514381232585,0,78.69,3.417006176895774,975577,8344657151.0,1.2803,0.19190378,Health Technology,Corcept Therapeutics Incorporated,https://logo.clearbit.com/cort.com
+HALO,0.2745520327554295,0,54.54,1.4697674418604634,1201386,6720473489.0,3.856,0.32218423,Health Technology,"Halozyme Therapeutics, Inc.",https://logo.clearbit.com/halo.com
+NNNN,0.2745525003460222,0,7.7,-0.6451612903225784,46227,1107962220.0,0.0606,0.04878748,Health Technology,Anbio Biotechnology,https://financialmodelingprep.com/image-stock/NNNN.png
+BRKR,0.2745529693831998,0,35.5,-2.3115024766098053,2290890,5379378875.999999,0.5267,0.9506156,Health Technology,Bruker Corporation,https://financialmodelingprep.com/image-stock/BRKR.png
+CTMX,0.2745534818630291,0,2.23,4.694835680751178,3095268,351323954.0,0.4961,3.4377177,Health Technology,"CytomX Therapeutics, Inc.",https://financialmodelingprep.com/image-stock/CTMX.png
+CRMD,0.274554108379897,0,12.36,0.8156606851549727,520385,838312696.0000001,0.2425,2.1556954,Health Technology,CorMedix Inc.,https://financialmodelingprep.com/image-stock/CRMD.png
+IRMD,0.2745547040435524,0,51.09,-2.276205049732207,27862,649614963.0,1.56,0.9281666,Health Technology,iRadimed Corporation,https://financialmodelingprep.com/image-stock/IRMD.png
+SIGA,0.274555338016455,0,5.91,1.1986301369863064,479586,422216806.00000006,0.6797,1.1902653,Health Technology,SIGA Technologies Inc.,https://logo.clearbit.com/siga.com
+CVAC,0.2745560725504977,0,4.09,-1.6826923076923146,755931,920887537.0,0.908,1.3917764,Health Technology,CureVac N.V.,https://financialmodelingprep.com/image-stock/CVAC.png
+COLL,0.2745566624203039,0,28.86,0.1387925052047159,178265,927623705.0,1.3607,0.11593969,Health Technology,"Collegium Pharmaceutical, Inc.",https://logo.clearbit.com/coll.com
+CRON,0.2745576622241596,0,2.03,-0.9756097560975618,1292771,782400634.0286736,0.125974492,1.1806705,Health Technology,Cronos Group Inc. Common Share,https://logo.clearbit.com/cron.com
+RIGL,0.2745585329419087,0,18.95,-3.953370501773954,269541,338682577.0,2.1024,2.0057657,Health Technology,"Rigel Pharmaceuticals, Inc.",https://financialmodelingprep.com/image-stock/RIGL.png
+UPC,0.2745594612280674,0,4.67,-15.090909090909092,61044,2630789.0,98.4159,1.2796072,Health Technology,Universe Pharmaceuticals Inc,https://financialmodelingprep.com/image-stock/UPC.png
+NAGE,0.2745601246208731,0,9.88,-2.7559055118110174,561292,778244259.0000001,0.1829,1.0079764,Health Technology,"Niagen Bioscience, Inc.",https://financialmodelingprep.com/image-stock/NAGE.png
+PAHC,0.2745611175664112,0,23.24,0.9556907037358768,135439,942001057.0,0.7847,1.0264229,Health Technology,Phibro Animal Health Corporation,https://logo.clearbit.com/pahc.com
+GYRE,0.2745609490235799,0,8.68,-22.569134701159687,2106389,764717020.0000001,0.0844,1.9618095,Health Technology,"Gyre Therapeutics, Inc.",https://financialmodelingprep.com/image-stock/GYRE.png
+CDNA,0.2745627409459214,0,16.95,-0.9351256575102288,982264,943785359.0,1.2614,1.128851,Health Technology,"CareDx, Inc.",https://financialmodelingprep.com/image-stock/CDNA.png
+MDXG,0.2745635476718042,0,6.63,-1.3392857142857122,383770,979265160.0,0.273,0.45373467,Health Technology,"MiMedx Group, Inc",https://financialmodelingprep.com/image-stock/MDXG.png
+PRTC,0.2745643571404085,0,18.2,-4.210526315789478,1376,438847755.0578,2.1079,0.21340269,Health Technology,PureTech Health plc,https://financialmodelingprep.com/image-stock/PRTC.png
+KMDA,0.2745652247393653,0,6.63,-1.6320474777448115,64599,381258356.9130795,0.2765883449999999,0.89937663,Health Technology,Kamada Ltd.,https://financialmodelingprep.com/image-stock/KMDA.png
+STOK,0.2745660548369272,0,9.36,-1.473684210526322,474260,511027224.0,0.8371,1.765264,Health Technology,"Stoke Therapeutics, Inc.",https://logo.clearbit.com/stok.com
+EMBC,0.2745668575098621,0,10.715,1.9990480723464927,796557,626211490.0,0.9106,0.6550216,Health Technology,Embecta Corp.,https://financialmodelingprep.com/image-stock/EMBC.png
+INMD,0.2745676234025729,0,14.23,-0.6978367062107441,774301,989819843.0,2.3623,0.95114934,Health Technology,InMode Ltd.,https://financialmodelingprep.com/image-stock/INMD.png
+AUPH,0.2745684784037047,0,8.08,-2.297460701330103,2008045,1091642683.9999998,0.2834,0.53854454,Health Technology,Aurinia Pharmaceuticals Inc,https://financialmodelingprep.com/image-stock/AUPH.png
+DOCU,0.2745679741675008,0,84.61,-2.218883624176588,1339096,17133742019.000002,5.2224,1.2222183,Technology Services,"DocuSign, Inc.",https://logo.clearbit.com/docu.com
+ZM,0.2745688117151488,0,79.28,-3.3995369806262854,4180010,24187206908.0,3.4168,0.84115213,Technology Services,"Zoom Communications, Inc.",https://financialmodelingprep.com/image-stock/ZM.png
+PUBM,0.2745695585978275,0,11.29,-1.2248468941382378,491923,547944853.9999999,0.1144,1.1728017,Technology Services,"PubMatic, Inc.",https://financialmodelingprep.com/image-stock/PUBM.png
+CHKP,0.2745703377497628,0,227.86,1.3341634794983543,835432,24692851636.0,7.7765,0.42534363,Technology Services,Check Point Software Technologies Ltd.,https://financialmodelingprep.com/image-stock/CHKP.png
+VRSN,0.2745711041455237,0,279.76,-0.7450507344071605,556594,26269465344.0,8.1889,0.4771596,Technology Services,"VeriSign, Inc.",https://logo.clearbit.com/vrsn.com
+BIDU,0.2745718817035716,0,83.81,-0.3092660877839787,3260369,29747642380.87521,10.1569,0.9952463,Technology Services,"Baidu, Inc.",https://financialmodelingprep.com/image-stock/BIDU.png
+ANSS,0.2745726990238867,0,342.17,-0.4306707405790663,429419,30082266016.000004,6.7798,0.96178144,Technology Services,"ANSYS, Inc.",https://financialmodelingprep.com/image-stock/ANSS.png
+CSGP,0.2745735246478116,0,73.99,-0.2023199352576284,1900361,31215392903.0,0.2885,0.7368119,Technology Services,"CoStar Group, Inc.",https://financialmodelingprep.com/image-stock/CSGP.png
+SJ,0.2745757722024808,0,1.05,19.00714042842572,221828,43940171.0,0.1324,-0.3024922,Technology Services,Scienjoy Holding Corporation,https://logo.clearbit.com/sj.com
+FUFU,0.2745752576920547,0,3.68,-2.6455026455026363,268167,600232354.0,0.3311,0.51522416,Technology Services,BitFuFu Inc.,https://financialmodelingprep.com/image-stock/FUFU.png
+OSPN,0.2745760325787326,0,15.805,0.5087440381558033,454863,604232570.0,1.5058,0.9944915,Technology Services,OneSpan Inc.,https://financialmodelingprep.com/image-stock/OSPN.png
+SAGT,0.274577057433474,0,3.42,5.882352941176469,27625,42921000.0,0.8788,2.8330371,Technology Services,SAGTEC GLOBAL LIMITED,https://financialmodelingprep.com/image-stock/SAGT.png
+JKHY,0.2745777001496075,0,182.0,0.087989441267046,522864,13252509566.999998,5.8885,0.09714862,Technology Services,"Jack Henry & Associates, Inc.",https://logo.clearbit.com/jkhy.com
+GEN,0.2745785850449944,0,27.59,-0.6123919308357411,4625733,17112136836.000004,1.0415,0.70780915,Technology Services,Gen Digital Inc.,https://logo.clearbit.com/gen.com
+GMM,0.2745793370996215,0,2.93,0.0,18969,51337216.00000001,0.4246,1.872734,Technology Services,Global Mofy AI Limited,https://logo.clearbit.com/gmm.com
+CDW,0.2745802683187231,0,182.16,-0.6652852001308751,1359784,23987767433.0,8.1486,1.1310985,Technology Services,CDW Corporation,https://logo.clearbit.com/cdw.com
+TRMB,0.2745810856631808,0,70.55,-0.3390309365729751,929222,16832308592.000002,6.1772,1.4206787,Technology Services,Trimble Inc.,https://financialmodelingprep.com/image-stock/TRMB.png
+MITK,0.2745819161822005,0,9.45,-2.577319587628866,270729,430581694.00000006,0.2896,0.79124993,Technology Services,"Mitek Systems, Inc.",https://financialmodelingprep.com/image-stock/MITK.png
+SSNC,0.2745826477148373,0,79.79,1.128010139416984,1135292,19681191848.0,3.3165,0.718554,Technology Services,"SS&C Technologies Holdings, Inc.",https://financialmodelingprep.com/image-stock/SSNC.png
+VTSI,0.274583473353263,0,5.41,6.286836935166999,43400,60925190.0,0.1286,1.630066,Technology Services,"VirTra, Inc.",https://logo.clearbit.com/vtsi.com
+PTC,0.2745841077047451,0,168.77,-0.9391324763749452,692218,20243599678.0,3.666,1.0725427,Technology Services,PTC Inc.,https://logo.clearbit.com/ptc.com
+OKTA,0.2745847998319847,0,123.72,-0.1533370995077053,1929187,21644237865.0,0.1609,1.132922,Technology Services,"Okta, Inc.",https://logo.clearbit.com/okta.com
+FFIV,0.2745855501365463,0,282.1,-0.8366141732283447,248401,16201446801.0,10.6594,0.8766378,Technology Services,"F5, Inc.",https://financialmodelingprep.com/image-stock/FFIV.png
+GAMB,0.2745862781423111,0,11.92,-2.2950819672131098,249764,424389589.0,0.9719,0.85439616,Technology Services,Gambling.com Group Limited,https://logo.clearbit.com/gamb.com
+GRVY,0.2745869825014044,0,63.36,-1.246882793017452,3179,440282308.0,8.2582,0.46461797,Technology Services,"GRAVITY Co., Ltd.",https://financialmodelingprep.com/image-stock/GRVY.png
+CCSI,0.2745877603376339,0,21.37,-3.7820801440792433,155752,417589849.00000006,4.3502,0.7402338,Technology Services,"Consensus Cloud Solutions, Inc.",https://logo.clearbit.com/ccsi.com
+ALAR,0.274588467955677,0,7.82,0.6435006435006526,56800,56316554.91231,0.8557,1.5040795,Technology Services,Alarum Technologies Ltd.,https://financialmodelingprep.com/image-stock/ALAR.png
+MNDY,0.274589199893706,0,288.6,-0.3762642825088801,283662,14653184648.000002,1.0406,2.073953,Technology Services,monday.com Ltd.,https://financialmodelingprep.com/image-stock/MNDY.png
+UCL,0.2745901451743327,0,1.45,8.208955223880587,324760,54805882.0,0.0935,0.096139535,Technology Services,uCloudlink Group Inc.,https://financialmodelingprep.com/image-stock/UCL.png
+DUOL,0.2745906916422008,0,520.21,0.4654306682116806,459664,23646995303.0,2.1853,1.8338057,Technology Services,"Duolingo, Inc.",https://financialmodelingprep.com/image-stock/DUOL.png
+BSY,0.2745914021320534,0,47.42,-0.4826862539349357,858390,14386347236.0,0.8117,0.691854,Technology Services,"Bentley Systems, Incorporated",https://financialmodelingprep.com/image-stock/BSY.png
+DDI,0.274592135185642,0,10.1,2.6422764227642253,10174,500489755.0,2.3712,0.46836036,Technology Services,"DoubleDown Interactive Co., Ltd. - American Depository Shares",https://logo.clearbit.com/ddi.com
+SYT,0.2745928320892179,0,2.1335,0.6367924528301918,2207,56866953.0,0.2795,0.99607563,Technology Services,"SYLA Technologies Co., Ltd.",https://logo.clearbit.com/syt.com
+GDYN,0.2745935530462903,0,12.84,-2.0594965675057177,707969,1085591880.0,0.1361,1.0420911,Technology Services,"Grid Dynamics Holdings, Inc.",https://financialmodelingprep.com/image-stock/GDYN.png
+EA,0.2745942329851152,0,146.89,0.1773170565368552,2108705,36835014055.0,4.2729,0.34487322,Technology Services,Electronic Arts Inc.,https://logo.clearbit.com/ea.com
+CYCU,0.2745951258951738,0,0.4296,-7.3738680465718,1915764,13508302.0,0.0808,0.5809186,Technology Services,"Cycurion, Inc.",https://financialmodelingprep.com/image-stock/CYCU.png
+APP,0.2745957120367283,0,354.29,0.8023444390701888,5318795,119887077931.00002,5.6742,3.816037,Technology Services,Applovin Corporation,https://logo.clearbit.com/app.com
+PANW,0.2745963791072081,0,186.75,0.3277103255614128,4902866,124524897720.0,1.8874,1.3263619,Technology Services,"Palo Alto Networks, Inc.",https://financialmodelingprep.com/image-stock/PANW.png
+TSSI,0.2745973147029421,0,13.18,7.591836734693875,2291325,329770175.0,0.3934,4.664178,Technology Services,"TSS, Inc.",https://financialmodelingprep.com/image-stock/TSSI.png
+ADP,0.2745978136442603,0,321.09,-0.1741022850924925,962536,130337737525.0,9.8064,0.52691025,Technology Services,"Automatic Data Processing, Inc.",https://logo.clearbit.com/adp.com
+VSTA,0.274598538039521,0,4.01,0.2499999999999946,23642,321610126.99999994,0.958807,-0.36721528,Technology Services,Vasta Platform Limited,https://financialmodelingprep.com/image-stock/VSTA.png
+SOHU,0.2745992646528835,0,10.01,0.4012036108324889,70674,300954661.0,3.7049,0.918029,Technology Services,Sohu.com Limited,https://logo.clearbit.com/sohu.com
+ADBE,0.2746000079827251,0,407.69,-1.6025873096324152,2087674,173757484017.0,15.2551,0.9978129,Technology Services,Adobe Inc.,https://financialmodelingprep.com/image-stock/ADBE.png
+TRI,0.2746007171931906,0,195.12,0.4892619869186883,441300,87897346498.84155,4.633332088,0.64823836,Technology Services,Thomson Reuters Corp,https://financialmodelingprep.com/image-stock/TRI.png
+MTLS,0.274601464415614,0,5.07,-0.7827788649706464,146177,299470643.0,0.1706,1.0859096,Technology Services,Materialise NV,https://financialmodelingprep.com/image-stock/MTLS.png
+MKTW,0.2746022236521586,0,17.48,-1.5211267605633778,12922,286328197.0,11.4504,0.91706914,Technology Services,"MarketWise, Inc.",https://financialmodelingprep.com/image-stock/MKTW.png
+PLTR,0.274602945457422,0,123.31,0.8340829176547517,65905836,291001020406.0,0.2493,2.4931664,Technology Services,Palantir Technologies Inc.,https://financialmodelingprep.com/image-stock/PLTR.png
+NFLX,0.2746036362380347,0,1185.39,-0.2171772014444748,2186483,504467956576.00006,21.6403,1.2522078,Technology Services,"Netflix, Inc.",https://financialmodelingprep.com/image-stock/NFLX.png
+DUO,0.2746043699900769,0,0.2294,-0.992662926197668,1825165,8181367.479999999,0.0525,1.405612,Technology Services,Fangdd Network Group Ltd.,https://logo.clearbit.com/duo.com
+META,0.2746051135086359,0,627.06,-1.4939441066968446,8454067,1576521606898.9998,26.3431,1.3681751,Technology Services,"Meta Platforms, Inc.",https://logo.clearbit.com/meta.com
+AGMH,0.2746059213146209,0,0.0706,-4.723346828609991,22207240,7117465.0,0.1286,1.429485,Technology Services,AGM Group Holdings Inc.,https://financialmodelingprep.com/image-stock/AGMH.png
+GOOG,0.2746066023953077,0,169.59,-1.3896964763344497,24963648,2050497518158.0,9.0588,0.9140532,Technology Services,Alphabet Inc.,https://logo.clearbit.com/goog.com
+GOOGL,0.2746073761236968,0,168.47,-1.4045765786855535,35211439,2050497518158.0,9.0588,0.92776155,Technology Services,Alphabet Inc.,https://logo.clearbit.com/googl.com
+INTU,0.2746088218585182,0,720.13,8.116264056330406,5327730,200878097967.0,12.3857,0.5915687,Technology Services,Intuit Inc.,https://financialmodelingprep.com/image-stock/INTU.png
+CDNS,0.2746089131923614,0,315.51,-0.3537251681773693,1010566,86147481622.00002,3.9782,1.4719478,Technology Services,"Cadence Design Systems, Inc.",https://logo.clearbit.com/cdns.com
+CHR,0.2746097039026312,0,1.4,-0.7021774593942847,12135,16289795.999999998,2.5517,0.54011065,Technology Services,"Cheer Holding, Inc.",https://logo.clearbit.com/chr.com
+MSGM,0.2746104724749901,0,2.96,-0.671140939597316,62051,17104213.0,0.0055,-0.85092556,Technology Services,Motorsport Games Inc.,https://logo.clearbit.com/msgm.com
+CTSH,0.2746112182382486,0,79.12,-0.9762202753441817,2243158,39001568877.99999,4.7574,0.8648253,Technology Services,Cognizant Technology Solutions Corporation,https://financialmodelingprep.com/image-stock/CTSH.png
+DDOG,0.2746119070079675,0,114.46,-1.0460793637071046,2888753,39529132495.0,0.4898,1.4851745,Technology Services,"Datadog, Inc.",https://financialmodelingprep.com/image-stock/DDOG.png
+MASK,0.2746126193783787,0,3.51,-1.6806722689075646,57214,39312000.0,0.1718,-0.4759766,Technology Services,3 E Network Technology Group Ltd,https://logo.clearbit.com/mask.com
+VRSK,0.2746132602256497,0,313.77,-0.1813323153273504,548022,43891425925.00001,6.8612,0.26336753,Technology Services,"Verisk Analytics, Inc.",https://financialmodelingprep.com/image-stock/VRSK.png
+PAYX,0.2746139209876999,0,156.09,-0.057625816365734,1085447,56222156195.0,4.8326,0.488697,Technology Services,"Paychex, Inc.",https://logo.clearbit.com/payx.com
+SNAL,0.2746146838181801,0,0.93,-3.0037546933667016,11222,34608703.8,0.0458,2.326639,Technology Services,"Snail, Inc.",https://financialmodelingprep.com/image-stock/SNAL.png
+NTWK,0.2746153056416212,0,2.78,1.831501831501825,7102,32552530.0,0.0209,0.6188811,Technology Services,NETSOL Technologies Inc.,https://logo.clearbit.com/ntwk.com
+ROP,0.274615920172948,0,567.03,-0.3584796246507595,375130,60964458211.00001,13.9708,0.5962157,Technology Services,"Roper Technologies, Inc.",https://logo.clearbit.com/rop.com
+WIMI,0.2746166911052767,0,3.28,-7.0821529745042495,628931,32212241.0,0.5078,1.420608,Technology Services,WiMi Hologram Cloud Inc.,https://financialmodelingprep.com/image-stock/WIMI.png
+ADSK,0.2746171648056879,0,295.35,0.1186440677966178,3197268,63188519511.99999,4.7108,1.0258491,Technology Services,"Autodesk, Inc.",https://financialmodelingprep.com/image-stock/ADSK.png
+MNDO,0.2746178109247388,0,1.49,2.758620689655175,19096,30345825.000000004,0.1852,0.62562615,Technology Services,MIND C.T.I. Ltd.,https://financialmodelingprep.com/image-stock/MNDO.png
+WDAY,0.2746188735483561,0,238.01,-12.518837063990889,9914999,63699883470.99999,1.8334,1.086598,Technology Services,"Workday, Inc.",https://logo.clearbit.com/wday.com
+HIT,0.2746190039899041,0,0.649,-0.1538461538461539,250887,27889610.694,0.0197,1.0049345,Technology Services,"Health In Tech, Inc.",https://logo.clearbit.com/hit.com
+AERT,0.2746198337267103,0,0.6205,-8.074074074074073,68319,27648238.0,1.6014,0.8184616,Technology Services,"Aeries Technology, Inc.",https://logo.clearbit.com/aert.com
+DTST,0.2746202717385336,0,3.74,-0.795755968169756,18794,26703200.0,0.0267,1.349715,Technology Services,Data Storage Corporation,https://logo.clearbit.com/dtst.com
+NTES,0.2746209091744278,0,119.75,0.6133422954125392,1023385,75217526149.17702,7.027,0.3907821,Technology Services,"NetEase, Inc.",https://logo.clearbit.com/ntes.com
+GIBO,0.2746216658324581,0,3.715,7.060518731988462,264460,18357011.23,0.0346,-0.061151206,Technology Services,GIBO Holdings Limited,https://financialmodelingprep.com/image-stock/GIBO.png
+SNPS,0.2746221424074764,0,498.85,-0.9195995868753468,670213,77132223566.99998,13.7227,1.5629531,Technology Services,"Synopsys, Inc.",https://financialmodelingprep.com/image-stock/SNPS.png
+FTNT,0.2746227727159305,0,103.16,-0.4439297432928083,3769215,78960363050.0,2.4536,1.3901529,Technology Services,"Fortinet, Inc.",https://financialmodelingprep.com/image-stock/FTNT.png
+TTD,0.2746234330459698,0,73.89,-0.5919547961791979,4840742,36312426400.0,0.8366,1.4864898,Technology Services,"The Trade Desk, Inc.",https://logo.clearbit.com/ttd.com
+MMYT,0.2746241359292866,0,103.37,2.620867666037924,357390,11348216215.0,0.844,1.4591004,Technology Services,MakeMyTrip Limited,https://financialmodelingprep.com/image-stock/MMYT.png
+DOX,0.2746248641574026,0,91.36,-0.2837808338790712,690093,10160968070.0,4.8038,0.50296694,Technology Services,Amdocs Limited,https://logo.clearbit.com/dox.com
+AKAM,0.2746256350304259,0,75.84,-1.6087182148417165,1946743,11088290954.0,3.0048,0.69423246,Technology Services,"Akamai Technologies, Inc.",https://logo.clearbit.com/akam.com
+INSE,0.2746264031694693,0,7.56,-2.5773195876288684,91166,203456237.0,2.5712,1.426011,Technology Services,"Inspired Entertainment, Inc.",https://logo.clearbit.com/inse.com
+CSGS,0.2746271297313047,0,63.495,-0.149394558892917,152418,1839890784.0,2.9702,0.54341036,Technology Services,"CSG Systems International, Inc.",https://financialmodelingprep.com/image-stock/CSGS.png
+RDCM,0.2746279067285173,0,12.76,-1.391035548686242,23495,204534075.0,0.5462,0.3560643,Technology Services,Radcom Ltd.,https://logo.clearbit.com/rdcm.com
+AVDX,0.2746286475309495,0,9.74,0.1027749229188056,3320734,2010783836.0,0.0087,1.1091647,Technology Services,"AvidXchange Holdings, Inc.",https://financialmodelingprep.com/image-stock/AVDX.png
+VIAV,0.2746294107334493,0,9.09,0.0,1989526,2029221308.0,0.0231,1.0103337,Technology Services,Viavi Solutions Inc.,https://financialmodelingprep.com/image-stock/VIAV.png
+NXTT,0.2746307913488358,0,2.15,-12.601626016260164,999818,937970086.0,2.2681,-0.26107866,Technology Services,Next Technology Holding Inc.,https://financialmodelingprep.com/image-stock/NXTT.png
+MGNI,0.2746309564444681,0,15.36,-1.53846153846154,1056999,2167458233.0,0.2193,1.550208,Technology Services,"Magnite, Inc.",https://financialmodelingprep.com/image-stock/MGNI.png
+WB,0.2746317279581222,0,9.37,-0.425079702444218,1891839,2282110322.04756,1.5079,0.393993,Technology Services,Weibo Corporation,https://logo.clearbit.com/wb.com
+PLUS,0.2746325306442782,0,66.97,1.9485462018572093,293144,1776498689.0,4.0733,1.1586624,Technology Services,ePlus inc.,https://logo.clearbit.com/plus.com
+CXDO,0.2746333144770821,0,5.44,-2.15827338129495,220950,157926152.0,0.0877,1.5569298,Technology Services,"Crexendo, Inc.",https://financialmodelingprep.com/image-stock/CXDO.png
+ALRM,0.2746340697287618,0,56.5,-0.7727432384966592,227299,2810423464.0,2.5924,1.0830386,Technology Services,"Alarm.com Holdings, Inc.",https://financialmodelingprep.com/image-stock/ALRM.png
+MAPS,0.2746348221516742,0,1.01,-0.980392156862746,438860,155917038.0,0.0817,0.72023785,Technology Services,"WM Technology, Inc.",https://logo.clearbit.com/maps.com
+AGYS,0.2746355822498394,0,101.61,-1.051709027169148,300577,2841420772.0,0.8493,0.62795985,Technology Services,"Agilysys, Inc.",https://financialmodelingprep.com/image-stock/AGYS.png
+CARG,0.2746363613044949,0,31.15,-2.074819239232946,499157,3079072447.0,0.3766,1.1819682,Technology Services,"CarGurus, Inc.",https://financialmodelingprep.com/image-stock/CARG.png
+EGAN,0.2746370900899078,0,5.53,-1.2499999999999891,50441,151249337.0,0.0992,0.70672077,Technology Services,eGain Corporation,https://logo.clearbit.com/egan.com
+DSP,0.2746378518626302,0,13.48,-2.741702741702735,143105,843397519.0,0.0337,1.5246474,Technology Services,Viant Technology Inc.,https://financialmodelingprep.com/image-stock/DSP.png
+GTM,0.2746385820223343,0,9.48,-0.7329842931937203,2798382,3118077967.0000005,0.1227,1.7896812,Technology Services,ZoomInfo Technologies Inc.,https://logo.clearbit.com/gtm.com
+MRX,0.2746393280270137,0,44.86,2.4902901530728725,709763,3195454317.0000005,2.8755,0.63413954,Technology Services,Marex Group plc,https://logo.clearbit.com/mrx.com
+PRGS,0.2746400356871206,0,61.07,-0.3426892950391658,344792,2627597634.0,1.3182,0.1139763,Technology Services,Progress Software Corporation,https://logo.clearbit.com/prgs.com
+BL,0.2746407569497268,0,54.16,-0.5508630187293505,500484,3375258405.0000005,2.5113,0.8499057,Technology Services,"BlackLine, Inc.",https://logo.clearbit.com/bl.com
+PLTK,0.2746414997624706,0,4.51,-1.3129102844639058,1115796,1692227289.0,0.3755,0.8552024,Technology Services,Playtika Holding Corp.,https://financialmodelingprep.com/image-stock/PLTK.png
+KARO,0.274642225745026,0,52.86,-0.1888217522658637,9131,1632665721.0,1.6318,1.3347027,Technology Services,Karooooo Ltd.,https://logo.clearbit.com/karo.com
+TBLA,0.2746429529720838,0,3.46,0.0,1320767,1123747967.9999998,0.0393,0.9069926,Technology Services,Taboola.com Ltd.,https://logo.clearbit.com/tbla.com
+VRNT,0.2746437225448292,0,16.8,-1.52403282532238,620699,1012161310.0,1.0444,1.6019436,Technology Services,Verint Systems Inc.,https://financialmodelingprep.com/image-stock/VRNT.png
+INOD,0.2746444778701893,0,36.48,0.9128630705394144,1024013,1158068888.0,1.1899,3.6542308,Technology Services,Innodata Inc.,https://financialmodelingprep.com/image-stock/INOD.png
+MOMO,0.2746452397685912,0,6.08,0.0,449367,997684540.0,0.8164,0.4744799,Technology Services,Hello Group Inc.,https://logo.clearbit.com/momo.com
+IAS,0.2746460321977171,0,7.84,-2.0000000000000018,1562967,1293727789.0000002,0.2902,1.0920483,Technology Services,Integral Ad Science Holding Corp.,https://logo.clearbit.com/ias.com
+ZD,0.2746467383677636,0,30.9,0.0323729362253092,547612,1300506021.0,1.7802,1.3229666,Technology Services,"Ziff Davis, Inc.",https://logo.clearbit.com/zd.com
+OMCL,0.2746475207890009,0,28.23,-2.115117891816919,760523,1322394949.0,0.4594,0.14199924,Technology Services,"Omnicell, Inc.",https://financialmodelingprep.com/image-stock/OMCL.png
+GDRX,0.2746482520368244,0,3.74,-2.0942408376963253,1188484,1335812674.0,0.075,0.52020425,Technology Services,"GoodRx Holdings, Inc.",https://financialmodelingprep.com/image-stock/GDRX.png
+CNXN,0.274648967262456,0,65.68,-1.808940050829711,71459,1668090585.0,3.3273,0.82252276,Technology Services,"PC Connection, Inc.",https://financialmodelingprep.com/image-stock/CNXN.png
+ADEA,0.2746496973892275,0,12.65,-2.69230769230769,463584,1372523125.0,0.6939,0.94393927,Technology Services,Adeia Inc.,https://logo.clearbit.com/adea.com
+NYAX,0.2746503741392187,0,40.75,-0.183710961420705,1370,1491751788.6311142,0.16975821,0.53193134,Technology Services,Nayax Ltd.,https://financialmodelingprep.com/image-stock/NYAX.png
+FORTY,0.2746510814485743,0,97.5,-0.5305039787798368,672,1515314900.26844,5.3458,0.57598746,Technology Services,Formula Systems (1985) Ltd.,https://logo.clearbit.com/forty.com
+SPNS,0.2746517821814124,0,27.61,-0.6834532374100765,111604,1543046347.0,1.3026,0.7935351,Technology Services,Sapiens International Corporation N.V.,https://financialmodelingprep.com/image-stock/SPNS.png
+NAMI,0.2746530274331438,0,2.83,-11.562500000000004,665186,181236457.0,0.0438,-1.1123792,Technology Services,Jinxin Technology Holding Company,https://logo.clearbit.com/nami.com
+OPRA,0.2746531936001506,0,17.37,-2.6345291479820565,260950,1554629909.0,0.7371,1.5242949,Technology Services,Opera Limited,https://financialmodelingprep.com/image-stock/OPRA.png
+YXT,0.2746540366431153,0,0.97,6.593406593406587,2968,174819804.0,0.2612,0.19075309,Technology Services,YXT.COM GROUP HOLDING LIMITED - American Depository Shares,https://logo.clearbit.com/yxt.com
+IQ,0.2746545295892292,0,1.67,-1.1834319526627228,19719099,1607945422.0,0.0419,1.0783215,Technology Services,"iQIYI, Inc.",https://logo.clearbit.com/iq.com
+VNET,0.2746551676934268,0,5.985,-1.074380165289248,2101043,1610120053.0,0.0941,1.4760116,Technology Services,"VNET Group, Inc.",https://financialmodelingprep.com/image-stock/VNET.png
+RPD,0.2746556993469186,0,22.96,-0.217296827466322,478979,1474934176.0,0.4616,0.8606358,Technology Services,"Rapid7, Inc.",https://financialmodelingprep.com/image-stock/RPD.png
+MANH,0.2746561719136938,0,185.23,-1.2053976212064743,692253,11246237099.0,3.5528,1.3812968,Technology Services,"Manhattan Associates, Inc.",https://logo.clearbit.com/manh.com
+SEZL,0.2746566502230338,0,105.31,3.590399370450527,943941,3505379839.0000005,3.1603,3.8671484,Technology Services,Sezzle Inc.,https://financialmodelingprep.com/image-stock/SEZL.png
+IIIV,0.2746570045530339,0,24.99,-0.5175159235668891,192969,830087965.0,4.7582,0.5047557,Technology Services,"i3 Verticals, Inc.",https://logo.clearbit.com/iiiv.com
+LYFT,0.2746573808670424,0,16.1,0.6879299562226467,12544612,6772237895.0,0.136,1.3499409,Technology Services,"Lyft, Inc.",https://logo.clearbit.com/lyft.com
+MTCH,0.2746577307599437,0,29.21,-0.8149405772495703,3248511,7163031564.0,2.1321,0.31018266,Technology Services,"Match Group, Inc.",https://logo.clearbit.com/mtch.com
+OTEX,0.2746580570415357,0,27.95,-0.6398862424457865,764038,7243029652.915254,2.3638456800000003,1.2670101,Technology Services,Open Text Corporation,https://financialmodelingprep.com/image-stock/OTEX.png
+RDVT,0.2746583639455664,0,49.28,-1.6563560167631175,118562,687747637.0,0.6239,1.1501305,Technology Services,"Red Violet, Inc.",https://financialmodelingprep.com/image-stock/RDVT.png
+EXLS,0.274658642710008,0,45.58,-0.6105538595726148,1715142,7415609521.0,1.3332,0.75703853,Technology Services,"ExlService Holdings, Inc.",https://financialmodelingprep.com/image-stock/EXLS.png
+SRAD,0.2746589073290833,0,23.89,0.7591733445803446,1467964,7428635083.000001,0.2117,1.0022043,Technology Services,Sportradar Group AG,https://financialmodelingprep.com/image-stock/SRAD.png
+APPF,0.274659151953016,0,209.83,0.7248463901689801,180159,7559822728.000001,5.4163,0.58001554,Technology Services,"AppFolio, Inc.",https://logo.clearbit.com/appf.com
+CVLT,0.2746593558783315,0,174.43,-0.5530216647662479,265548,7696798617.000001,1.7342,1.3119862,Technology Services,"Commvault Systems, Inc.",https://financialmodelingprep.com/image-stock/CVLT.png
+PDFS,0.2746595213711894,0,18.35,-1.9764957264957128,139627,718210953.9999999,0.0375,1.5827662,Technology Services,"PDF Solutions, Inc.",https://logo.clearbit.com/pdfs.com
+BZ,0.2746597174937367,0,17.41,0.9275362318840588,1563983,7742014592.9992,0.5855,1.2521853,Technology Services,KANZHUN LIMITED - American Depository Shares,https://logo.clearbit.com/bz.com
+PEGA,0.2746599658356964,0,96.04,-3.390001005935007,811812,8219319609.000001,2.2888,1.2632675,Technology Services,Pegasystems Inc.,https://logo.clearbit.com/pega.com
+NEXN,0.2746602100167479,0,10.62,-3.1905195989061204,393035,677766445.0,0.6619,0.72058886,Technology Services,Nexxen International Ltd.,https://financialmodelingprep.com/image-stock/NEXN.png
+WIX,0.2746604594214519,0,151.26,-2.4066068778631,1340953,8420367806.0,2.6668,1.3059399,Technology Services,Wix.com Ltd.,https://logo.clearbit.com/wix.com
+DSGX,0.2746607033667181,0,114.95,0.6567425569176882,313119,9815597472.69338,1.590817284,1.3105826,Technology Services,The Descartes Systems Group Inc.,https://financialmodelingprep.com/image-stock/DSGX.png
+NICE,0.2746609300518693,0,159.94,-1.0333518965410655,308189,10256499082.26406,7.3322,1.1595144,Technology Services,NICE Ltd,https://logo.clearbit.com/nice.com
+CRDO,0.2746611472710316,0,61.78,1.6452780519907864,1958778,10490319396.0,0.0274,3.2065697,Technology Services,Credo Technology Group Holding Ltd,https://financialmodelingprep.com/image-stock/CRDO.png
+PCTY,0.2746613237629359,0,194.85,-1.0461632217764474,300569,10761588046.999998,4.0698,0.864419,Technology Services,Paylocity Holding Corporation,https://financialmodelingprep.com/image-stock/PCTY.png
+SLP,0.2746614806168047,0,33.045,1.7082179132040618,353193,664569473.0,0.3622,1.0301273,Technology Services,"Simulations Plus, Inc.",https://logo.clearbit.com/slp.com
+DBX,0.2746616452595494,0,28.59,-0.5219206680584502,2825996,8047874897.0,1.5407,0.7742886,Technology Services,"Dropbox, Inc.",https://financialmodelingprep.com/image-stock/DBX.png
+HSTM,0.2746617634142898,0,27.35,-1.6894320632638349,216238,834866001.9999999,0.6284,0.57476795,Technology Services,"HealthStream, Inc.",https://logo.clearbit.com/hstm.com
+WAY,0.2746618943372828,0,38.62,1.0994764397905616,1806221,6681993487.0,0.146,0.7806657,Technology Services,Waystar Holding Corp.,https://logo.clearbit.com/way.com
+MGIC,0.2746620117949109,0,15.11,0.5992010652463373,46277,741890470.0,0.7651,0.68880576,Technology Services,Magic Software Enterprises Ltd.,https://logo.clearbit.com/mgic.com
+NTGR,0.2746620751106498,0,28.795,-3.5666443402545136,384170,828823595.0,0.8794,1.7810265,Technology Services,"NETGEAR, Inc.",https://financialmodelingprep.com/image-stock/NTGR.png
+ODD,0.2746621989247715,0,69.65,1.5454147834961396,909599,3888440355.0,1.8625,1.4813942,Technology Services,ODDITY Tech Ltd.,https://financialmodelingprep.com/image-stock/ODD.png
+EVER,0.2746622443480886,0,22.59,-0.26490066225165,412672,816776316.0,1.0807,0.9254106,Technology Services,"EverQuote, Inc.",https://logo.clearbit.com/ever.com
+NSIT,0.2746622473083953,0,132.08,-0.9300930093009157,187069,4217078951.000001,5.8931,1.191335,Technology Services,"Insight Enterprises, Inc.",https://financialmodelingprep.com/image-stock/NSIT.png
+LIF,0.2746621921986756,0,61.36,1.1706512778235794,722525,4695802592.0,0.1199,1.9300135,Technology Services,"Life360, Inc.",https://financialmodelingprep.com/image-stock/LIF.png
+DCBO,0.2746621216120275,0,26.26,-0.3037205770690899,106850,794521391.9983352,0.734237428,1.0330814,Technology Services,Docebo Inc.,https://financialmodelingprep.com/image-stock/DCBO.png
+ICG,0.2746572512425501,0,2.16,-19.702602230483265,128596,130402428.0,0.0751,1.1129649,Technology Services,Intchains Group Limited,https://logo.clearbit.com/icg.com
+ACIW,0.2746614137123814,0,46.29,-0.3873466752743699,1010995,4855804921.0,2.5668,0.9584009,Technology Services,"ACI Worldwide, Inc.",https://financialmodelingprep.com/image-stock/ACIW.png
+VMEO,0.27466118612857,0,4.36,-2.0224719101123565,930693,718283959.0,0.101,1.558156,Technology Services,"Vimeo, Inc.",https://financialmodelingprep.com/image-stock/VMEO.png
+MLGO,0.2746578518656921,0,1.85,-14.746543778801838,117525728,127791127.0,4.5366,-6.060351,Technology Services,"MicroAlgo, Inc.",https://financialmodelingprep.com/image-stock/MLGO.png
+QLYS,0.274660383189196,0,134.51,-1.4073151066481095,273708,4886227022.0,4.9486,1.1815168,Technology Services,"Qualys, Inc.",https://financialmodelingprep.com/image-stock/QLYS.png
+GDEV,0.2746598417381106,0,15.46,-2.522068095838579,6767,280291203.0,2.1512,1.1727164,Technology Services,GDEV Inc.,https://financialmodelingprep.com/image-stock/GDEV.png
+SPSC,0.2746591264704606,0,142.89,-1.9084231482117124,214591,5426587640.000001,2.1635,0.9452651,Technology Services,"SPS Commerce, Inc.",https://financialmodelingprep.com/image-stock/SPSC.png
+IDCC,0.274658294591842,0,212.26,-0.1176415227518705,168201,5505331261.0,15.4336,0.7232131,Technology Services,"InterDigital, Inc.",https://logo.clearbit.com/idcc.com
+SAIC,0.2746569090311294,0,117.28,-4.22213148223765,700398,5531779235.0,7.2375,0.22282304,Technology Services,Science Applications International Corporation,https://logo.clearbit.com/saic.com
+CCCS,0.2746559038242082,0,8.47,-3.75,8636940,5582239906.0,0.0162,0.94546884,Technology Services,CCC Intelligent Solutions Holdings Inc.,https://financialmodelingprep.com/image-stock/CCCS.png
+ANGI,0.274654735116581,0,15.56,-2.8107432854466023,1099081,746677020.0,1.0581,1.6575422,Technology Services,Angi Inc.,https://logo.clearbit.com/angi.com
+BULL,0.2746498666961444,0,12.3,-8.888888888888884,12451461,5677080444.000001,0.1547,-0.8501072,Technology Services,Webull Corporation,https://logo.clearbit.com/bull.com
+NRDS,0.2746507945724404,0,10.52,-1.7740429505135504,243530,783872688.0000001,0.4071,0.97908527,Technology Services,"NerdWallet, Inc.",https://financialmodelingprep.com/image-stock/NRDS.png
+MSFT,0.2746480659366481,0,450.18,-1.028888009497429,16883509,3345982578863.0,12.9995,1.0244746,Technology Services,Microsoft Corporation,https://logo.clearbit.com/msft.com

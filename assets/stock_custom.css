@@ -1,0 +1,46 @@
+/* slider */
+html, body {
+    height: 100%;
+    overflow: auto !important;
+}
+
+
+/* dropdown */
+.review-stcontainerock- .Select-control, .Select-menu-outer, .Select-menu, .Select-option, .Select-value, .Select-placeholder {
+    background-color: #c8cbd1 !important;
+    color: #080808 !important;
+    border-color: #fff !important;
+}
+
+.review-stock-container .Select-option {
+    background-color: #0f326e !important;
+    color: #fff !important;
+}
+
+/* Khi hover vào option */
+.review-stock-container .Select-option.is-focused {
+    background-color: #567396 !important;
+    color: #fff !important;
+}
+
+/* Khi option được chọn */
+.review-stock-container .Select-option.is-selected {
+    background-color: #14FFEF !important;
+    color: #222b3a !important;
+}
+
+/* Placeholder */
+.review-stock-container .Select-placeholder {
+    color: #060606 !important;
+}
+
+/* Value */
+.review-stock-container .Select-value, .Select-value-label {
+    color: #000000 !important;
+}
+
+/* Sankey setup*/
+.sankey-link:hover {
+  fill: "#222b3a" !important;
+  fill-opacity: 1 !important;
+}

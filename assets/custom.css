@@ -1,0 +1,91 @@
+/* Đảm bảo biểu đồ không dịch chuyển */
+.fixed-chart {
+    position: relative !important;
+    left: 0 !important;
+    width: calc(100% - 250px) !important;
+    transition: none !important;
+}
+
+/* Khi sidebar thu gọn */
+.sidebar-collapsed .fixed-chart {
+    width: calc(100% - 60px) !important;
+}
+
+/* Container chính */
+#main-container {
+    overflow-x: hidden;
+}
+
+/* Nội dung trang */
+#page-content {
+    transition: margin-left 0.3s ease;
+    will-change: margin-left; /* Tối ưu hiệu năng */
+}
+
+/* Đảm bảo header không bị ảnh hưởng */
+#header {
+    transition: width 0.3s ease;
+}
+/* Ẩn thanh cuộn ngang */
+body {
+    overflow-x: hidden;
+}
+body {
+    overflow: hidden !important;
+}
+/* Tùy chỉnh thanh cuộn dọc */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+/* Ẩn thanh cuộn khi sidebar thu gọn */
+.sidebar-collapsed {
+    overflow: hidden; /* Ẩn thanh cuộn khi sidebar thu gọn */
+}
+
+/* Container chính */
+#main-container {
+    overflow: hidden; /* Ẩn thanh cuộn ngang */
+}
+
+/* Nội dung trang */
+#page-content {
+    overflow: hidden; /* Ẩn thanh cuộn dọc */
+    transition: margin-left 0.3s ease;
+    will-change: margin-left; /* Tối ưu hiệu năng */
+}
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(42, 63, 143, 0.2);
+    border-radius: 50%;
+    border-top-color: #2a3f8f;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+.nav-link:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
