@@ -12,19 +12,19 @@ tab3_layout = html.Div([
         dbc.Col([
             html.Div(
                 id='trend-increasing-chart',
-                style={'borderRadius': '10px', 'border': '10px solid #fff', 'backgroundColor': '#fff', 'font-family': 'Montserrat'}
+                style={'borderRadius': '10px', 'border': '10px solid #fff', 'backgroundColor': '#fff', 'font-family': 'Montserrat', 'box-shadow': '0 4px 20px rgba(0,0,0,0.08)'}
             ),
         ], md=4, className="h-100"),
         dbc.Col([
             html.Div(
                 id='pie-chart-sector',
-                style={'borderRadius': '10px', 'border': '10px solid #fff', 'backgroundColor': '#fff', 'font-family': 'Montserrat'}
+                style={'borderRadius': '10px', 'border': '10px solid #fff', 'backgroundColor': '#fff', 'font-family': 'Montserrat', 'box-shadow': '0 4px 20px rgba(0,0,0,0.08)'}
             ),
         ], md=5, className="h-100"),
         dbc.Col([
             html.Div(
                 id='top-stocks-table',
-                style={'borderRadius': '10px', 'border': '10px solid #fff', 'backgroundColor': '#fff', 'font-family': 'Montserrat'}
+                style={'borderRadius': '10px', 'border': '10px solid #fff', 'backgroundColor': '#fff', 'font-family': 'Montserrat', 'box-shadow': '0 4px 20px rgba(0,0,0,0.08)'}
             ),
         ], md=3, className="h-100"),
     ], className="gx-3 gy-3 mb-3 align-items-stretch"),
@@ -39,22 +39,23 @@ tab3_layout = html.Div([
                 placeholder='Select Stock',
                 style={
                     'fontFamily': 'Montserrat',
-                    'color': '#fff',
-                    'backgroundColor': '#222b3a',
+                    'color': 'rgb(0,0,0,1)',
+                    'backgroundColor': "#f4f3f3",
                     'borderRadius': '10px',
-                    'marginBottom': '10px'
+                    'marginBottom': '10px',
+                    'box-shadow': '0 4px 8px rgba(0,0,0,0.08)'
                 }
             ),
             html.Div(
                 id='candlestick-chart',
-                style={'borderRadius': '10px', 'border': '10px solid #fff', 'backgroundColor': '#fff', 'font-family': 'Montserrat'}
+                style={'borderRadius': '10px', 'border': '10px solid #fff', 'backgroundColor': '#fff', 'font-family': 'Montserrat', 'box-shadow': '0 4px 20px rgba(0,0,0,0.08)'}
             )
             
         ], md=8, className="h-100"),
         dbc.Col([
             html.Div(
                 id='volume-by-month-chart',
-                style={'borderRadius': '10px', 'border': '10px solid #fff', 'backgroundColor': '#fff', 'font-family': 'Montserrat'}
+                style={'borderRadius': '10px', 'border': '10px solid #fff', 'backgroundColor': '#fff', 'font-family': 'Montserrat', 'box-shadow': '0 4px 20px rgba(0,0,0,0.08)'}
             )
         ], md=4, className="h-100"),
     ], className="gx-3 gy-3 mb-3 align-items-stretch"),
@@ -67,8 +68,9 @@ tab3_layout = html.Div([
                 'overflowY': 'auto',
                 'maxHeight': '400px',
                 'borderRadius': '10px', 
-                'backgroundColor': '#222b3a', 
-                'border': '2px solid #222b3a'
+                'backgroundColor': '#222b3a',
+                'border': '1px solid #222b3a',
+                'box-shadow': '0 4px 20px 10px rgba(0,0,0,0.08)'
             },
             style_cell={
                 'fontFamily': 'Montserrat',

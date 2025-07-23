@@ -19,31 +19,45 @@ from matplotlib.colors import to_hex
 import matplotlib.cm as cm
 import random
 import string
+from dash.dependencies import Output, Input, State
+import dash_bootstrap_components as dbc
+import plotly.express as px
+import pandas as pd
+from dash import dash_table
+import numpy as np
+import networkx as nx
+import community as community_louvain
+from datetime import datetime
+import pytz
+import base64
+import plotly.graph_objects as go
+import requests
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics.pairwise import cosine_similarity
+from io import BytesIO
+from matplotlib.colors import to_hex
+import matplotlib.cm as cm
+import random
+import string
 
 # Màu sắc theo phong cách Spotify
 SPOTIFY_COLORS = {
-    # Màu chính
     'green': '#1DB954',
     'light_green': '#1ED760',
     'dark_green': '#1AA34A',
     'darker_green': '#178A3E',
-      # Thêm dòng này (Spotify Green)
-    # Màu nền
     'black': '#191414',
-    'dark_gray': '#212121',  # Thêm màu này để thay thế cho dark_gray
+    'dark_gray': '#212121',
     'gray': '#535353',
     'light_gray': '#B3B3B3',
     'lighter_gray': '#E5E5E5',
-    
-    # Màu chữ
     'white': '#FFFFFF',
     'off_white': '#F8F8F8',
-    
-    # Màu phụ
     'blue': '#2D46B9',
     'purple': '#5038A0'
 }
 SPOTIFY_LOGO = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1200px-Spotify_logo_without_text.svg.png"
+
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, 'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap'])
 server = app.server
 
@@ -54,8 +68,9 @@ def image_to_base64(url):
         return "data:image/jpeg;base64," + base64.b64encode(response.content).decode('utf-8')
     except:
         return "data:image/jpeg;base64," + base64.b64encode(requests.get("https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228").content).decode('utf-8')
+
 def generate_spotify_data():
-    df = pd.read_csv("data/merged_with_lambda.csv")
+    df = pd.read_csv("merged_with_lambda.csv")
     audio_cols = {
         'valence': lambda n: np.random.uniform(0, 1, n)
     }
@@ -97,421 +112,640 @@ def generate_spotify_data():
 
 # Sử dụng:
 df_songs, G, partition = generate_spotify_data()
+genre_insight = (
+    df_songs.groupby('genre')
+    .agg(
+        count=('track_name', 'count'),
+        lambda_mean=('Lambda', 'mean'),
+        lambda_std=('Lambda', 'std'),
+        popularity_mean=('popularity', 'mean'),
+        energy_mean=('energy', 'mean'),
+        valence_mean=('valence', 'mean'),
+        danceability_mean=('danceability', 'mean')
+    )
+    .reset_index()
+    .sort_values(by='lambda_mean', ascending=False)
+)
 
-layout_spotify = dbc.Container(
-    fluid=True,
-    style={
-        'backgroundColor': SPOTIFY_COLORS["dark_gray"],
-        'minHeight': '100vh',
-        'margin': '0',
-        'padding': '0',
-        'color': SPOTIFY_COLORS['white'],
-        'fontFamily': 'Montserrat',
-        'maxWidth': '1500px',         # Giới hạn chiều rộng tối đa
-        'marginLeft': 'auto',
-        'overflow': 'hidden' 
-    },
-    children=[
-        # Nội dung chính
-        html.Div(
-            style={
-                'marginLeft': '0px',
-                'padding': '0px',
-                'background': 'linear-gradient(135deg, #f8e0e4 0%, #fff 100%)',
-                'height': 'calc(100vh - 20px)',
-                'overflowY': 'auto' 
-            },
-            children=[
+genre_insight_rounded = genre_insight.copy()
+genre_insight_rounded.iloc[:, 1:] = genre_insight_rounded.iloc[:, 1:].round(2)
 
-                # Header
-            dbc.Row(
-                dbc.Col(
-                    html.Div(
-                        [
-                            html.Img(src=SPOTIFY_LOGO, style={'height': '50px', 'marginRight': '15px'}),
-                            html.H1(
-                                "SPOTIFY SONG NETWORK DASHBOARD",
-                                style={
-                                    'color': SPOTIFY_COLORS['white'],
-                                    'fontWeight': 900,
-                                    'margin': '0',
-                                    'textShadow': '2px 2px 4px rgba(0, 0, 0, 0.6)',
-                                    'fontFamily': "Montserrat",
-                                    'fontSize': '24px'
-                                }
-                            )
-                        ],
-                        style={
-                            'display': 'flex',
-                            'alignItems': 'center',
-                            'gap': '15px',
-                            'justifyContent': 'center' 
-                        }
-                    ),
-                    width=12
-                )
-            ),
-                
-                # Tabs chính
-                dcc.Tabs(
-                    id='main-tabs',
-                    value='overview',
-                    children=[
-                        # Tab 1: Tổng quan ảnh hưởng
-                        dcc.Tab(
-                                label='Song Influence Overview',
-                                value='overview',
-                                style={
-                                    'backgroundColor': '#fff',
-                                    'color': '#191414',
-                                    'border': f'2px solid {SPOTIFY_COLORS["gray"]}',
-                                    'padding': '6px 12px',
-                                    'fontWeight': 'bold',
-                                    'fontFamily': 'Montserrat',
-                                    'fontSize': '10px',
-                                    'height': '36px',
-                                    'lineHeight': '24px',
-                                    'boxShadow': 'none',
-                                    'marginBottom': '0px'
-                                },
-                                selected_style={
-                                    'backgroundColor': SPOTIFY_COLORS['darker_green'],
-                                    'color': SPOTIFY_COLORS['white'],
-                                    'border': f'2px solid {SPOTIFY_COLORS["light_green"]}',
-                                    'padding': '6px 12px',
-                                    'fontWeight': 'bold',
-                                    'fontFamily': 'Montserrat',
-                                    'fontSize': '10px',
-                                    'height': '36px',
-                                    'lineHeight': '24px',
-                                    'boxShadow': 'none',
-                                    'marginBottom': '0px'
-                                },
-                            children=[
-                                dbc.Row(
-                                    [
-                                        dbc.Col(
-                                            dcc.Graph(id='genre-influence-chart', style={'height': '300px'},config={'responsive': True}),
-                                            width=4,
-                                            style={
-                                            'backgroundColor': '#f9f0f1',  # Nền trắng
-                                            'borderRadius': '20px',
-                                            'padding': '15px',
-                                            'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                            'marginRight': '5px'
-                                        }
-                                        ),
-                                        dbc.Col(
-                                            dcc.Graph(id='top-songs-chart',style={'height': '300px'},config={'responsive': True}),
-                                            width=4,
-                                            style={
-                                            'backgroundColor': '#f9f0f1',  
-                                            'borderRadius': '20px',
-                                            'padding': '15px',
-                                            'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                            'height': '100%',
-                                            'marginRight': '5px'
-                                        }
-                                        ),
-                                        dbc.Col(
-                                         dcc.Graph(
-                                            id='top-artist-chart',
-                                            style={'height': '300px'},config={'responsive': True}
-                                        ),
-                                            style={
-                                            'backgroundColor': '#f9f0f1',  # Nền trắng 
-                                            'borderRadius': '20px',
-                                            'padding': '15px',
-                                            'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                            'height': '100%',
-                                            'marginRight': '5px'
-                                        })
-                                    ],style={'marginTop': '20px','justifyContent': 'center'}
-                                ),
-                                dbc.Row(
-                                    [
-                                        dbc.Col(
-                                            [
-                                                dcc.Graph(id='network-song', style={'height': '400px'},config={'responsive': True})
-                                            ],
-                                            width=6,
-                                            style={
-                                                'backgroundColor': '#f9f0f1',  # Nền trắng 
-                                                'borderRadius': '20px',
-                                                'padding': '15px',
-                                                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                                'height': '100%',
-                                                'marginRight': '5px'
-                                            }
-                                        ),
-                                        dbc.Col([
-                                            html.Label("Chọn genre:", style={'fontWeight': 'bold', 'color': "#020C05",'marginBottom': '3px'}),
-                                            dcc.Dropdown(
-                                                id='genre-filter',
-                                                options=[{'label': genre, 'value': genre} for genre in sorted(df_songs['genre'].unique())] + [{'label': 'All', 'value': 'All'}],
-                                                value='All',
-                                                multi=True,
-                                                placeholder="Tất cả thể loại",
-                                                style={
-                                                    'backgroundColor': '#f9f0f1',
-                                                    'color': "#020C05",
-                                                    'padding': '4px 8px',  # 👈 Ít padding hơn
-                                                    'fontFamily': 'Montserrat',
-                                                    'fontWeight': '400',
-                                                    'fontSize': '13px',  # 👈 Nhỏ chữ dropdown
-                                                    'marginBottom': '8px'
-                                                }
-                                            ),
+genre_table_data = genre_insight_rounded[['genre', 'count', 'lambda_mean', 'popularity_mean']].rename(columns={
+    'genre': 'Genre',
+    'count': 'Số lượng bài hát',
+    'lambda_mean': 'Lambda trung bình',
+    'popularity_mean': 'Độ phổ biến trung bình'
+}).to_dict('records')
 
-                                            dcc.Graph(id='popularity-spread-correlation', style={'height': '400px'}, config={'responsive': True})
-                                        ],
-                                        width=5,
-                                        style={
-                                            'backgroundColor': '#f9f0f1',
-                                            'borderRadius': '20px',
-                                            'padding': '15px',
-                                            'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                            'height': '100%',
-                                            'marginRight': '5px'
-                                        })
+# Tạo nội dung cho từng tab
+overview_tab_content = dbc.Container([
+    # Row: Image (left) + description and cards (right)
+    dbc.Row([
+        # Image column
+        dbc.Col(
+            html.Img(src='/assets/dfi_sasa-pekec_music-streaming.jpg',
+                     style={
+                         'width': '100%',
+                         'height': '430px',
+                         'borderRadius': '12px'
+                     }),
+            style={'padding': '0', 'background': 'transparent'},
+            width=5
+        ),
 
-                                    ],
-                                    style={'marginTop': '10px', 'marginBottom': '10px','justifyContent': 'center'}
-                                )
-                            ]
+        # Right column: description + cards
+        dbc.Col([
+            # Description
+            html.Div([
+                html.H4("Tổng quan dữ liệu âm nhạc", style={
+                    'fontFamily': 'Montserrat',
+                    'fontWeight': '700',
+                    'color': '#1DB954',
+                    'marginBottom': '10px'
+                }),
+                html.P("Khám phá các chỉ số phổ biến của danh sách phát như mức độ phổ biến trung bình, thể loại nổi bật, thời lượng bài hát và số nghệ sĩ.",
+                       style={
+                           'fontFamily': 'Montserrat',
+                           'fontSize': '14px',
+                           'color': '#333'
+                       })
+            ], style={'marginBottom': '20px'}),
+
+            # Main content row with original cards + new vertical card
+            dbc.Row([
+                # Original 4 cards (now in 8 columns)
+                dbc.Col([
+                    # First row of cards
+                    dbc.Row([
+                        dbc.Col(
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.I(className="fas fa-fire", style={
+                                        'color': '#FF6B6B',
+                                        'fontSize': '1.5rem',
+                                        'marginBottom': '10px'
+                                    }),
+                                    html.H6("AVG POPULARITY", style={
+                                        'fontSize': '0.8rem',
+                                        'color': '#6c757d',
+                                        'fontWeight': '600'
+                                    }),
+                                    html.H4("72.5", style={
+                                        'color': '#FF6B6B',
+                                        'fontWeight': 'bold'
+                                    })
+                                ])
+                            ], style={
+                                'backgroundColor': '#fff',
+                                'borderLeft': '4px solid #FF6B6B',
+                                'borderRadius': '10px',
+                                'padding': '15px',
+                                'boxShadow': '0 2px 6px rgba(0,0,0,0.05)'
+                            }),
+                            width=6
                         ),
-                        
-                        # Tab 2: Phân tích cộng đồng
-                        dcc.Tab(
-                            label='Genre Analysis',
-                            value='community',
-                             style={
-                                    'backgroundColor': '#fff',
-                                    'color': '#191414',
-                                    'border': f'2px solid {SPOTIFY_COLORS["gray"]}',
-                                    'padding': '6px 12px',
-                                    'fontWeight': 'bold',
-                                    'fontFamily': 'Montserrat',
-                                    'fontSize': '10px',
-                                    'height': '36px',
-                                    'lineHeight': '24px',
-                                    'boxShadow': 'none',
-                                    'marginBottom': '0px'
-                                },
-                                selected_style={
-                                    'backgroundColor': SPOTIFY_COLORS['darker_green'],
-                                    'color': SPOTIFY_COLORS['white'],
-                                    'border': f'2px solid {SPOTIFY_COLORS["light_green"]}',
-                                    'padding': '6px 12px',
-                                    'fontWeight': 'bold',
-                                    'fontFamily': 'Montserrat',
-                                    'fontSize': '10px',
-                                    'height': '36px',
-                                    'lineHeight': '24px',
-                                    'boxShadow': 'none',
-                                    'marginBottom': '0px'
-                                },
-                            children=[
-                                 # Hidden div to store intermediate data
+                        dbc.Col(
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.I(className="fas fa-tag", style={
+                                        'color': '#6C5CE7',
+                                        'fontSize': '1.5rem',
+                                        'marginBottom': '10px'
+                                    }),
+                                    html.H6("TOP GENRE", style={
+                                        'fontSize': '0.8rem',
+                                        'color': '#6c757d',
+                                        'fontWeight': '600'
+                                    }),
+                                    html.H4("Pop", style={
+                                        'color': '#6C5CE7',
+                                        'fontWeight': 'bold'
+                                    })
+                                ])
+                            ], style={
+                                'backgroundColor': '#fff',
+                                'borderLeft': '4px solid #6C5CE7',
+                                'borderRadius': '10px',
+                                'padding': '15px',
+                                'boxShadow': '0 2px 6px rgba(0,0,0,0.05)'
+                            }),
+                            width=6
+                        )
+                    ], style={'marginBottom': '15px'}),
+
+                    # Second row of cards
+                    dbc.Row([
+                        dbc.Col(
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.I(className="fas fa-clock", style={
+                                        'color': '#00B894',
+                                        'fontSize': '1.5rem',
+                                        'marginBottom': '10px'
+                                    }),
+                                    html.H6("AVG DURATION", style={
+                                        'fontSize': '0.8rem',
+                                        'color': '#6c757d',
+                                        'fontWeight': '600'
+                                    }),
+                                    html.H4("3:12", style={
+                                        'color': '#00B894',
+                                        'fontWeight': 'bold'
+                                    })
+                                ])
+                            ], style={
+                                'backgroundColor': '#fff',
+                                'borderLeft': '4px solid #00B894',
+                                'borderRadius': '10px',
+                                'padding': '15px',
+                                'boxShadow': '0 2px 6px rgba(0,0,0,0.05)'
+                            }),
+                            width=6
+                        ),
+                        dbc.Col(
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.I(className="fas fa-users", style={
+                                        'color': '#FD79A8',
+                                        'fontSize': '1.5rem',
+                                        'marginBottom': '10px'
+                                    }),
+                                    html.H6("UNIQUE ARTISTS", style={
+                                        'fontSize': '0.8rem',
+                                        'color': '#6c757d',
+                                        'fontWeight': '600'
+                                    }),
+                                    html.H4("148", style={
+                                        'color': '#FD79A8',
+                                        'fontWeight': 'bold'
+                                    })
+                                ])
+                            ], style={
+                                'backgroundColor': '#fff',
+                                'borderLeft': '4px solid #FD79A8',
+                                'borderRadius': '10px',
+                                'padding': '15px',
+                                'boxShadow': '0 2px 6px rgba(0,0,0,0.05)'
+                            }),
+                            width=6
+                        )
+                    ])
+                ], width=8),  # Reduced from 12 to 8 columns
+                
+                # New vertical card (4 columns)
+                dbc.Col(
+                    dbc.Card([
+                        dbc.CardBody([
+                            html.Div([
+                                html.I(className="fas fa-chart-line", style={
+                                    'color': '#1DB954',
+                                    'fontSize': '2rem',
+                                    'marginBottom': '15px',
+                                    'display': 'block',
+                                    'textAlign': 'center'
+                                }),
+                                html.H5("Trending Now", style={
+                                    'textAlign': 'center',
+                                    'color': '#1DB954',
+                                    'fontWeight': '600',
+                                    'marginBottom': '20px'
+                                }),
+                                html.Div([
+                                    html.Div([
+                                        html.Span("1. ", style={'fontWeight': 'bold'}),
+                                        html.Span("Blinding Lights", style={'fontWeight': '500'})
+                                    ], className="mb-2"),
+                                    dbc.Progress(value="95", max="100", style={
+                                        'height': '6px',
+                                        'backgroundColor': '#e9ecef',
+                                        'marginBottom': '15px'
+                                    }, className="bg-success"),
+                                    
+                                    html.Div([
+                                        html.Span("2. ", style={'fontWeight': 'bold'}),
+                                        html.Span("Save Your Tears", style={'fontWeight': '500'})
+                                    ], className="mb-2"),
+                                    dbc.Progress(value="88", max="100", style={
+                                        'height': '6px',
+                                        'backgroundColor': '#e9ecef',
+                                        'marginBottom': '15px'
+                                    }, className="bg-success"),
+                                    
+                                    html.Div([
+                                        html.Span("3. ", style={'fontWeight': 'bold'}),
+                                        html.Span("Stay", style={'fontWeight': '500'})
+                                    ], className="mb-2"),
+                                    dbc.Progress(value="82", max="100", style={
+                                        'height': '6px',
+                                        'backgroundColor': '#e9ecef',
+                                        'marginBottom': '15px'
+                                    }, className="bg-success"),
+                                    
+                                    html.Div([
+                                        html.Span("4. ", style={'fontWeight': 'bold'}),
+                                        html.Span("good 4 u", style={'fontWeight': '500'})
+                                    ], className="mb-2"),
+                                    dbc.Progress(value="76", max="100", style={
+                                        'height': '6px',
+                                        'backgroundColor': '#e9ecef'
+                                    }, className="bg-success")
+                                ], style={'padding': '0 10px'})
+                            ])
+                        ])
+                    ], style={
+                        'height': '100%',
+                        'borderRadius': '10px',
+                        'boxShadow': '0 2px 6px rgba(0,0,0,0.05)',
+                        'borderTop': '4px solid #1DB954'
+                    }),
+                    width=4  # Takes 4 columns
+                )
+            ])
+        ], width=7)
+    ], style={'marginTop': '20px', 'marginBottom': '30px'}),
+    # Charts row 1
+    dbc.Row([
+        dbc.Col(
+            dcc.Graph(id='genre-influence-chart',
+                     figure={'data': [{'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar'}]},
+                     style={'height': '300px'},
+                     config={'responsive': True}),
+            width=4,
+            style={
+                'backgroundColor': '#ffffff',
+                'borderRadius': '8px',
+                'padding': '15px',
+                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
+                'marginBottom': '15px'
+            }
+        ),
+        dbc.Col(
+            dcc.Graph(id='top-songs-chart',
+                     figure={'data': [{'x': [1, 2, 3], 'y': [2, 4, 3], 'type': 'bar'}]},
+                     style={'height': '300px'},
+                     config={'responsive': True}),
+            width=4,
+            style={
+                'backgroundColor': '#ffffff',
+                'borderRadius': '8px',
+                'padding': '15px',
+                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
+                'marginBottom': '15px'
+            }
+        ),
+        dbc.Col(
+            dcc.Graph(id='top-artist-chart',
+                     figure={'data': [{'x': [1, 2, 3], 'y': [3, 2, 5], 'type': 'bar'}]},
+                     style={'height': '300px'},
+                     config={'responsive': True}),
+            width=4,
+            style={
+                'backgroundColor': '#ffffff',
+                'borderRadius': '8px',
+                'padding': '15px',
+                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
+                'marginBottom': '15px'
+            }
+        )
+    ], style={'marginBottom': '20px'}),
+
+    # Charts row 2
+    dbc.Row([
+        dbc.Col(
+            dcc.Graph(id='network-song',
+                     figure={'data': [{'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'line'}]},
+                     style={'height': '400px'},
+                     config={'responsive': True}),
+            width=6,
+            style={
+                'backgroundColor': '#ffffff',
+                'borderRadius': '8px',
+                'padding': '15px',
+                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
+                'marginBottom': '15px'
+            }
+        ),
+        dbc.Col([
+            html.Label("Thống kê Lambda theo thể loại", style={
+                'fontWeight': 'bold', 'color': "#020C05", 'marginBottom': '6px'
+            }),
+            dash_table.DataTable(
+                id='genre-lambda-table',
+                data=genre_table_data,
+                columns=[
+                    {'name': 'Genre', 'id': 'Genre'},
+                    {'name': 'Số lượng bài hát', 'id': 'Số lượng bài hát'},
+                    {'name': 'Lambda trung bình', 'id': 'Lambda trung bình'},
+                    {'name': 'Độ phổ biến trung bình', 'id': 'Độ phổ biến trung bình'}
+                ],
+                style_table={'overflowY': 'auto', 'height': '350px'},
+                fixed_rows={'headers': True},
+                style_cell={
+                    'textAlign': 'left',
+                    'fontFamily': 'Montserrat',
+                    'color': 'black',
+                    'fontSize': '13px',
+                    'padding': '6px',
+                },
+                style_cell_conditional=[
+                    {'if': {'column_id': 'Genre'}, 'width': '120px'},
+                    {'if': {'column_id': 'Số lượng bài hát'}, 'width': '150px'},
+                    {'if': {'column_id': 'Lambda trung bình'}, 'width': '150px'},
+                    {'if': {'column_id': 'Độ phổ biến trung bình'}, 'width': '180px'}
+                ],
+                style_header={
+                    'backgroundColor': '#1DB954',
+                    'color': 'black',
+                    'fontWeight': 'bold'
+                },
+                row_selectable='single',
+                selected_rows=[],
+            ),
+            html.Div(id='genre-selected-info', style={'marginTop': '10px'})
+        ], width=6,
+            style={
+                'backgroundColor': '#ffffff',
+                'borderRadius': '8px',
+                'padding': '15px',
+                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
+                'marginBottom': '15px'
+            })
+    ])
+], fluid=True)
+
+community_tab_content = dbc.Row([
+# Hidden div to store intermediate data
                                 html.Div(id='community-data-store', style={'display': 'none'}),
 
                                 # ✅ Thêm Store để lưu trạng thái chỉ số recommendation
                                 dcc.Store(id='recommendation-index-store', data=0),
                                 # genre Selection Dropdown
-                                dbc.Row(
-                                    dbc.Col(
-                                        dcc.Dropdown(
-                                            id='community-dropdown',
-                                            options=[{'label': f'genre {i}', 'value': i} 
-                                                    for i in sorted(df_songs['genre'].unique())],
-                                            value=sorted(df_songs['genre'].unique())[0],
-                                            style={'color': 'black'}
-                                        ),
-                                        width=4,
+dbc.Row(
+    [
+        dbc.Col(
+            dbc.Row(
+                [
+                    # Col chứa ảnh + dropdown
+                    dbc.Col(
+                        html.Div([
+                            html.Img(
+                                src='/assets/musical-pentagram-sound-waves-notes-background.png',  # thay ảnh tùy bạn
+                                style={
+                                    'height': '50px',
+                                    'width': '250px',
+                                    'objectFit': 'cover',
+                                    'marginBottom': '10px'
+                                }
+                            ),
+                            dcc.Dropdown(
+                                id='community-dropdown',
+                                options=[
+                                    {'label': f'Genre {i}', 'value': i}
+                                    for i in sorted(df_songs['genre'].unique())
+                                ],
+                                value=sorted(df_songs['genre'].unique())[0],
+                                style={'color': 'black','width': '200px',}
+                            )
+                        ],
+                        style={
+                            'backgroundColor': '#ffffff',
+                            'borderRadius': '20px',
+                            'padding': '15px',
+                            'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
+                            'display': 'flex',
+                            'flexDirection': 'column',
+                            'justifyContent': 'space-between',
+                            'alignItems': 'center',
+                            'height': '100px',
+                            'width': '250px',# Cố định chiều cao để khớp với 2 card bên
+                        }),
+                        width=3,
+                        style={'marginRight': '5px'}
+                    ),
+
+                    dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody([
+                            html.Div(
+                                html.I("λ", style={
+                                    'color': 'white',
+                                    'background': '#1DB954',
+                                    'padding': '15px',
+                                    'borderRadius': '50%',
+                                    'fontSize': '20px',
+                                    'boxShadow': '0 4px 8px rgba(29, 185, 84, 0.3)'
+                                }),
+                                style={'marginRight': '10px', 'textAlign': 'center'}
+                            ),
+                            html.Div([
+                                html.H6("MEAN LAMBDA",
+                                        className="card-title",
                                         style={
-                                            'backgroundColor': '#f9f0f1',  # Nền trắng
-                                            'borderRadius': '20px',
-                                            'padding': '15px',
-                                            'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                            'height': '90%',
-                                            'marginRight': '5px'
-                                        }
-                                    ),
-                                    style={'marginTop': '20px'}
-                                ),
+                                            'fontWeight': '600',
+                                            'letterSpacing': '1.5px',
+                                            'color': '#6c757d',
+                                            'fontSize': '0.9rem',
+                                            'marginBottom': '5px'
+                                        }),
+                                html.H2(id='lambda-mean-display',
+                                        className="card-text",
+                                        style={
+                                            'color': "#000000",
+                                            'fontWeight': 'bold',
+                                            'fontSize': '1.8rem'
+                                        })
+                            ])
+                        ],
+                        style={'display': 'flex', 'alignItems': 'center'})
+                    ),
+                    width=3,
+                    style={
+                        'backgroundColor': '#ffffff',
+                        'borderRadius': '15px',
+                        'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
+                        'padding': '15px',
+                        'height': '120px',
+                        'marginRight': '10px',
+                        'borderTop': '4px solid #1DB954'  # Thêm viền trên màu xanh
+                    }
+                ),
+
+                # Card 2: Total Songs (đã chỉnh sửa)
+                dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody([
+                            html.Div(
+                                html.I(className="fas fa-music", style={
+                                    'color': 'white',
+                                    'background': '#1DB954',
+                                    'padding': '15px',
+                                    'borderRadius': '50%',
+                                    'boxShadow': '0 4px 8px rgba(29, 185, 84, 0.3)'
+                                }),
+                                style={'marginRight': '10px', 'textAlign': 'center'}
+                            ),
+                            html.Div([
+                                html.H6("TOTAL SONGS",
+                                        className="card-title",
+                                        style={
+                                            'fontWeight': '600',
+                                            'letterSpacing': '1.5px',
+                                            'color': '#6c757d',
+                                            'fontSize': '0.9rem',
+                                            'marginBottom': '5px'
+                                        }),
+                                html.H2(id='total-songs-display',
+                                        className="card-text",
+                                        style={
+                                            'color': '#212529',
+                                            'fontWeight': 'bold',
+                                            'fontSize': '1.8rem'
+                                        })
+                            ])
+                        ],
+                        style={'display': 'flex', 'alignItems': 'center'})
+                    ),
+                    width=3,
+                    style={
+                        'backgroundColor': '#ffffff',
+                        'borderRadius': '15px',
+                        'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
+                        'padding': '15px',
+                        'height': '120px',
+                        'borderTop': '4px solid #1DB954'  # Thêm viền trên màu xanh
+                    }
+                )
+                ],
+                justify="center",
+                align="center",
+                className="g-3"
+            ),
+            width=12
+        )
+    ],
+    justify="center",
+    align="center",
+    style={
+        'marginTop': '30px',
+        'width': '100%',
+        'padding': '5px'
+    }
+),
+
                                 
                                 # First Row: Overview and Genre Distribution
                                 dbc.Row([
-                                # 1️⃣ Cột 1: Audio Chart + Mean Lambda
-                                dbc.Col(
-                                    html.Div([
-                                        dcc.Graph(
-                                            id='community-audio-features',
-                                            figure={
-                                                'data': [],
-                                                'layout': {
-                                                    'title': 'Audio Features Overview',
-                                                    'plot_bgcolor': '#f9f0f1',
-                                                    'paper_bgcolor': '#f9f0f1',
-                                                    'font': {'color': 'black'},
-                                                    'margin': {'t': 50, 'b': 30, 'l': 30, 'r': 30}
-                                                }
-                                            },
-                                            style={'height': '350px'}
-                                        ),
-                                        dbc.Card([
-                                            dbc.CardBody([
-                                                html.H6("Mean Lambda", className="card-title", style={'fontWeight': 'bold'}),
-                                                html.H2(id='lambda-mean-display', className="card-text",
-                                                        style={'color': '#1DB954', 'fontWeight': 'bold'})
-                                            ])
-                                        ],
-                                        style={
-                                            'backgroundColor': '#f9f0f1',
-                                            'borderRadius': '15px',
-                                            'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                            'padding': '10px',
-                                            'height': '100px',
-                                            'textAlign': 'center',
-                                            'marginTop': '5px'
-                                        })
-                                    ]),
-                                    width=4,
-                                    style={
-                                            'backgroundColor': '#f9f0f1',  # Nền trắng
-                                            'borderRadius': '20px',
-                                            'padding': '15px',
-                                            'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                            'height': '90%',
-                                            'marginRight': '5px'
-                                        }
-                                ),
+                                    dbc.Col([
+                                        html.Div([
+                                            dcc.Graph(
+                                                id='distribution-by-channel',
+                                                style={'height': '600px', 'backgroundColor': '#ffffff', 'borderRadius': '12px'},
+                                                config={'responsive': True}
+                                            ),
 
-                                # 2️⃣ Cột 2: Sankey + Total Songs
-                                dbc.Col(
-                                    html.Div([
-                                        dcc.Graph(
-                                            id='community-sankey-distribution',
-                                            style={'height': '350px'},
-                                            figure={
-                                                'data': [],
-                                                'layout': {
-                                                    'title': 'Genre Distribution',
-                                                    'plot_bgcolor': '#f9f0f1',
-                                                    'paper_bgcolor': '#f9f0f1',
-                                                    'font': {'color': 'black'},
-                                                    'margin': {'t': 50, 'b': 30, 'l': 30, 'r': 30}
-                                                }
-                                            }
-                                        ),
-                                        dbc.Card(
-                                            [
-                                                dbc.CardBody(
-                                                    [
-                                                        html.Div(
-                                                            [
-                                                                html.Div(
-                                                                    html.I(className="fas fa-music fa-2x", 
-                                                                        style={
-                                                                            'color': 'white',
-                                                                            'background': '#1DB954',
-                                                                            'padding': '15px',
-                                                                            'borderRadius': '50%',
-                                                                            'boxShadow': '0 4px 8px rgba(29, 185, 84, 0.3)'
-                                                                        }),
-                                                                    style={'marginRight': '2px','flexShrink': '0', 'textAlign': 'center'}
-                                                                ),
-                                                                html.Div([
-                                                                html.H6("TOTAL SONGS", 
-                                                                    className="card-title", 
-                                                                    style={
-                                                                        'fontWeight': '600',
-                                                                        'letterSpacing': '1.5px',
-                                                                        'color': '#6c757d',
-                                                                        'fontSize': '0.9rem',
-                                                                        'marginBottom': '5px'
-                                                                    }),
-                                                                html.H2(
-                                                                    id='total-songs-display',
-                                                                    className="card-text",
-                                                                    style={
-                                                                        'color': '#212529', 
-                                                                        'fontWeight': '600',
-                                                                        'fontSize': '2rem',
-                                                                        'marginBottom': '0',
-                                                                        'textAlign': 'center'
-                                                                    }
-                                                                )
-                                                        
-                                                            ], style={'flexGrow': '1'}
-            
-                                                        )
-                                                    ],
+                                            html.Div([
+                                                dcc.Dropdown(
+                                                    id='attribute-filter',
+                                                    options=[{'label': attr, 'value': attr} for attr in sorted(np.array(df_songs.columns)[12:21])],
+                                                    value='danceability',
                                                     style={
-                                                        'display': 'flex',
-                                                        'alignItems': 'center'
+                                                        'backgroundColor': 'transparent',
+                                                        'color': "#000000",
+                                                        'fontFamily': 'Montserrat',
+                                                        'fontSize': '14px',
+                                                        'borderRadius': '6px'
                                                     }
                                                 )
-                                            ])
-                                            ],
-                                        style={
-                                            'backgroundColor': '#ffffff',
-                                            'borderRadius': '15px',
-                                            'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                            'padding': '10px',
-                                            'height': '100px',
-                                            'textAlign': 'center',
-                                            'marginTop': '5px'
-                                        })
-                                    ]), width=5,
-                                    style={
-                                            'backgroundColor': "#ffffff",  # Nền trắng
-                                            'borderRadius': '20px',
-                                            'padding': '15px',
-                                            'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                            'height': '90%',
-                                            'marginRight': '5px'
-                                        }
-                                ),
-
-                                # 3️⃣ Cột 3: Recommended Songs
-                                dbc.Col(
-                                    html.Div([
-                                        html.H4("Recommended Songs", style={
-                                            'color': '#000000',
-                                            'fontWeight': 'bold',
-                                            'fontFamily': 'Montserrat',
-                                            'textAlign': 'center',
-                                            'fontSize': '15px'
+                                            ], style={
+                                                'position': 'absolute',
+                                                'top': '20px',
+                                                'right': '20px',
+                                                'width': '210px',
+                                                'zIndex': '1000'
+                                            })
+                                        ], style={
+                                            'position': 'relative',
+                                            #'padding': '1em',
+                                            'backgroundColor': 'rgba(255,255,255,0.04)',
+                                            'borderRadius': '12px',
+                                            'boxShadow': '0 4px 10px rgba(0,0,0,0.05)',
+                                            'marginTop': '1em'
                                         }),
-                                        html.Div([
-                                            dbc.Button("← Bài trước", id="recommendation-prev-button", n_clicks=0,
-                                                    color="light", className="me-2",
-                                                    style={'width': '100%', 'fontSize': '12px', 'marginBottom': '5px'}),
-                                            dbc.Button("Bài sau →", id="recommendation-next-button", n_clicks=0,
-                                                    color="primary",
-                                                    style={'width': '100%', 'fontSize': '12px'})
-                                        ], style={'display': 'flex', 'flexDirection': 'column', 'gap': '5px'}),
-                                        html.Div(id='community-song-recommendations',
-                                                style={'marginTop': '10px'})
-                                    ]),
-                                    width=2,
-                                    style={
-                                            'backgroundColor': '#f9f0f1',  # Nền trắng
-                                            'borderRadius': '20px',
-                                            'padding': '15px',
+                                    ], width=7),
+
+                                    dbc.Col([
+                                        dbc.Row([
+                                            dcc.Graph(
+                                                id='density-chart',
+                                                style={'height': '260px', 'backgroundColor': '#ffffff'},
+                                                config={'responsive': True}
+                                            )
+                                        ], style={
+                                            'marginBottom': '1em',
+                                            'padding': '1em',
+                                            'backgroundColor': '#ffffff',
+                                            'borderRadius': '12px',
                                             'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                            'height': '90%',
-                                            'marginRight': '5px'
-                                        }
-                                )
-                            ], style={'marginTop': '20px','justifyContent': 'center'}),
+                                            'marginTop': '1em',
+                                            'width': '550px'
+                                        }),
+
+                                        dbc.Row([
+                                            html.Div([
+                                                dcc.Graph(
+                                                    id='popularity-by-genre-chart',
+                                                    style={'height': '260px', 'backgroundColor': '#ffffff'},
+                                                    config={'responsive': True}
+                                                ),
+
+                                                html.Div([
+                                                    dcc.Dropdown(
+                                                        id='y-attribute-filter',
+                                                        options=[{'label': attr, 'value': attr} for attr in sorted(np.array(df_songs.columns)[12:21])],
+                                                        value='popularity',
+                                                         style={
+                                                            'backgroundColor': 'transparent',
+                                                            'color': "#000000",
+                                                            'fontFamily': 'Montserrat',
+                                                            'fontSize': '13px',
+                                                            'borderRadius': '6px',
+                                                            'height': '42px',         # 🔺 Chiều cao dropdown
+                                                            'lineHeight': '42px',     # 🔺 Để text nằm giữa theo chiều dọc
+                                                            'paddingLeft': '8px'      # (Tùy chọn) cho dễ đọc
+                                                        }
+                                                    )
+                                                ],style={
+                                                    'position': 'absolute',
+                                                    'top': '1px',         # 🔺 Cao hơn nữa so với '30px'
+                                                    'right': '20px',
+                                                    'width': '180px',
+                                                    'zIndex': '1000'
+                                                })
+                                            ], style={'position': 'relative'})
+                                        ], style={
+                                            'padding': '1em',
+                                            'backgroundColor': '#ffffff',
+                                            'borderRadius': '12px',
+                                            'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
+                                            'width': '550px'
+                                        })
+                                    ], width=4)
+                                ], style={
+                                    'gap': '10px',
+                                    'padding': '10px',
+                                    #'borderRadius': '10px',
+                                    #'border': '2px solid rgba(179,179,179,0.4)',
+                                    'boxShadow': '0 4px 6px rgba(255,255,255,0.05)',
+                                    'background': 'transparent',
+                                    'backdropFilter': 'blur(10px)',
+                                    '-webkitBackdropFilter': 'blur(50px)'
+                                }),
                                 
                                 # Second Row: Feature Comparison and Top Artists
                                 dbc.Row([
                                     dbc.Col(
                                         dcc.Graph(
-                                            id='community-feature-comparison',style={'height': '350px'},
+                                            id='community-distribution-map',style={'height': '490px'},
                                             figure={
                                                 'data': [],
                                                 'layout': {
@@ -525,17 +759,17 @@ layout_spotify = dbc.Container(
                                         ),
                                         width=6,
                                         style={
-                                            'backgroundColor': '#f9f0f1',  # Nền trắng
+                                            'backgroundColor': '#ffffff',  # Nền trắng
                                             'borderRadius': '20px',
                                             'padding': '15px',
                                             'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
                                             'height': '90%',
-                                            'marginRight': '5px'
+                                            #'marginRight': '5px'
                                         }
                                     ),
                                     dbc.Col(
                                         dcc.Graph(
-                                            id='community-top-artists', style={'height': '300px'},
+                                            id='community-top-artists', style={'height': '390px'},
                                             figure={
                                                 'data': [],
                                                 'layout': {
@@ -547,332 +781,425 @@ layout_spotify = dbc.Container(
                                                 }
                                             }
                                         ),
-                                        width=5,
+                                        width=3,
                                         style={
-                                            'backgroundColor': '#f9f0f1',  # Nền trắng
+                                            'backgroundColor': '#ffffff',  # Nền trắng
                                             'borderRadius': '20px',
                                             'padding': '15px',
                                             'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                            'marginRight': '5px'
+                                            #'marginRight': '5px'
                                         }
+                                    ),
+                                    # 3️⃣ Cột 3: Recommended Songs
+                                    dbc.Col(
+                                        html.Div([
+                                            html.H4("Recommended Songs", style={
+                                                'color': '#000000',
+                                                'fontWeight': 'bold',
+                                                'fontFamily': 'Montserrat',
+                                                'textAlign': 'center',
+                                                'fontSize': '15px'
+                                            }),
+                                            html.Div([
+                                                dbc.Button("← Bài trước", id="recommendation-prev-button", n_clicks=0,
+                                                        color="light", className="me-2",
+                                                        style={'width': '100%', 'fontSize': '12px', 'marginBottom': '5px'}),
+                                                dbc.Button("Bài sau →", id="recommendation-next-button", n_clicks=0,
+                                                        color="primary",
+                                                        style={'width': '100%', 'fontSize': '12px'})
+                                            ], style={'display': 'flex', 'flexDirection': 'column', 'gap': '5px'}),
+                                            html.Div(id='community-song-recommendations',
+                                                    style={'marginTop': '10px'})
+                                        ]),
+                                        width=2,
+                                        style={
+                                                'backgroundColor': '#ffffff',  # Nền trắng
+                                                'borderRadius': '20px',
+                                                'padding': '15px',
+                                                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
+                                                'height': '480px',
+                                                #'marginRight': '5px'
+                                            }
                                     )
-                                ], style={'marginTop': '20px', 'marginRight': '5px', 'display': 'flex', 'gap': '30px'}),
+                                ], style={'marginTop': '20px', 'display': 'flex', 'gap': '30px'}),
                             
                                 # Hidden div to store intermediate data
                                 html.Div(id='community-data-store', style={'display': 'none'})
-                            ]
-                        ),
-                        
-                        # Tab 3: Phân tích rủi ro
-                        dcc.Tab(
-                        label='Risk Analysis',
-                        value='risk',
+])
+
+risk_tab_content = dbc.Row([
+    html.Div(
+        style={
+            'padding': '25px',
+            'backgroundColor': '#fff',
+            'borderRadius': '0 8px 8px 8px',
+            'border': f'1px solid {SPOTIFY_COLORS["gray"]}',
+            'borderTop': 'none',
+            'boxShadow': '0 2px 15px rgba(0,0,0,0.05)'
+        },
+        children=[
+            # Header Section
+            dbc.Row([
+                dbc.Col([
+                    html.H4(
+                        "Phân tích Rủi ro Lan truyền",
                         style={
-                            'backgroundColor': '#fff',
                             'color': '#191414',
-                            'border': f'1px solid {SPOTIFY_COLORS["gray"]}',
-                            'padding': '8px 16px',
-                            'fontWeight': '600',
+                            'fontSize': '20px',
                             'fontFamily': 'Montserrat, sans-serif',
-                            'fontSize': '12px',
-                            'height': '40px',
-                            'lineHeight': '24px',
-                            'borderRadius': '8px 8px 0 0',
-                            'marginRight': '5px'
+                            'fontWeight': '600',
+                            'marginBottom': '10px'
+                        }
+                    ),
+                    html.P(
+                        "🔁 Mô phỏng lan truyền ảnh hưởng khi một bài hát hoặc nghệ sĩ bị 'shock' (tẩy chay, scandal, giảm thị hiếu).",
+                        style={
+                            'color': '#666',
+                            'fontSize': '14px',
+                            'fontFamily': 'Montserrat, sans-serif',
+                            'marginBottom': '25px'
+                        }
+                    )
+                ], width=12)
+            ]),
+            
+            # Control Panel Section
+            dbc.Row([
+                dbc.Col([
+                    html.Div(
+                        style={
+                            'backgroundColor': '#f8f9fa',
+                            'borderRadius': '8px',
+                            'padding': '20px',
+                            'marginBottom': '25px'
                         },
-                        selected_style={
-                                    'backgroundColor': SPOTIFY_COLORS['darker_green'],
-                                    'color': SPOTIFY_COLORS['white'],
-                                    'border': f'2px solid {SPOTIFY_COLORS["light_green"]}',
-                                    'padding': '6px 12px',
-                                    'fontWeight': 'bold',
-                                    'fontFamily': 'Montserrat',
-                                    'fontSize': '10px',
-                                    'height': '36px',
-                                    'lineHeight': '24px',
-                                    'boxShadow': 'none',
-                                    'marginBottom': '0px'
-                                },
                         children=[
-                            # Container chính để căn lề
-                            html.Div(
+                            html.H6(
+                                "Thiết lập Mô phỏng",
                                 style={
-                                    'padding': '20px',
-                                    'backgroundColor': '#fff',
-                                    'borderRadius': '0 8px 8px 8px',
-                                    'border': f'1px solid {SPOTIFY_COLORS["gray"]}',
-                                    'borderTop': 'none'
-                                },
-                                children=[
-                                    # Scenario description - updated to mention songs
-                                    dbc.Row([
-                                        dbc.Col(html.P(
-                                            "🔁 Mô phỏng lan truyền ảnh hưởng khi một bài hát, nghệ sĩ hoặc thể loại bị 'shock' (tẩy chay, scandal, giảm thị hiếu).",
-                                            style={
-                                                'color': '#191414',
-                                                'fontSize': '14px',
-                                                'fontFamily': 'Montserrat, sans-serif',
-                                                'marginBottom': '20px'
-                                            }
-                                        ))
-                                    ]),
-
-                                    # Dropdowns for song, artist and genre selection - added song dropdown
-                                    dbc.Row([
-                                        dbc.Col(
-                                            dcc.Dropdown(
-                                                id='song-risk-dropdown',
-                                                options=[{'label': song, 'value': song} for song in sorted(df_songs['track_name'].unique())],
-                                                multi=True,
-                                                placeholder="Chọn bài hát trung tâm",
-                                                style={
-                                                    'color': '#191414',
-                                                    'fontFamily': 'Montserrat',
-                                                    'border': f'1px solid {SPOTIFY_COLORS["gray"]}'
-                                                },
-                                                clearable=False
-                                            ),
-                                            width=3,
-                                            style={
-                                                'backgroundColor': '#f9f0f1',
-                                                'borderRadius': '20px',
-                                                'padding': '15px',
-                                                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                                'marginRight': '5px'
-                                            }
+                                    'color': '#191414',
+                                    'fontFamily': 'Montserrat',
+                                    'marginBottom': '15px',
+                                    'fontWeight': '600'
+                                }
+                            ),
+                            dbc.Row([
+                                dbc.Col(
+                                    dcc.Dropdown(
+                                        id='song-risk-dropdown',
+                                        options=[
+                                            {'label': f"{row['track_name']} (λ: {row['Lambda']:.2f})", 
+                                             'value': row['track_name']}
+                                            for _, row in df_songs.sort_values(by='Lambda', ascending=False).iterrows()
+                                        ],
+                                        multi=True,
+                                        placeholder="Chọn bài hát trung tâm...",
+                                        style={
+                                            'color': '#191414',
+                                            'fontFamily': 'Montserrat',
+                                            'border': f'1px solid {SPOTIFY_COLORS["gray"]}'
+                                        },
+                                        clearable=False
+                                    ),
+                                    width=6,
+                                    style={'paddingRight': '10px'}
+                                ),
+                                dbc.Col(
+                                    dcc.Dropdown(
+                                        id='center-artists',
+                                        options=[{'label': a, 'value': a} for a in sorted(df_songs['artist_names'].unique())],
+                                        multi=True,
+                                        placeholder="Chọn nghệ sĩ trung tâm...",
+                                        style={
+                                            'color': '#191414',
+                                            'fontFamily': 'Montserrat',
+                                            'border': f'1px solid {SPOTIFY_COLORS["gray"]}'
+                                        }
+                                    ),
+                                    width=6,
+                                    style={'paddingLeft': '10px'}
+                                )
+                            ]),
+                            dbc.Row([
+                                dbc.Col(
+                                    html.Div(
+                                        dcc.RadioItems(
+                                            id='network-view-toggle',
+                                            options=[
+                                                {'label': html.Span(['🟢 Mạng gốc (Trước khi xóa)'], 
+                                                  style={'fontFamily': 'Montserrat'}),
+                                                 'value': 'before'},
+                                                {'label': html.Span(['🔴 Mạng sau khi xóa'], 
+                                                  style={'fontFamily': 'Montserrat'}),
+                                                 'value': 'after'}
+                                            ],
+                                            value='after',
+                                            labelStyle={
+                                                'display': 'inline-flex',
+                                                'alignItems': 'center',
+                                                'marginRight': '20px',
+                                                'cursor': 'pointer'
+                                            },
+                                            inputStyle={'marginRight': '5px'},
+                                            style={'marginTop': '15px'}
                                         ),
-                                        dbc.Col(
-                                            dcc.Dropdown(
-                                                id='center-artists',
-                                                options=[{'label': a, 'value': a} for a in sorted(df_songs['artist_names'].unique())],
-                                                multi=True,
-                                                placeholder="Chọn nghệ sĩ trung tâm",
-                                                style={
-                                                    'color': '#191414',
-                                                    'fontFamily': 'Montserrat',
-                                                    'border': f'1px solid {SPOTIFY_COLORS["gray"]}'
-                                                }
-                                            ),
-                                            width=3,
-                                            style={
-                                                'backgroundColor': '#f9f0f1',
-                                                'borderRadius': '20px',
-                                                'padding': '15px',
-                                                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                                'marginRight': '5px'
-                                            }
-                                        ),
-                                        dbc.Col(
-                                            dcc.Dropdown(
-                                                id='genre-risk-dropdown',
-                                                options=[{'label': g, 'value': g} for g in sorted(df_songs['genre'].unique())],
-                                                placeholder="Chọn thể loại để mô phỏng rủi ro",
-                                                style={
-                                                    'color': '#191414',
-                                                    'fontFamily': 'Montserrat',
-                                                    'border': f'1px solid {SPOTIFY_COLORS["gray"]}'
-                                                }
-                                            ),
-                                            width=3,
-                                            style={
-                                                'backgroundColor': '#f9f0f1',
-                                                'borderRadius': '20px',
-                                                'padding': '15px',
-                                                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                                'marginRight': '5px'
-                                            }
-                                        ),
-                                        dbc.Col(
-                                            dcc.Dropdown(
-                                                id='risk-severity',
-                                                options=[
-                                                    {'label': 'Mức độ nhẹ', 'value': 'low'},
-                                                    {'label': 'Mức độ trung bình', 'value': 'medium'},
-                                                    {'label': 'Mức độ cao', 'value': 'high'}
-                                                ],
-                                                value='medium',
-                                                clearable=False,
-                                                style={
-                                                    'color': '#191414',
-                                                    'fontFamily': 'Montserrat',
-                                                    'border': f'1px solid {SPOTIFY_COLORS["gray"]}'
-                                                }
-                                            ),
-                                            width=2,
-                                            style={
-                                                'backgroundColor': '#f9f0f1',
-                                                'borderRadius': '20px',
-                                                'padding': '15px',
-                                                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)'
-                                            }
-                                        )
-                                    ], style={'marginBottom': '20px'}),
-
-                                    # Contagion network and genre impact graphs
-                                    dbc.Row([
-                                        dbc.Col(
-                                            dcc.Graph(
-                                                id='sensitivity-network',
-                                                style={'height': '400px', 'borderRadius': '8px'}
-                                            ),
-                                            width=6,
-                                            style={
-                                                'backgroundColor': '#f9f0f1',
-                                                'borderRadius': '20px',
-                                                'padding': '15px',
-                                                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                                'marginRight': '5px'
-                                            }
-                                        ),
-                                        dbc.Col(
-                                            dcc.Graph(
-                                                id='community-impact-bar',
-                                                style={'height': '400px', 'borderRadius': '8px'}
-                                            ),
-                                            width=5,
-                                            style={
-                                                'backgroundColor': '#f9f0f1',
-                                                'borderRadius': '20px',
-                                                'padding': '15px',
-                                                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                                'marginLeft': '5px'
-                                            }
-                                        )
-                                    ], style={'marginBottom': '20px'}),
-
-                                    # Influence heatmap and risk prediction
-                                    dbc.Row([
-                                        dbc.Col(
-                                            dcc.Graph(
-                                                id='influence-heatmap',
-                                                style={'height': '400px', 'borderRadius': '8px'}
-                                            ),
-                                            width=6,
-                                            style={
-                                                'backgroundColor': '#f9f0f1',
-                                                'borderRadius': '20px',
-                                                'padding': '15px',
-                                                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                                'marginRight': '5px'
-                                            }
-                                        ),
-                                        dbc.Col(
-                                            dcc.Graph(
-                                                id='risk-prediction',
-                                                style={'height': '400px', 'borderRadius': '8px'}
-                                            ),
-                                            width=5,
-                                            style={
-                                                'backgroundColor': '#f9f0f1',
-                                                'borderRadius': '20px',
-                                                'padding': '15px',
-                                                'boxShadow': '0 4px 10px rgba(0,0,0,0.06)',
-                                                'marginLeft': '5px'
-                                            }
-                                        )
-                                    ], style={'marginTop': '20px'}),
-
-                                    # High risk songs table - updated column names to Vietnamese
-                                    dbc.Row([
-                                        dbc.Col(
-                                            html.H5(
-                                                "Top bài hát có nguy cơ cao",
-                                                style={
-                                                    'color': '#191414',
-                                                    'fontFamily': 'Montserrat',
-                                                    'marginBottom': '10px',
-                                                    'marginTop': '20px'
-                                                }
-                                            ),
-                                            width=12
-                                        ),
-                                        dbc.Col(
-                                            dash_table.DataTable(
-                                                id='high-risk-songs',
-                                                columns=[
-                                                    {'name': 'Bài hát', 'id': 'track_name', 'type': 'text'},
-                                                    {'name': 'Nghệ sĩ', 'id': 'artist_names', 'type': 'text'},
-                                                    {'name': 'Thể loại', 'id': 'genre', 'type': 'text'},
-                                                    {'name': 'Điểm ảnh hưởng', 'id': 'influence', 'type': 'numeric',
-                                                    'format': {'specifier': '.2f'}}
-                                                ],
-                                                style_table={
-                                                    'overflowX': 'auto',
-                                                    'borderRadius': '8px',
-                                                    'border': f'1px solid {SPOTIFY_COLORS["gray"]}',
-                                                    'boxShadow': '0 2px 4px rgba(0,0,0,0.1)'
-                                                },
-                                                style_cell={
-                                                    'textAlign': 'left',
-                                                    'backgroundColor': '#fff',
-                                                    'color': '#191414',
-                                                    'border': f'1px solid {SPOTIFY_COLORS["light_gray"]}',
-                                                    'padding': '12px',
-                                                    'fontFamily': 'Montserrat',
-                                                    'fontSize': '13px'
-                                                },
-                                                style_header={
-                                                    'backgroundColor': SPOTIFY_COLORS['darker_green'],
-                                                    'color': '#fff',
-                                                    'fontWeight': '600',
-                                                    'border': f'1px solid {SPOTIFY_COLORS["light_green"]}'
-                                                },
-                                                style_data_conditional=[
-                                                    {'if': {'row_index': 'odd'}, 'backgroundColor': '#f9f9f9'},
-                                                    {'if': {'row_index': 'even'}, 'backgroundColor': '#fff'},
-                                                    {
-                                                        'if': {'state': 'active'},
-                                                        'backgroundColor': SPOTIFY_COLORS['light_green'],
-                                                        'color': '#fff'
-                                                    },
-                                                    {
-                                                        'if': {'column_id': 'influence', 'filter_query': '{influence} > 0.7'},
-                                                        'backgroundColor': '#FFEBEE',
-                                                        'color': '#C62828',
-                                                        'fontWeight': 'bold'
-                                                    }
-                                                ],
-                                                page_size=10,
-                                                sort_action='native',
-                                                filter_action='native'
-                                            ),
-                                            width=12,
-                                            style={
-                                                'marginBottom': '30px'
-                                            }
-                                        )
-                                    ])
-                                ]
+                                        style={'padding': '10px 0'}
+                                    ),
+                                    width=12
+                                )
+                            ])
+                        ]
+                    )
+                ], width=12)
+            ]),
+            
+            # Visualization Section
+            dbc.Row([
+                # Network Graph
+                dbc.Col(
+                    html.Div(
+                        style={
+                            'backgroundColor': '#ffffff',
+                            'borderRadius': '8px',
+                            'padding': '15px',
+                            'boxShadow': '0 4px 12px rgba(0,0,0,0.08)',
+                            'height': '100%'
+                        },
+                        children=[
+                            html.H6(
+                                "Mạng lưới Ảnh hưởng",
+                                style={
+                                    'fontFamily': 'Montserrat',
+                                    'fontWeight': '600',
+                                    'color': '#191414',
+                                    'marginBottom': '15px'
+                                }
+                            ),
+                            dcc.Graph(
+                                id='sensitivity-network',
+                                style={'height': '400px', 'borderRadius': '4px'}
                             )
                         ]
-                    )],
-                    style={
-                        'marginBottom': '20px',
-                        'borderBottom': f'1px solid {SPOTIFY_COLORS["gray"]}',
-                        'boxShadow': '0 4px 10px rgba(0,0,0,0.6)',  
-                        'borderRadius': '20px',
-                        'overflow': 'hidden' ,
-                        'height': '40px',    
-                        'minHeight': 'auto',
-                        
-                    }
+                    ),
+                    width=6,
+                    style={'paddingRight': '10px'}
                 ),
                 
-                # Footer
-                html.Footer(
-                    [
-                        html.P(
-                            "© 2023 Spotify Influence Dashboard | Created with Dash",
-                            style={
-                                'color': SPOTIFY_COLORS['light_gray'],
-                                'textAlign': 'center',
-                                'marginTop': '50px'
-                            }
-                        )
-                    ]
+                # Community Impact
+                dbc.Col(
+                    html.Div(
+                        style={
+                            'backgroundColor': '#ffffff',
+                            'borderRadius': '8px',
+                            'padding': '15px',
+                            'boxShadow': '0 4px 12px rgba(0,0,0,0.08)',
+                            'height': '100%'
+                        },
+                        children=[
+                            html.H6(
+                                "Ảnh hưởng đến Cộng đồng",
+                                style={
+                                    'fontFamily': 'Montserrat',
+                                    'fontWeight': '600',
+                                    'color': '#191414',
+                                    'marginBottom': '15px'
+                                }
+                            ),
+                            dcc.Graph(
+                                id='community-impact-bar',
+                                style={'height': '400px', 'borderRadius': '4px'}
+                            )
+                        ]
+                    ),
+                    width=6,
+                    style={'paddingLeft': '10px'}
                 )
-            ]
-        ),
-        dcc.Interval(id='interval-component', interval=60*1000, n_intervals=0)
-    ]
-)
+            ], style={'marginBottom': '25px'}),
+            
+            dbc.Row([
+                # Heatmap
+                dbc.Col(
+                    html.Div(
+                        style={
+                            'backgroundColor': '#ffffff',
+                            'borderRadius': '8px',
+                            'padding': '15px',
+                            'boxShadow': '0 4px 12px rgba(0,0,0,0.08)',
+                            'height': '100%'
+                        },
+                        children=[
+                            html.H6(
+                                "Bản đồ Nhiệt Ảnh hưởng",
+                                style={
+                                    'fontFamily': 'Montserrat',
+                                    'fontWeight': '600',
+                                    'color': '#191414',
+                                    'marginBottom': '15px'
+                                }
+                            ),
+                            dcc.Graph(
+                                id='influence-heatmap',
+                                style={'height': '400px', 'borderRadius': '4px'}
+                            )
+                        ]
+                    ),
+                    width=6,
+                    style={'paddingRight': '10px'}
+                ),
+                
+                # Risk Prediction
+                dbc.Col(
+                    html.Div(
+                        style={
+                            'backgroundColor': '#ffffff',
+                            'borderRadius': '8px',
+                            'padding': '15px',
+                            'boxShadow': '0 4px 12px rgba(0,0,0,0.08)',
+                            'height': '100%'
+                        },
+                        children=[
+                            html.H6(
+                                "Dự đoán Rủi ro Lan truyền",
+                                style={
+                                    'fontFamily': 'Montserrat',
+                                    'fontWeight': '600',
+                                    'color': '#191414',
+                                    'marginBottom': '15px'
+                                }
+                            ),
+                            dcc.Graph(
+                                id='risk-prediction',
+                                style={'height': '400px', 'borderRadius': '4px'}
+                            )
+                        ]
+                    ),
+                    width=6,
+                    style={'paddingLeft': '10px'}
+                )
+            ], style={'marginBottom': '25px'}),
+            
+            # High Risk Songs Table
+            dbc.Row([
+                dbc.Col(
+                    html.Div(
+                        style={
+                            'backgroundColor': '#ffffff',
+                            'borderRadius': '8px',
+                            'padding': '20px',
+                            'boxShadow': '0 4px 12px rgba(0,0,0,0.08)'
+                        },
+                        children=[
+                            html.H6(
+                                "Top bài hát có nguy cơ cao",
+                                style={
+                                    'fontFamily': 'Montserrat',
+                                    'fontWeight': '600',
+                                    'color': '#191414',
+                                    'marginBottom': '15px'
+                                }
+                            ),
+                            dash_table.DataTable(
+                                id='high-risk-songs',
+                                columns=[
+                                    {'name': 'Bài hát', 'id': 'track_name', 'type': 'text'},
+                                    {'name': 'Nghệ sĩ', 'id': 'artist_names', 'type': 'text'},
+                                    {'name': 'Thể loại', 'id': 'genre', 'type': 'text'},
+                                    {'name': 'Điểm ảnh hưởng (λ)', 'id': 'influence', 
+                                     'type': 'numeric', 'format': {'specifier': '.2f'}}
+                                ],
+                                style_table={
+                                    'overflowX': 'auto',
+                                    'borderRadius': '4px',
+                                    'border': 'none'
+                                },
+                                style_cell={
+                                    'fontFamily': 'Montserrat',
+                                    'padding': '12px',
+                                    'textAlign': 'left',
+                                    'border': 'none',
+                                    'fontSize': '14px'
+                                },
+                                style_header={
+                                    'backgroundColor': SPOTIFY_COLORS['green'],
+                                    'color': 'white',
+                                    'fontWeight': '600',
+                                    'border': 'none',
+                                    'textTransform': 'uppercase',
+                                    'letterSpacing': '0.5px',
+                                    'fontSize': '13px'
+                                },
+                                style_data={
+                                    'backgroundColor': 'white',
+                                    'color': '#191414',
+                                    'borderBottom': f'1px solid {SPOTIFY_COLORS["light_gray"]}'
+                                },
+                                style_data_conditional=[
+                                    {
+                                        'if': {'row_index': 'odd'},
+                                        'backgroundColor': '#f8f9fa'
+                                    },
+                                    {
+                                        'if': {'column_id': 'influence', 'filter_query': '{influence} > 0.8'},
+                                        'backgroundColor': '#ffebee',
+                                        'color': '#c62828'
+                                    }
+                                ],
+                                page_size=10,
+                                sort_action='native',
+                                filter_action='native',
+                                sort_by=[{'column_id': 'influence', 'direction': 'desc'}]
+                            )
+                        ]
+                    ),
+                    width=12
+                )
+            ])
+        ]
+    )
+])
+
+layout_spotify = dbc.Container([
+    # Header
+    dbc.Row([
+        dbc.Col([
+            html.Div([
+                html.Img(src=SPOTIFY_LOGO, style={'height': '50px', 'marginRight': '15px'}),
+                html.H1("Spotify Network Influence Analysis", 
+                       style={
+                           'color': 'white',
+                           'fontWeight': 'bold',
+                           'fontFamily': 'Montserrat',
+                           'marginBottom': '0'
+                       })
+            ], style={'display': 'flex', 'alignItems': 'center', 'padding': '15px 0'})
+        ], width=12)
+    ], style={
+        'backgroundColor': SPOTIFY_COLORS['black'],
+        'padding': '0 30px',
+        'marginBottom': '20px',
+        'borderRadius': '8px'
+    }),
+    
+    # Tabs
+    dbc.Tabs([
+        dbc.Tab(label="Tổng quan", tab_id="overview", children=overview_tab_content),
+        dbc.Tab(label="Cộng đồng", tab_id="community", children=community_tab_content),
+        dbc.Tab(label="Đánh giá rủi ro", tab_id="risk", children=risk_tab_content)
+    ], id="tabs", active_tab="overview"),
+    
+    # Footer
+    dbc.Row([
+        dbc.Col([
+            html.P(
+                "© 2023 Spotify Network Analysis | Powered by Dash",
+                style={
+                    'color': SPOTIFY_COLORS['light_gray'],
+                    'fontSize': '12px',
+                    'textAlign': 'center',
+                    'marginTop': '30px',
+                    'fontFamily': 'Montserrat'
+                }
+            )
+        ], width=12)
+    ])
+], fluid=True, style={'fontFamily': 'Montserrat', 'backgroundColor': SPOTIFY_COLORS['off_white']})

@@ -64,6 +64,7 @@ styles = {
         'borderRadius': '10px', 
         'border': '10px solid #fff', 
         'padding': '15px',
+        'box-shadow': '0 4px 20px rgba(0,0,0,0.08)',
         'backgroundColor': '#fff' # Adjust height as needed
     },
     'filter_container': {
@@ -110,16 +111,14 @@ tab2_layout = html.Div([
             html.Div([
                 dcc.Graph(id='tree-map', style=styles['graph']),
             ]),
-        ], md=6, className='h-100'),
+        ], md=8, className='h-100'),
         # bubble chart
         dbc.Col([
             html.Div([
                 dcc.Graph(id='bubble-chart', style=styles['graph']),
             ]),
-        ], md=6, className='h-100'),
+        ], md=4, className='h-100'),
     ], className='gx-3 gy-3 mb-3 align-items-stretch'),
-    
-
 ])
 
 

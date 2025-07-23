@@ -26,13 +26,17 @@ import src.tab3 as tab3
 # Đọc dữ liệu
 df = pd.read_csv('data/filtered_lambda_output.csv')
 df['Id'] = df['Symbol'].apply(lambda x: str(x)[7:])
+df1 = df
+# global df_lambda
+df_lambda = df.nlargest(70, 'Market Cap').copy()
+# df_lambda =df.copy()
 
-df_lambda = df.nlargest(70, 'Market Cap')
-
-def create_stock_graph(df, selected_sectors=None, threshold=0.8):
+# def create_stock_graph(df, selected_sectors=None, threshold=0.8):
+def create_stock_graph(df, threshold=0.8):
     G = nx.Graph()
 
-    filtered_df = df[df['Sector'].isin(selected_sectors)] if selected_sectors else df
+    # filtered_df = df[df['Sector'].isin(selected_sectors)] if selected_sectors else df
+    filtered_df = df.copy()
     features = ['Volume', 'Market Cap', 'Change', 'Beta (1Y)']
     filtered_df[features] = StandardScaler().fit_transform(filtered_df[features])
     filtered_df = filtered_df.dropna(subset=['Volume', 'Market Cap', 'Change'])
@@ -58,9 +62,12 @@ def create_stock_graph(df, selected_sectors=None, threshold=0.8):
                 G.add_edge(u, v, weight=weight)
 
     return G
+
 def top_lambda_nodes_by_sector(df, selected_sectors=None, total_top=50):
+# def top_lambda_nodes_by_sector(df,  total_top=50):
+
     if selected_sectors:
-        df = df[df['Sector'].isin(selected_sectors)]
+        df = df[df['Sector']==selected_sectors]
 
     sectors = df['Sector'].dropna().unique()
     k = len(sectors)
@@ -73,6 +80,7 @@ def top_lambda_nodes_by_sector(df, selected_sectors=None, total_top=50):
 
     final_df = pd.concat(top_df_list).sort_values('Lambda', ascending=False).head(total_top)
     return final_df
+
 def clustered_random_layout(G, cluster_attr='sector', cluster_radius=1.0, seed=42):
     np.random.seed(seed)
     clusters = list(set(nx.get_node_attributes(G, cluster_attr).values()))
@@ -90,6 +98,7 @@ def clustered_random_layout(G, cluster_attr='sector', cluster_radius=1.0, seed=4
         dy = np.random.normal(0, cluster_radius)
         pos[node] = (cx + dx, cy + dy)
     return pos
+
 def create_node_edge(G, sector_colors=None):
     pos = clustered_random_layout(G, cluster_attr='sector', cluster_radius=0.8)
     edge_x, edge_y = [], []
@@ -175,8 +184,8 @@ def generate_stats_card (title, subtitle, value, image_path):
                 html.H4(title, className="card-title", style={'margin': '0px','fontSize': '18px','fontWeight': 'bold'}),
                 html.P(subtitle, className="card-subtitle", style={'margin': '0px', 'fontSize': '14px', 'color': '#333'})
             ], style={'textAlign': 'center'}),
-        ], style={'width': '100%', 'height': '100%', 'margin': '0px', "backgroundColor":'#f8f9fa','border':'none','borderRadius':'10px', 
-                  'textAlign': 'center', 'paddingTop': '20px', 'paddingBottom': '20px'})
+        ], style={'width': '100%', 'height': '100%', 'margin': '0px', "backgroundColor":'#ffffff','border':'none','borderRadius':'10px', 
+                  'textAlign': 'center', 'paddingTop': '20px', 'paddingBottom': '20px', 'box-shadow': '0 4px 20px rgba(0,0,0,0.08)'})
     )
 
 
@@ -356,12 +365,31 @@ def register_stock_callbacks(app):
         [Input('sector-filter', 'value'),
          Input('community-filter', 'value')]
     )
-
     def update_network_graph(selected_sectors, selected_cluster):
-        G = create_stock_graph(df_lambda, selected_sectors=selected_sectors)
-        if selected_cluster is not None:
-            nodes_to_keep = [node for node, data in G.nodes(data=True) if data.get('community') == selected_cluster]
+
+        df_filtered = df_lambda.copy()
+
+
+        G = create_stock_graph(df_filtered)
+        # if selected_sectors is not None:
+        #     nodes_to_keep = [node for node, data in G.nodes(data=True) if data.get('sector') == selected_sectors]
+        #     G.remove_nodes_from([node for node in G.nodes() if node not in nodes_to_keep])
+        # if selected_cluster is not None:
+        #     nodes_to_keep = [node for node, data in G.nodes(data=True) if data.get('community') == selected_cluster]
+        #     G.remove_nodes_from([node for node in G.nodes() if node not in nodes_to_keep])
+        if selected_sectors is not None or selected_cluster is not None:
+            nodes_to_keep = []
+            for node, data in G.nodes(data=True):
+                keep = True
+                if selected_sectors is not None:
+                    keep &= data.get('sector') == selected_sectors
+                if selected_cluster is not None:
+                    keep &= data.get('community') == selected_cluster
+                if keep:
+                    nodes_to_keep.append(node)
+            
             G.remove_nodes_from([node for node in G.nodes() if node not in nodes_to_keep])
+
         
         sector_partition = {node: data.get('sector', 'Unknown') for node, data in G.nodes(data=True)}
         sector_colors = {
@@ -387,9 +415,9 @@ def register_stock_callbacks(app):
             paper_bgcolor='white',
             xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
             yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-            height=400,
+            height=500,
             #width=500,
-            margin=dict(l=0, r=20, t=50, b=0),
+            margin=dict(t=30, b=30, l=40, r=40),
             font=dict(size=13, color='#000')
         )
 
@@ -404,6 +432,7 @@ def register_stock_callbacks(app):
             ))
 
         return dcc.Graph(figure=fig)
+    
 
 
     # Callback cho các biểu đồ bổ sung
@@ -413,63 +442,73 @@ def register_stock_callbacks(app):
         [Input('sector-filter', 'value'),
          Input('community-filter', 'value')]
     )
-
-    def update_additional_charts(selected_sectors, selected_community):
+    def update_additional_charts(selected_sectors, selected_cluster):
         # Lọc dữ liệu theo Sector nếu có
-        filtered_df = df.copy()
-        if selected_community:
-            filtered_df = filtered_df[filtered_df['Sector'].isin(selected_community)]
-        if selected_sectors:
-            filtered_df = filtered_df[filtered_df['Sector'].isin(selected_sectors)]
+        filtered_df = df1.copy()
+        if selected_sectors is not None:
+            filtered_df = filtered_df[filtered_df['Sector'] == selected_sectors]
+        if selected_cluster is not None:
+            filtered_df = filtered_df[filtered_df['Cluster'] == selected_cluster]
+
         # Histogram phân phối Lambda
         lambda_hist_fig = go.Figure()
         lambda_hist_fig.add_trace(go.Histogram(
             x=filtered_df['Lambda'],
-            nbinsx=10,  # Số bin cố định, có thể điều chỉnh
+            nbinsx=15,  # Có thể tăng/giảm tùy phân phối
             marker=dict(
-                color="#060189", 
-                line=dict(width=1, color='white')
+                color="#154360",  # màu cột
+                line=dict(width=1, color='white')  # viền trắng giữa các cột
             ),
-            opacity=0.7,
-            hoverinfo='x+y'
+            opacity=0.8,
+            hovertemplate='Lambda: %{x}<br>Count: %{y}<extra></extra>'
         ))
 
         lambda_hist_fig.update_layout(
-            title={
-                'text': "Distribution of Lambda Values",
-                'y': 0.95,
-                'x': 0.,
-                'xanchor': 'left',
-                'yanchor': 'top',
-                'font': {
-                    'size': 16,
-                    'color': 'black',
-                    'family': "Montserrat"
-                }
-            },
+            title=dict(
+                text="Distribution of Lambda Values",
+                y=0.95,
+                x=0.0,
+                xanchor='left',
+                yanchor='top',
+                font=dict(
+                    size=16,
+                    color='black',
+                    family="Montserrat"
+                )
+            ),
             xaxis=dict(
                 title="<b>Lambda Value</b>",
                 title_font=dict(size=12, color='black'),
                 tickfont=dict(size=11, color='black'),
-                gridcolor='rgba(0,0,0,0.1)',
-                zerolinecolor='rgba(0,0,0,0.3)'
+                gridcolor='lightgrey',
+                zerolinecolor='lightgrey',
+                showline=True,
+                linewidth=1,
+                linecolor='lightgrey'
             ),
             yaxis=dict(
                 title="<b>Frequency</b>",
                 title_font=dict(size=12, color='black'),
-                tickfont=dict(size=11, color='black')
+                tickfont=dict(size=11, color='black'),
+                gridcolor='lightgrey',
+                zerolinecolor='lightgrey',
+                showline=True,
+                linewidth=1,
+                linecolor='lightgrey'
             ),
-            margin=dict(l=40, r=40, t=50, b=20),
-            height=350,
-            plot_bgcolor='rgba(0,0,0,0)',
-            paper_bgcolor='rgba(0,0,0,0)',
+            margin=dict(l=40, r=30, t=40, b=30),
+            height=520,
+            plot_bgcolor='white',
+            paper_bgcolor='white',
             hoverlabel=dict(
-                bgcolor='rgba(29,185,84,0.8)',
+                bgcolor='rgba(29,185,84,0.9)',
                 font_size=13,
                 font_family="Montserrat"
             ),
+            bargap=0.05,  # Giảm để làm cột rộng hơn
             showlegend=False
         )
+
 
         # Vẽ biểu đồ Sunburst
         sector_cluster_summary = filtered_df.groupby(['Sector', 'Cluster'], as_index=False).size()
@@ -483,7 +522,7 @@ def register_stock_callbacks(app):
             paper_bgcolor='rgba(0,0,0,0)',
             font=dict(family='Montserrat', color="#000"),
             margin=dict(l=20, r=20, t=50, b=20),
-            height=400
+            height=500
         )
 
         return (
@@ -499,13 +538,12 @@ def register_stock_callbacks(app):
         [Input('sector-filter', 'value'),
          Input('community-filter', 'value')]
     )
-
     def update_network_table(selected_sector, selected_community):
         # Lọc dữ liệu theo Sector và Community nếu có
         filtered_df = df.copy()
-        if selected_sector:
-            filtered_df = filtered_df[filtered_df['Sector'].isin(selected_sector)]# if selected_sector else df
-            #filtered_df = filtered_df[filtered_df['Sector'] == selected_sector]
+        if selected_sector is not None:
+            # filtered_df = filtered_df[filtered_df['Sector'].isin(selected_sector)]# if selected_sector else df
+            filtered_df = filtered_df[filtered_df['Sector'] == selected_sector]
         if selected_community is not None:
             filtered_df = filtered_df[filtered_df['Cluster'] == selected_community]
 
@@ -645,13 +683,12 @@ def register_stock_callbacks(app):
         Input('sector-filter', 'value'),
         Input('community-filter', 'value')
     )
-    def update_tab1_charts(selected_sector, selected_community):
+    def update_tab2_charts(selected_sector, selected_community):
         filtered_df = df.copy()
 
-        if selected_sector:
+        if selected_sector is not None:
             filtered_df = filtered_df[filtered_df['Sector'] == selected_sector]
-
-        if selected_community:
+        if selected_community is not None:
             filtered_df = filtered_df[filtered_df['Cluster'] == selected_community]
 
         # 2.1 Create Stacked Horizontal Bar Chart
@@ -680,29 +717,42 @@ def register_stock_callbacks(app):
             margin=dict(t=30, b=30, l=40, r=40),
         )
 
-        # 2.2 Create Sankey Diagram
-        # Prepare data for Sankey: source, target, value
+        # # 2.2 Create Sankey Diagram
+        # # Prepare data for Sankey: source, target, value
         sankey_data = filtered_df.groupby(['Sector', 'Cluster']).size().reset_index(name='count')
 
-        # Create labels and mappings for Sankey diagram
-        all_nodes = list(sankey_data['Sector'].unique()) + list(sankey_data['Cluster'].unique())
+
+        # Tạo danh sách node
+        all_sectors = sankey_data['Sector'].unique()
+        all_clusters = sankey_data['Cluster'].unique()
+        all_nodes = list(all_sectors) + list(all_clusters)
         node_map = {node: i for i, node in enumerate(all_nodes)}
 
+        # Ánh xạ chỉ số
         source_indices = [node_map[sector] for sector in sankey_data['Sector']]
         target_indices = [node_map[cluster] for cluster in sankey_data['Cluster']]
         values = sankey_data['count'].tolist()
 
+        # Tạo danh sách màu cho node: source (sector) = blue, target (cluster) = gray
+        node_colors = px.colors.sequential.Blues[-1::-1] + ["#4D7591", "#6F8E9D"] 
+
+        # Tạo màu link theo source (cùng màu với Sector)
+        link_colors = ["#B7CCE1" for _ in source_indices]
+
+        # Sankey chart
         sankey_fig = go.Figure(data=[go.Sankey(
             node=dict(
                 pad=15,
                 thickness=20,
                 line=dict(color="black", width=0.5),
                 label=all_nodes,
+                color=node_colors  # tô màu node theo source/target
             ),
             link=dict(
                 source=source_indices,
                 target=target_indices,
-                value=values
+                value=values,
+                color=link_colors  # tô màu link theo source
             )
         )])
 
@@ -712,15 +762,16 @@ def register_stock_callbacks(app):
             paper_bgcolor='#fff',
             font_color='#111',
             height=500,
-            showlegend=True,
+            showlegend=False,
             margin=dict(t=30, b=30, l=40, r=40),
         )
+
 
 
         # 2.3 Create Treemap
         treemap_fig = px.treemap(
             filtered_df,
-            path=['Sector','Symbol'],
+            path=['Sector','Id'],
             values='Market Cap',
             color='Lambda',
             color_continuous_scale=["#154360", "#3B6E8D"],
@@ -730,18 +781,19 @@ def register_stock_callbacks(app):
             plot_bgcolor='#fff',
             paper_bgcolor='#fff',
             font_color='#111',
-            height=600,
+            height=700,
             showlegend=True,
             margin=dict(t=30, b=30, l=40, r=40),
         )
 
-        # 2.4 Create Bubble chart
+        # # 2.4 Create Bubble chart
         bubble_fig = px.scatter(
             filtered_df,
-            x='Market Cap',
+            x='Change',
             y='Lambda',
             size='Volume',
             color='Sector',
+            color_discrete_sequence=px.colors.sequential.Blues[-1::-1],
             hover_name='Id',
             title='Bubble Chart of Stock Performance'
         )
@@ -752,8 +804,51 @@ def register_stock_callbacks(app):
             height=600,
             showlegend=True,
             margin=dict(t=30, b=0, l=40, r=40),
+            xaxis=dict(
+                gridcolor='#f0f0f0',  # màu lưới trục x (nhạt)
+                zeroline=False
+            ),
+            yaxis=dict(
+                gridcolor='#f0f0f0',  # màu lưới trục y (nhạt)
+                zeroline=False
+            )
         )
 
+
+
+        # # Chọn các đặc trưng số
+        # num_cols = ['EPS', 'Change', 'Beta (1Y)', 'Lambda']
+
+        # # Tính giá trị trung bình theo Sector (hoặc bạn thay bằng 'cluster' nếu muốn)
+        # mean_df = filtered_df.groupby('Sector')[num_cols].median().reset_index()
+
+        # # Tạo Radar Chart
+        # radar_fig = go.Figure()
+
+        # for _, row in mean_df.iterrows():
+        #     radar_fig.add_trace(go.Scatterpolar(
+        #     r=row[num_cols].values,
+        #     theta=num_cols,
+        #     # fill='toself',
+        #     name=row['Sector'],
+        #     fillcolor='rgba(59,110,141,0.4)',  # Màu tô mờ
+        #     line_color='#3B6E8D',              # Màu đường
+        #     marker=dict(color="#87B3CD")
+        # ))
+
+        # radar_fig.update_layout(
+        #     title='Trung bình các đặc trưng theo Sector',
+        #     polar=dict(
+        #         radialaxis=dict(visible=True, linewidth=1, gridcolor="#3B6E8D")
+        #     ),
+        #     showlegend=True,
+        #     # bgcolor='white',
+        #     plot_bgcolor='white',
+        #     paper_bgcolor='white',
+        #     font=dict(color='#111'),
+        #     height=800,
+        #     margin=dict(t=30, b=0, l=40, r=40),
+        # )
 
 
         # Return all figures
@@ -834,7 +929,7 @@ def register_stock_callbacks(app):
             y=volume_by_month['Month'],
             x=volume_by_month['Volume'],
             orientation='h',
-            marker_color='#3498db',  # Màu xanh dương
+            marker_color=px.colors.sequential.Blues[-1::-1], 
             hovertemplate='Month: %{y}<br>Total Volume: %{x}<extra></extra>'
         ))
 
@@ -858,19 +953,29 @@ def register_stock_callbacks(app):
             dcc.Graph(figure=fig, style={'height': '100%'}),
             dcc.Graph(figure=fig_volume, style={'height': '500px'}))
 
+
+
     # Callback cho increasing chart
     @app.callback(
         Output('trend-increasing-chart', 'children'),
-        Input('refresh', 'n_intervals')
+        Input('refresh', 'n_intervals'),
+        Input('sector-filter', 'value'),
+        Input('community-filter', 'value')
     )
-    
-    def update_trend_increasing_chart(n):
+    def update_trend_increasing_chart(n, selected_sector, selected_community):
+        
         df = pd.read_csv('data/increasing_stocks.csv')
-        trend_increase_count = len(df[df['Trend'] == 'Tăng'])
-        percent_trend_increase = (trend_increase_count / len(df)) * 100
+        filtered_df = df.copy()
+        if selected_sector is not None:
+            filtered_df = filtered_df[filtered_df['Sector'] == selected_sector]
+        if selected_community is not None:
+            filtered_df = filtered_df[filtered_df['Cluster'] == selected_community]
 
-        cluster_1_rows = len(df[df['Cluster'] == 1])
-        cluster_1_trend_increase_count = len(df[(df['Cluster'] == 1) & (df['Trend'] == 'Tăng')])
+        trend_increase_count = len(filtered_df[filtered_df['Trend'] == 'Tăng'])
+        percent_trend_increase = (trend_increase_count / len(filtered_df)) * 100
+
+        cluster_1_rows = len(filtered_df[filtered_df['Cluster'] == 1])
+        cluster_1_trend_increase_count = len(filtered_df[(filtered_df['Cluster'] == 1) & (filtered_df['Trend'] == 'Tăng')])
         percent_cluster_1_trend_increase = (cluster_1_trend_increase_count / cluster_1_rows) * 100 if cluster_1_rows > 0 else 0
 
         # Data for the bar chart
@@ -882,7 +987,7 @@ def register_stock_callbacks(app):
             go.Bar(
                 x=labels,
                 y=values,
-                marker_color=["#42F1F7", "#42F1F7"],
+                marker_color=["#09306b", "#345687"],
                 text=[f'{v:.1f}%' for v in values],
                 textposition='auto',
                 width=0.5
@@ -922,17 +1027,23 @@ def register_stock_callbacks(app):
         )
 
         return dcc.Graph(figure=fig, id='trend-increasing-chart')
+    
+
+
 
     @app.callback(
         Output('pie-chart-sector', 'children'),
+        Input('sector-filter', 'value'),
         Input('community-filter', 'value')
     )
-    def update_pie_portfolio(selected_community):
+    def update_pie_portfolio(selected_sector, selected_community):
         df = pd.read_csv('data/increasing_stocks.csv')
+        df_filtered = df.copy()
+        if selected_sector is not None:
+            df_filtered = df_filtered[df_filtered['Sector'] == selected_sector]
         if selected_community is not None:
-            df_filtered = df[df['Cluster'] == selected_community]
-        else:
-            df_filtered = df
+            df_filtered = df_filtered[df_filtered['Cluster'] == selected_community]
+        
         sector_counts = df_filtered['Sector'].value_counts().reset_index()
         sector_counts.columns = ['Sector', 'Stock Quantity']
         
@@ -977,8 +1088,8 @@ def register_stock_callbacks(app):
     )
     def update_top_stocks(selected_sector, selected_community):
         filtered_df = pd.read_csv('data/increasing_stocks.csv')  # Assuming this CSV contains the top stocks data
-        if selected_sector:
-            filtered_df = filtered_df[filtered_df['Sector'].isin(selected_sector)]
+        if selected_sector is not None:
+            filtered_df = filtered_df[filtered_df['Sector'] == selected_sector]
         if selected_community is not None:
             filtered_df = filtered_df[filtered_df['Cluster'] == selected_community]
             stocks_df = filtered_df[(filtered_df['Cluster'] == selected_community) & 

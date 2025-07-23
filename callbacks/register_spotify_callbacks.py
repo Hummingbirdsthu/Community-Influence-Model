@@ -3,13 +3,23 @@ from dash.dependencies import Output, Input, State
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import pandas as pd
+import plotly.colors as pc
 import dash
+import time
 import requests
+from plotly.colors import sample_colorscale
+import pickle
+from scipy.optimize import minimize
+from scipy.sparse import lil_matrix
+from scipy.linalg import det, inv
+import numpy as np
+from scipy.optimize import least_squares
 from bs4 import BeautifulSoup
 import numpy as np
 import networkx as nx
 import community as community_louvain
 from datetime import datetime
+from sklearn.preprocessing import StandardScaler
 import pytz
 import base64
 import plotly.graph_objects as go
@@ -21,6 +31,14 @@ from matplotlib.colors import to_hex
 import matplotlib.cm as cm
 import random
 import string
+import pycountry
+
+# ✅ Hàm chuyển mã ISO-2 → ISO-3
+def convert_iso2_to_iso3(code):
+    try:
+        return pycountry.countries.get(alpha_2=code.strip().upper()).alpha_3
+    except:
+        return None
 # Màu sắc theo phong cách Spotify
 SPOTIFY_COLORS = {
     # Màu chính
@@ -52,17 +70,112 @@ def image_to_base64(url):
         return "data:image/jpeg;base64," + base64.b64encode(response.content).decode('utf-8')
     except:
         return "data:image/jpeg;base64," + base64.b64encode(requests.get("https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228").content).decode('utf-8')
+def gradient(lambdas, Y, X, W, zeta, v, alpha, sigma2, theta, delta):
+    n = len(Y)
+    S = np.eye(len(lambdas)) - W @ np.diag(lambdas)
+    S_inv = np.linalg.inv(S)
+    S_Y = S @ Y
+    #alpha, sigma2 = self._compute_alpha_sigma2(Y, X, S)
+    M_X = np.eye(n) - X @ np.linalg.pinv(X.T @ X) @ X.T
+
+    grad_logdet = np.array([-np.trace(S_inv @ (np.diag(W[:, i]))) for i in range(n)])
+    grad_sigma2 = np.zeros(n)
+
+    residual = S_Y - X @ alpha
+    for i in range(n):
+        dS = -np.diag(W[:, i])
+        dS_Y = dS @ Y
+        XTX_inv = np.linalg.pinv(X.T @ X)
+        d_residual = dS_Y - X @ XTX_inv @ X.T @ dS_Y
+        # Nếu không khớp kích thước, reshape lại chúng
+        if residual.shape != d_residual.shape:
+            residual = residual.reshape(-1, 1)  # hoặc điều chỉnh sao cho phù hợp
+            d_residual = d_residual.reshape(-1, 1)
+
+        reg = 1e-5
+        pinv_XTX = np.linalg.pinv(X.T @ X + reg * np.eye(X.shape[1]))
+
+        d_residual = dS_Y - X @ pinv_XTX @ X.T @ dS_Y
+        # Cập nhật giá trị grad_sigma2[i]
+        grad_sigma2[i] = (residual.T @ d_residual) / (n * sigma2)
+    grad_likelihood = grad_logdet - 0.5 * n * grad_sigma2
+
+    Delta_lambda = delta @ lambdas
+    grad_penalty = theta * delta.T @ (Delta_lambda - zeta + v / theta)
+
+    return -grad_likelihood + grad_penalty
+def loglikelihood(Y, X, W, lambdas, alpha, sigma2):
+    S = np.eye(len(lambdas)) - W @ np.diag(lambdas)
+    n = len(Y)
+    try:
+        logdet = np.log(np.abs(det(S)))
+    except:
+        logdet = -np.inf
+    S_Y = S @ Y
+    loss = (S_Y - X @ alpha).T @ (S_Y - X @ alpha)
+    return logdet - (n/2)*np.log(sigma2)
+
+def penalty(Delta_lambda, zeta, v, theta):
+    return (theta/2) * np.sum((Delta_lambda - zeta + v/theta)**2)
+
+def objective(lambdas, Y, X, W, zeta, v, alpha, sigma2, theta, delta):
+    n = len(Y)
+    Delta_lambda = delta @ lambdas
+    return -loglikelihood(Y, X, W, lambdas, alpha, sigma2) + penalty(Delta_lambda, zeta, v, theta)
+
+def update_lambda(lambdas, Y, X, W, zeta, v, alpha, sigma2, theta, delta):
+    n = len(Y)
+    res = minimize(
+        fun=objective,
+        x0=lambdas.copy(),
+        args=(Y, X, W, zeta, v, alpha, sigma2, theta, delta),
+        jac=gradient,
+        method='L-BFGS-B',
+        bounds=[(0 + 10e-5, 1 - 10e-5)]*n,
+        options={'maxiter': 50, 'disp': False}
+    )
+    return res.x
+
+def simulate_node_removal_impact(node_to_remove, X, Y, W, saved_model):
+    """
+    Simulate the effect of removing one node from the network on lambda estimates.
+    """
+
+    lambda_old = saved_model['lambdas_']
+    alpha_hat = saved_model['alpha_']
+    sigma2_hat = saved_model['sigma2_']
+    delta = saved_model['Delta']
+    zeta = saved_model['zeta']
+    v = saved_model['v']
+    theta = 1.0
+    
+    n = len(Y)
+    keep_indices = np.delete(np.arange(n), node_to_remove)
+
+    # Remove node index from W, X, Y
+    W_new = W[np.ix_(keep_indices, keep_indices)]
+    delta_new = delta[np.ix_(keep_indices, keep_indices)]
+    X_new = X[keep_indices]
+    Y_new = Y[keep_indices]
+    zeta_new = zeta[keep_indices]
+    v_new = v[keep_indices]
+    lambda_est = lambda_old[keep_indices]
+    
+    lambda_new = update_lambda(lambda_est, Y_new, X_new, W_new, zeta_new, v_new, alpha_hat, sigma2_hat, theta, delta_new)
+
+    return lambda_new
 
 def generate_spotify_data():
-    df = pd.read_csv("data/merged_with_lambda.csv")
+    df= pd.read_csv("merged_with_lambda.csv")
+
+    # Hiển thị 1 dòng đầu tiên để xác minh có đúng là tên cột không
+    print(df.iloc[0, -5:])
     # Nếu thiếu valence thì tạo random
     if 'valence' not in df.columns:
         df['valence'] = np.random.uniform(0, 1, len(df))
     # Mã hóa ảnh nếu cần
     if 'image_base64' not in df.columns and 'image_url' in df.columns:
         df['image_base64'] = df['image_url'].apply(image_to_base64)
-
-    # Tạo graph G
     G = nx.Graph()
     artist_col = 'artist_names'
     genre_col = 'genre'
@@ -75,12 +188,18 @@ def generate_spotify_data():
                    type='song')
 
     for artist in df[artist_col].dropna().unique():
-        tracks = df[df[artist_col] == artist]['track_name'].tolist()
+        artist_tracks = df[df[artist_col] == artist]
+        tracks = artist_tracks['track_name'].tolist()
+        lambda_map = artist_tracks.set_index('track_name')['Lambda'].to_dict()
+
         for i in range(len(tracks)):
             for j in range(i + 1, len(tracks)):
-                G.add_edge(tracks[i], tracks[j], connection='artist')
+                t1, t2 = tracks[i], tracks[j]
+                lam1 = lambda_map.get(t1, 0)
+                lam2 = lambda_map.get(t2, 0)
+                edge_weight = (lam1 + lam2) / 2
+                G.add_edge(t1, t2, connection='artist', weight=edge_weight)
 
-    # ✅ Tính metrics thật sự bằng networkx
     if G.number_of_nodes() > 0 and G.number_of_edges() > 0:
         degree_dict = dict(G.degree())
         betweenness_dict = nx.betweenness_centrality(G, normalized=True)
@@ -98,9 +217,243 @@ def generate_spotify_data():
     df[['valence', 'genre', 'Degree', 'Betweenness', 'Lambda']] = df[['valence', 'genre', 'Degree', 'Betweenness', 'Lambda']].fillna(0)
 
     return df, G, partition
+def draw_original_network_for_comparison():
+    top_nodes = df_songs.nlargest(150, 'popularity')['track_name'].tolist()
+    H = G.subgraph(top_nodes).copy()
 
+    # Thêm cạnh giữa các bài hát cùng thể loại
+    genre_groups = df_songs[df_songs['track_name'].isin(H.nodes)].groupby('genre')
+    for genre, group in genre_groups:
+        tracks = group['track_name'].tolist()
+        for i in range(len(tracks)):
+            for j in range(i + 1, len(tracks)):
+                if not H.has_edge(tracks[i], tracks[j]):
+                    H.add_edge(tracks[i], tracks[j], connection='genre')
+
+    pos = nx.kamada_kawai_layout(H)
+    genre_list = df_songs['genre'].dropna().unique().tolist()
+    color_palette = px.colors.qualitative.Plotly + px.colors.qualitative.D3 + px.colors.qualitative.Dark24
+    genre_color_map = {g: color_palette[i % len(color_palette)] for i, g in enumerate(genre_list)}
+    top5 = set(df_songs.nlargest(5, 'Lambda')['track_name'])
+
+    edge_traces = []
+    for u, v, data in H.edges(data=True):
+        x0, y0 = pos[u]
+        x1, y1 = pos[v]
+        color = '#1DB954' if data.get('connection') == 'artist' else '#888'
+        width = 2.5 if data.get('connection') == 'artist' else 1
+        edge_traces.append(go.Scatter(
+            x=[x0, x1, None], y=[y0, y1, None],
+            mode='lines',
+            line=dict(width=width, color=color),
+            hoverinfo='none',
+            showlegend=False
+        ))
+
+    node_x, node_y, node_text, node_color, node_size, node_border = [], [], [], [], [], []
+    for node in H.nodes():
+        x, y = pos[node]
+        node_x.append(x)
+        node_y.append(y)
+        node_data = H.nodes[node]
+        genre = df_songs[df_songs['track_name'] == node]['genre'].values[0] if node in df_songs['track_name'].values else 'Other'
+        eigen = df_songs[df_songs['track_name'] == node]['Lambda'].values[0] if node in df_songs['track_name'].values else 0.1
+        popularity = df_songs[df_songs['track_name'] == node]['popularity'].values[0] if node in df_songs['track_name'].values else 0
+        artist = df_songs[df_songs['track_name'] == node]['artist_names'].values[0] if node in df_songs['track_name'].values else ''
+        
+        node_text.append(
+            f"<b>{node}</b><br>"
+            f"Nghệ sĩ: {artist}<br>"
+            f"Thể loại: {genre}<br>"
+            f"Độ ảnh hưởng: {eigen:.2f}<br>"
+            f"Độ phổ biến: {popularity}"
+        )
+        node_color.append(genre_color_map.get(genre, '#CCCCCC'))
+        base_size = 35 if node in top5 else 18
+        node_size.append(base_size + 30 * abs(eigen))
+        node_border.append('rgba(255,255,255,0.7)')
+
+    node_trace = go.Scatter(
+        x=node_x, y=node_y,
+        mode='markers',
+        hoverinfo='text',
+        hovertext=node_text,
+        marker=dict(
+            color=node_color,
+            size=node_size,
+            line=dict(width=4, color=node_border),
+            opacity=0.97,
+            symbol='circle'
+        )
+    )
+
+    # Legend theo thể loại
+    legend_traces = []
+    for genre, color in genre_color_map.items():
+        legend_traces.append(go.Scatter(
+            x=[None], y=[None],
+            mode='markers',
+            marker=dict(size=10, color=color),
+            name=genre,
+            showlegend=True
+        ))
+
+    fig = go.Figure(
+        data=edge_traces + [node_trace] + legend_traces,
+        layout=go.Layout(
+            title=dict(
+                text='<b>SPOTIFY MUSIC NETWORK</b><br><sup>Mạng lưới gốc (trước khi xoá)</sup>',
+                font=dict(color='black', size=18, family="Montserrat"),
+                x=0.05
+            ),
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            hovermode='closest',
+            showlegend=True,
+            legend=dict(
+                title='Thể loại',
+                font=dict(color='black', size=10),
+                orientation='v',
+                x=1.05,
+                y=1,
+                xanchor='left'
+            ),
+            height=400,
+            width=600,
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            font=dict(color='black'),
+            hoverlabel=dict(
+                bgcolor='rgba(30,30,30,0.8)',
+                font_size=14,
+                font_family="Montserrat"
+            ),
+            margin=dict(l=20, r=20, t=60, b=20)
+        )
+    )
+    return fig
 
 df_songs, G, partition = generate_spotify_data()
+def simulate_propagation(G, seed_nodes, max_steps=5):
+    """Mô phỏng quá trình lan truyền ảnh hưởng trong đồ thị
+    
+    Args:
+        G: Đồ thị networkx
+        seed_nodes: Danh sách node bắt đầu
+        max_steps: Số bước lan truyền tối đa
+    
+    Returns:
+        Dict chứa kết quả mô phỏng
+    """
+    infection_time = {node: 0 for node in seed_nodes}
+    current_frontier = set(seed_nodes)
+    all_infected = set(seed_nodes)
+    propagation_paths = set()
+    
+    for step in range(1, max_steps + 1):
+        next_frontier = set()
+        
+        for node in current_frontier:
+            for neighbor in G.neighbors(node):
+                if neighbor not in all_infected:
+                    # Tính xác suất lây nhiễm dựa trên trọng số edge
+                    infection_prob = G[node][neighbor].get('weight', 0.5)
+                    if random.random() < infection_prob:
+                        infection_time[neighbor] = step
+                        next_frontier.add(neighbor)
+                        all_infected.add(neighbor)
+                        propagation_paths.add((node, neighbor))
+        
+        current_frontier = next_frontier
+        if not current_frontier:
+            break
+    
+    return {
+        'all_nodes': list(all_infected),
+        'infection_time': infection_time,
+        'propagation_paths': propagation_paths
+    }
+
+# Hàm lấy dữ liệu lan truyền
+def get_propagation_data(selected_artists, selected_songs, df, G):
+    """Hàm phụ trợ lấy dữ liệu lan truyền từ đồ thị G và dataframe df
+    
+    Args:
+        selected_artists: Danh sách nghệ sĩ được chọn
+        selected_songs: Danh sách bài hát được chọn
+        df: DataFrame chứa dữ liệu bài hát
+        G: Đồ thị networkx đã được xây dựng
+    
+    Returns:
+        Dict chứa dữ liệu nodes và edges cho visualization
+    """
+    if not selected_artists and not selected_songs:
+        return None
+    
+    # Chuyển đổi input thành list nếu là string
+    if isinstance(selected_artists, str):
+        selected_artists = [selected_artists]
+    if isinstance(selected_songs, str):
+        selected_songs = [selected_songs]
+    
+    # Lấy tất cả các bài hát liên quan đến nghệ sĩ được chọn
+    related_songs = []
+    if selected_artists:
+        related_songs.extend(df[df['artist_names'].isin(selected_artists)]['track_name'].tolist())
+    if selected_songs:
+        related_songs.extend(selected_songs)
+    
+    if not related_songs:
+        return None
+    
+    # Tìm các node có ảnh hưởng trong đồ thị
+    nodes_to_analyze = [song for song in related_songs if song in G]
+    
+    if not nodes_to_analyze:
+        return None
+    
+    # Mô phỏng quá trình lan truyền
+    propagation_results = simulate_propagation(G, nodes_to_analyze)
+    
+    # Chuẩn bị dữ liệu nodes cho visualization
+    nodes_data = []
+    node_id_map = {node: idx for idx, node in enumerate(propagation_results['all_nodes'])}
+    
+    for node in propagation_results['all_nodes']:
+        artist = G.nodes[node].get('artist', 'Unknown')
+        genre = G.nodes[node].get('genre', 'Unknown')
+        popularity = G.nodes[node].get('popularity', 0)
+        lambda_val = df[df['track_name'] == node]['Lambda'].values[0] if node in df['track_name'].values else 0
+        
+        nodes_data.append({
+            'id': node_id_map[node],
+            'label': f"{node[:15]}..." if len(node) > 15 else node,
+            'full_label': node,
+            'artist': artist,
+            'time': propagation_results['infection_time'].get(node, 0),
+            'value': lambda_val,
+            'size': 10 + (lambda_val * 30),
+            'color': '#1DB954' if node in nodes_to_analyze else '#FF5733',
+            'genre': genre,
+            'popularity': popularity
+        })
+    
+    # Chuẩn bị dữ liệu edges cho visualization
+    edges_data = []
+    for edge in propagation_results['propagation_paths']:
+        source, target = edge
+        edges_data.append({
+            'source': node_id_map[source],
+            'target': node_id_map[target],
+            'source_time': propagation_results['infection_time'].get(source, 0),
+            'target_time': propagation_results['infection_time'].get(target, 0),
+            'width': 0.5 + (G[source][target]['weight'] * 3 if 'weight' in G[source][target] else 1)
+        })
+    
+    return {
+        'nodes': nodes_data,
+        'edges': edges_data
+    }
 def register_spotify_callbacks(app):
     # Cập nhật thời gian
     @app.callback(
@@ -111,11 +464,52 @@ def register_spotify_callbacks(app):
         tz = pytz.timezone('Asia/Ho_Chi_Minh')
         current_time = datetime.now(tz)
         return current_time.strftime('%H:%M %d/%m/%Y')
+    @app.callback(
+        [
+            Output('avg-popularity-display', 'children'),
+            Output('top-genre-display', 'children'),
+            Output('avg-duration-display', 'children'),
+            Output('unique-artists-display', 'children')
+        ],
+        [Input('tabs', 'active_tab')]
+    )
+    def update_metrics(tab):
+        if tab != 'overview':
+            return [dash.no_update] * 6
+        df_songs, _, _ = generate_spotify_data() 
+        # 1. Độ phổ biến trung bình
+        avg_popularity = df_songs['popularity'].mean()
+        avg_popularity_str = f"{avg_popularity:.1f}"
 
+        # 2. Thể loại phổ biến nhất
+        top_genre = df_songs['genre'].value_counts().idxmax()
+
+        # 3. Thời lượng trung bình từ track_duration_ms
+        avg_duration_ms = df_songs['track_duration_ms'].mean()
+        minutes = int(avg_duration_ms // 60000)
+        seconds = int((avg_duration_ms % 60000) // 1000)
+        avg_duration_str = f"{minutes}:{seconds:02d}"
+
+        unique_artists = df_songs['artist_names'].nunique()
+
+        # 5. Tempo (BPM)
+        avg_tempo = df_songs['BPM'].mean()
+        avg_tempo_str = f"{avg_tempo:.0f}"
+
+        # 6. Energy
+        avg_energy = df_songs['energy'].mean()
+        avg_energy_str = f"{avg_energy:.2f}"
+
+        return (
+            avg_popularity_str,
+            top_genre,
+            avg_duration_str,
+            unique_artists
+        )
     # Biểu đồ ảnh hưởng theo thể loại
     @app.callback(
         Output('genre-influence-chart', 'figure'),
-        Input('main-tabs', 'value')
+        Input('tabs', 'active_tab')
     )
 
     def update_genre_influence(tab):
@@ -173,7 +567,7 @@ def register_spotify_callbacks(app):
 
     @app.callback(
         Output('top-songs-chart', 'figure'),
-        Input('main-tabs', 'value')
+        Input('tabs', 'active_tab')
     )
     def update_top_songs(tab):
         if tab != 'overview':
@@ -254,7 +648,7 @@ def register_spotify_callbacks(app):
                 autorange="reversed"
             ),
             margin=dict(l=120, r=20, t=30, b=40),
-            height=350,
+            height=300,
             plot_bgcolor='rgba(0,0,0,0)',   # nền biểu đồ trong suốt
             paper_bgcolor='rgba(0,0,0,0)',  # nền toàn khung hình trong suốt
             legend_title_text='Genre',
@@ -269,12 +663,7 @@ def register_spotify_callbacks(app):
         return fig
     # Mạng lưới bài hát
    # Callback
-    @app.callback(
-        Output('network-song', 'figure'),
-        [Input('main-tabs', 'value'),
-        Input('network-song', 'clickData')]
-    )
-    def draw_song_network(tab_value, clickData):
+    def draw_song_network(tab_value, clickData, genre_click_data=None):
         if tab_value != 'overview':
             return go.Figure()
 
@@ -292,7 +681,6 @@ def register_spotify_callbacks(app):
 
         pos = nx.kamada_kawai_layout(H)
         genre_list = df_songs['genre'].unique().tolist()
-        # Sinh màu tự động nếu genre nhiều hơn 10
         color_palette = px.colors.qualitative.Plotly + px.colors.qualitative.D3 + px.colors.qualitative.Dark24
         genre_color_map = {g: color_palette[i % len(color_palette)] for i, g in enumerate(genre_list)}
 
@@ -301,11 +689,21 @@ def register_spotify_callbacks(app):
 
         # Xác định node được chọn
         selected_node = None
-        if clickData and 'points' in clickData and len(clickData['points']) > 0:
+        selected_genre = None
+        
+        # Kiểm tra click từ bảng thống kê thể loại
+        if genre_click_data and 'points' in genre_click_data and len(genre_click_data['points']) > 0:
+            point = genre_click_data['points'][0]
+            selected_genre = point.get('label') or point.get('x')  # Tùy thuộc vào cách bạn xây dựng bảng
+        
+        # Kiểm tra click trực tiếp trên đồ thị
+        elif clickData and 'points' in clickData and len(clickData['points']) > 0:
             point = clickData['points'][0]
             node_label = point.get('hovertext') or point.get('text')
             if node_label:
                 selected_node = node_label.split('<br>')[0].replace('<b>', '').replace('</b>', '')
+                # Lấy thể loại của node được chọn
+                selected_genre = df_songs[df_songs['track_name'] == selected_node]['genre'].values[0] if not df_songs[df_songs['track_name'] == selected_node].empty else None
 
         edge_traces = []
         for edge in H.edges(data=True):
@@ -315,8 +713,19 @@ def register_spotify_callbacks(app):
                 color = '#1DB954'
                 width = 2.5
             else:
-                color = '#888'
-                width = 1
+                # Highlight các edge cùng thể loại nếu đang chọn thể loại
+                if selected_genre:
+                    node1_genre = df_songs[df_songs['track_name'] == edge[0]]['genre'].values[0] if not df_songs[df_songs['track_name'] == edge[0]].empty else None
+                    node2_genre = df_songs[df_songs['track_name'] == edge[1]]['genre'].values[0] if not df_songs[df_songs['track_name'] == edge[1]].empty else None
+                    if node1_genre == selected_genre and node2_genre == selected_genre:
+                        color = genre_color_map.get(selected_genre, '#FFD700')
+                        width = 3
+                    else:
+                        color = 'rgba(200,200,200,0.2)'
+                        width = 0.5
+                else:
+                    color = '#888'
+                    width = 1
             edge_traces.append(go.Scatter(
                 x=[x0, x1, None], y=[y0, y1, None],
                 line=dict(width=width, color=color),
@@ -326,6 +735,8 @@ def register_spotify_callbacks(app):
             ))
 
         node_x, node_y, node_text, node_color, node_size, node_border = [], [], [], [], [], []
+        genre_nodes = []
+        
         for node in H.nodes():
             x, y = pos[node]
             node_x.append(x)
@@ -344,19 +755,40 @@ def register_spotify_callbacks(app):
                 f"Độ ảnh hưởng: {eigen:.2f}<br>"
                 f"Độ phổ biến: {popularity}"
             )
-            node_color.append(genre_color_map.get(genre, '#CCCCCC'))
-            # Node top 5 lớn hơn
-            if node in top5:
-                base_size = 35
+            
+            # Xác định màu sắc và kích thước node
+            base_color = genre_color_map.get(genre, '#CCCCCC')
+            
+            # Nếu đang chọn thể loại, làm mờ các node không thuộc thể loại đó
+            if selected_genre:
+                if genre == selected_genre:
+                    node_color.append(base_color)
+                    genre_nodes.append(node)
+                    # Node top 5 lớn hơn
+                    if node in top5:
+                        base_size = 35
+                    else:
+                        base_size = 25  # Tăng kích thước cho các node cùng thể loại
+                    node_size.append(base_size + 40 * abs(eigen))
+                    node_border.append('yellow')
+                else:
+                    node_color.append('rgba(200,200,200,0.3)')
+                    node_size.append(10 + 10 * abs(eigen))  # Giảm kích thước cho các node khác thể loại
+                    node_border.append('rgba(200,200,200,0.5)')
             else:
-                base_size = 18
-            # Nếu là node được chọn thì phát sáng (tăng size, đổi màu viền)
-            if selected_node and node == selected_node:
-                node_size.append(base_size + 40 * abs(eigen))
-                node_border.append('yellow')
-            else:
-                node_size.append(base_size + 30 * abs(eigen))
-                node_border.append('rgba(255,255,255,0.7)')
+                node_color.append(base_color)
+                # Node top 5 lớn hơn
+                if node in top5:
+                    base_size = 35
+                else:
+                    base_size = 18
+                # Nếu là node được chọn thì phát sáng (tăng size, đổi màu viền)
+                if selected_node and node == selected_node:
+                    node_size.append(base_size + 40 * abs(eigen))
+                    node_border.append('yellow')
+                else:
+                    node_size.append(base_size + 30 * abs(eigen))
+                    node_border.append('rgba(255,255,255,0.7)')
 
         node_trace = go.Scatter(
             x=node_x, y=node_y,
@@ -376,13 +808,33 @@ def register_spotify_callbacks(app):
                 color="black"
             )
         )
+        
         highlight_trace = None
+        highlight_genre_trace = None
         annotations = []
         x_range = y_range = None
 
+        # Tính toán phạm vi zoom nếu có thể loại được chọn
+        if selected_genre and genre_nodes:
+            # Lấy tọa độ của tất cả các node thuộc thể loại được chọn
+            genre_x = [pos[node][0] for node in genre_nodes]
+            genre_y = [pos[node][1] for node in genre_nodes]
+            
+            # Tính toán min/max để xác định phạm vi zoom
+            if genre_x and genre_y:
+                x_min, x_max = min(genre_x), max(genre_x)
+                y_min, y_max = min(genre_y), max(genre_y)
+                
+                # Thêm padding xung quanh
+                x_padding = (x_max - x_min) * 0.3
+                y_padding = (y_max - y_min) * 0.3
+                
+                x_range = [x_min - x_padding, x_max + x_padding]
+                y_range = [y_min - y_padding, y_max + y_padding]
+
+        # Hiệu ứng highlight cho node được chọn
         if selected_node and selected_node in H.nodes:
             x, y = pos[selected_node]
-            # Hiệu ứng động khoanh vùng
             highlight_trace = go.Scatter(
                 x=[x],
                 y=[y],
@@ -396,9 +848,7 @@ def register_spotify_callbacks(app):
                 hoverinfo='skip',
                 showlegend=False
             )
-            # Zoom vào node (giá trị 0.15 là mức zoom, có thể điều chỉnh)
-            x_range = [x - 0.15, x + 0.15]
-            y_range = [y - 0.15, y + 0.15]
+            
             # Hiện thông tin ngay trên node
             node_data = H.nodes[selected_node]
             eigen = df_songs[df_songs['track_name'] == selected_node]['Lambda'].values
@@ -428,6 +878,66 @@ def register_spotify_callbacks(app):
                 font=dict(size=13, color="black", family="Montserrat"),
                 align="center"
             ))
+        
+        # Hiệu ứng highlight cho toàn bộ thể loại được chọn
+        if selected_genre and genre_nodes:
+            # Tạo một trace bao quanh toàn bộ nhóm thể loại
+            x_values = [pos[node][0] for node in genre_nodes]
+            y_values = [pos[node][1] for node in genre_nodes]
+            
+            # Tính toán hình bao (convex hull) cho các node cùng thể loại
+            if len(genre_nodes) > 2:
+                from scipy.spatial import ConvexHull
+                points = np.array([(pos[node][0], pos[node][1]) for node in genre_nodes])
+                hull = ConvexHull(points)
+                
+                # Lấy các điểm trên convex hull
+                hull_x = points[hull.vertices, 0]
+                hull_y = points[hull.vertices, 1]
+                
+                # Đóng kín hình bao bằng cách thêm điểm đầu vào cuối
+                hull_x = np.append(hull_x, hull_x[0])
+                hull_y = np.append(hull_y, hull_y[0])
+                
+                highlight_genre_trace = go.Scatter(
+                    x=hull_x,
+                    y=hull_y,
+                    mode='lines',
+                    fill='toself',
+                    fillcolor=genre_color_map.get(selected_genre, '#FFD700'),
+                    opacity=0.2,
+                    line=dict(
+                        color=genre_color_map.get(selected_genre, '#FFD700'),
+                        width=3,
+                        dash='dot'
+                    ),
+                    hoverinfo='text',
+                    hovertext=f"Thể loại: {selected_genre}<br>Số bài hát: {len(genre_nodes)}",
+                    showlegend=False
+                )
+            
+            # Thêm annotation hiển thị tên thể loại
+            if x_values and y_values:
+                center_x = sum(x_values) / len(x_values)
+                center_y = sum(y_values) / len(y_values)
+                annotations.append(dict(
+                    x=center_x,
+                    y=center_y,
+                    xref='x',
+                    yref='y',
+                    text=f"<b>{selected_genre}</b>",
+                    showarrow=False,
+                    font=dict(
+                        size=16,
+                        color=genre_color_map.get(selected_genre, '#FFD700'),
+                        family="Montserrat"
+                    ),
+                    bgcolor="rgba(0,0,0,0.7)",
+                    bordercolor=genre_color_map.get(selected_genre, '#FFD700'),
+                    borderwidth=2,
+                    borderpad=4
+                ))
+
         legend_traces = []
         for genre, color in genre_color_map.items():
             legend_traces.append(go.Scatter(
@@ -439,199 +949,86 @@ def register_spotify_callbacks(app):
                 name=genre
             ))
 
-            fig = go.Figure(
-                data=edge_traces + ([highlight_trace] if highlight_trace else []) + [node_trace] + legend_traces,
-                layout=go.Layout(
-                    title=dict(
-                        text='<b>SPOTIFY MUSIC NETWORK</b> (Select node to see details)',
-                        font=dict(color='black', size=20, family="Montserrat"),
-                        x=0.05,
-                        y=0.95,
-                        xanchor='left',
-                        yanchor='top'
-                    ),
-                    xaxis=dict(
-                        showgrid=False, zeroline=False, showticklabels=False,
-                        range=x_range if x_range else None
-                    ),
-                    yaxis=dict(
-                        showgrid=False, zeroline=False, showticklabels=False,
-                        range=y_range if y_range else None
-                    ),
-                    annotations=annotations,
-                    showlegend=True,
-                    legend=dict(
-                        title='Genre',
-                        font=dict(color='black', size=10),
-                        orientation='v',
-                        x=1.05,     # dịch sát mép phải hơn
-                        y=1,
-                        xanchor='left',
-                        itemsizing='constant',
-                        traceorder='normal'
-                    ),
-                    hovermode='closest',
-                    margin=dict(b=20, l=20, r=20, t=40),
-                    height=350,
-                    width=600,
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    font=dict(color='black'),
-                    hoverlabel=dict(
-                        bgcolor='rgba(30,30,30,0.8)',
-                        font_size=15,
-                        font_family="Montserrat"
-                    ),
-                    dragmode='pan'
-                )
+        # Tạo figure với các traces
+        traces = edge_traces + [node_trace] + legend_traces
+        if highlight_trace:
+            traces.append(highlight_trace)
+        if highlight_genre_trace:
+            traces.append(highlight_genre_trace)
+
+        fig = go.Figure(
+            data=traces,
+            layout=go.Layout(
+                title=dict(
+                    text='<b>SPOTIFY MUSIC NETWORK</b> (Select node or genre to see details)',
+                    font=dict(color='black', size=20, family="Montserrat"),
+                    x=0.05,
+                    y=0.95,
+                    xanchor='left',
+                    yanchor='top'
+                ),
+                xaxis=dict(
+                    showgrid=False, zeroline=False, showticklabels=False,
+                    range=x_range if x_range else None
+                ),
+                yaxis=dict(
+                    showgrid=False, zeroline=False, showticklabels=False,
+                    range=y_range if y_range else None
+                ),
+                annotations=annotations,
+                showlegend=True,
+                legend=dict(
+                    title='Genre',
+                    font=dict(color='black', size=10),
+                    orientation='v',
+                    x=1.05,
+                    y=1,
+                    xanchor='left',
+                    itemsizing='constant',
+                    traceorder='normal'
+                ),
+                hovermode='closest',
+                margin=dict(b=20, l=20, r=20, t=40),
+                height=350,
+                width=600,
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(color='black'),
+                hoverlabel=dict(
+                    bgcolor='rgba(30,30,30,0.8)',
+                    font_size=15,
+                    font_family="Montserrat"
+                ),
+                dragmode='pan'
             )
-        num_nodes = H.number_of_nodes()
-        num_edges = H.number_of_edges()
-        total_streams = int(df_songs[df_songs['track_name'].isin(H.nodes)]['popularity'].sum())
-
-        network_stats = html.Div([
-            html.P(f"Số lượng node: {num_nodes}", style={'color': '#1DB954', 'display': 'inline-block', 'marginRight': '20px'}),
-            html.P(f"Số lượng edge: {num_edges}", style={'color': '#1DB954', 'display': 'inline-block', 'marginRight': '20px'}),
-            html.P(f"Tổng số stream: {total_streams:,}", style={'color': '#1DB954', 'display': 'inline-block'})
-        ], style={'textAlign': 'center', 'marginBottom': '10px', 'fontWeight': 'bold', 'fontSize': '16px'})
-
-        # Thông tin node được chọn (hiện ảnh nếu có)
-        node_info = ""
-        if selected_node and selected_node in H.nodes:
-            node_data = H.nodes[selected_node]
-            eigen = df_songs[df_songs['track_name'] == selected_node]['Lambda'].values
-            eigen = eigen[0] if len(eigen) > 0 else 0.1
-            popularity = df_songs[df_songs['track_name'] == selected_node]['popularity'].values
-            popularity = popularity[0] if len(popularity) > 0 else 0
-            artist = node_data.get('artist', '')
-            genre = node_data.get('genre', '')
-            node_info = html.Div([
-                html.H5(f"Bài hát: {selected_node}", style={'color': '#FFD700'}),
-                html.P(f"Nghệ sĩ: {artist}"),
-                html.P(f"Thể loại: {genre}"),
-                html.P(f"Độ ảnh hưởng: {eigen:.2f}"),
-                html.P(f"Độ phổ biến: {popularity}")
-            ], style={'textAlign': 'center'})
-
-        return fig
-
-    @app.callback(
-        Output('popularity-spread-correlation', 'figure'),
-        [Input('main-tabs', 'value'),
-        Input('genre-filter', 'value')]
-    )
-    def update_correlation_chart(tab, selected_genres):
-        if tab != 'overview':
-            return go.Figure()
-
-        # Bắt đầu với toàn bộ dữ liệu gốc
-        filtered_df = df_songs.copy()
-
-        # Lọc theo genre nếu có chọn
-        if selected_genres and 'All' not in selected_genres:
-            filtered_df = filtered_df[filtered_df['genre'].isin(selected_genres)]
-
-        # Kiểm tra dữ liệu đủ tính toán không
-        if filtered_df.empty or 'popularity' not in filtered_df.columns or 'Lambda' not in filtered_df.columns:
-            return go.Figure()
-        # Loại bỏ các dòng có NaN hoặc không hợp lệ
-        filtered_df = filtered_df.dropna(subset=['popularity', 'Lambda'])
-
-        # Nếu dữ liệu không đủ → trả về biểu đồ trống
-        if len(filtered_df) < 2 or filtered_df['popularity'].nunique() == 1:
-            return go.Figure()
-        # Tính z-score
-        filtered_df['popularity_zscore'] = (filtered_df['popularity'] - filtered_df['popularity'].mean()) / filtered_df['popularity'].std()
-        filtered_df['size'] = np.where(filtered_df['popularity_zscore'] > 1, 12, 6)
-
-        x = filtered_df['popularity']
-        y = filtered_df['Lambda']
-        slope, intercept = np.polyfit(x, y, 1)
-        r_value = np.corrcoef(x, y)[0, 1]
-
-        fig = go.Figure()
-
-        fig.add_trace(go.Scatter(
-            x=x,
-            y=y,
-            mode='markers',
-            marker=dict(
-                size=filtered_df['size'],
-                color=x,
-                colorscale='Viridis',
-                showscale=True,
-                opacity=0.7,
-                line=dict(width=1, color='DarkSlateGrey'),
-                colorbar=dict(title='Popularity')
-            ),
-            text=filtered_df.apply(lambda row: f"<b>{row['track_name']}</b><br>Artist: {row['artist_names']}<br>Genre: {row['genre']}", axis=1),
-            hoverinfo='text',
-            name='Tracks'
-        ))
-
-        fig.add_trace(go.Scatter(
-            x=x,
-            y=slope * x + intercept,
-            mode='lines',
-            line=dict(color='red', width=2, dash='dash'),
-            name=f'Linear Fit (r={r_value:.2f})'
-        ))
-
-        fig.add_shape(type="rect", x0=0, x1=50, y0=0, y1=0.5,
-                    fillcolor="rgba(65,105,225,0.1)", line=dict(width=0))
-        fig.add_shape(type="rect", x0=50, x1=100, y0=0.5, y1=1,
-                    fillcolor="rgba(0,128,0,0.1)", line=dict(width=0))
-
-        fig.update_layout(
-            title=dict(
-                text='<b>POPULARITY AND SPREADABILITY</b>',
-                y=0.97,  # đẩy lên gần sát đỉnh
-                x=0.5,
-                xanchor='center',
-                yanchor='top',
-                font=dict(family="Montserrat", size=18, color="#1DB954")
-            ),
-            xaxis_title='Popularity (0-100)',
-            yaxis_title='Spreadability (Lambda Centrality)',
-            plot_bgcolor='rgba(240,240,240,0.8)',
-            paper_bgcolor='rgba(0,0,0,0)',
-            font=dict(family="Montserrat", size=12, color="#333"),
-            hovermode='closest',
-            annotations=[
-                dict(x=0.01, y=0.99, xref='paper', yref='paper',
-                    text=f"Total Tracks: {len(filtered_df)}<br>Correlation Coefficient: {r_value:.2f}",
-                    showarrow=False, bgcolor='white', align='left'),
-                dict(x=50, y=0.05, text="Popularity Threshold",
-                    showarrow=True, arrowhead=1, ax=0, ay=-40),
-                dict(x=90, y=0.5, text="High Influence Zone",
-                    showarrow=True, arrowhead=1, ax=0, ay=40)
-            ],
-            height=350,
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-            updatemenus=[
-                dict(
-                    type="buttons",
-                    direction="right",
-                    x=0.5,
-                    y=1.3,
-                    buttons=[
-                        dict(label="All Data", method="update", args=[{"visible": [True, True, True, True]}]),
-                        dict(label="Trend Only", method="update", args=[{"visible": [False, True, False, False]}]),
-                        dict(label="Zones Only", method="update", args=[{"visible": [False, False, True, True]}])
-                    ],
-                     font=dict(
-                            color="#1DB954",              # màu chữ
-                            size=12
-                        ),
-                )
-            ]
         )
 
         return fig
+    @app.callback(
+    Output('network-song', 'figure'),
+    [
+        Input('network-song', 'clickData'),  # click vào node
+        Input('genre-lambda-table', 'selected_rows'),  # click bảng
+        Input('tabs', 'active_tab')
+    ],
+        State('genre-lambda-table', 'data')
+    )
+    def update_network(clickData, selected_rows, tab_value, table_data):
+        genre_click_data = None
+        if selected_rows:
+            selected_genre = table_data[selected_rows[0]]['Genre']
+            genre_click_data = {'points': [{'x': selected_genre}]}
+
+        return draw_song_network(
+            tab_value=tab_value,
+            clickData=clickData,  # <== vẫn truyền clickData từ Input
+            genre_click_data=genre_click_data
+        )
+
     # Bài hát trong cộng đồng và hiển thị hình ảnh
     @app.callback(
         Output('top-artist-chart', 'figure'),
-        Input('main-tabs', 'value')
+        Input('tabs', 'active_tab')
     )
     def update_top_artist_chart(tab):
         if tab != 'overview':
@@ -706,212 +1103,215 @@ def register_spotify_callbacks(app):
         return fig
 
     #---------------------------------------------------------Tab2---------------------------------------------
-    
-    #Audio Features Overview 
-    def create_audio_features_radar(community_data=None, community_ids=[0], 
-                                compare_mode=False, custom_colors=None, 
-                                title=None, show_stats=False, dark_mode=False):
-        try:
-            # Kiểm tra và khởi tạo dữ liệu
-            if community_data is None:
-                df_songs, G, partition = generate_spotify_data()
-                community_data = df_songs.copy()
-            elif not isinstance(community_data, pd.DataFrame):
-                community_data = pd.DataFrame(community_data)
-            
-            # Validate input data
-            if community_data.empty:
-                print("Cảnh báo: Dữ liệu đầu vào trống")
-                return go.Figure()
-                
-            if 'genre' not in community_data.columns:
-                print("Lỗi: Dữ liệu không có cột 'genre'")
-                return go.Figure()
-                
-            # Thiết lập màu sắc theo theme
-            if dark_mode:
-                bg_color = '#121212'
-                text_color = '#FFFFFF'
-                grid_color = 'rgba(255, 255, 255, 0.1)'
-                paper_color = '#121212'
-            else:
-                bg_color = '#FFFFFF'
-                text_color = '#2E2E2E'
-                grid_color = 'rgba(0, 0, 0, 0.1)'
-                paper_color = '#FFFFFF'
+    @app.callback(
+    Output('distribution-by-channel', 'figure'),
+    [Input('tabs', 'active_tab'),
+     Input('attribute-filter', 'value'),
+     Input('community-dropdown', 'value')]  # thêm genre
+    )
+    def update_channel_distribution_chart(tab, selected_attribute, selected_genre):
+        if tab != 'community':
+            return go.Figure()
+
+        filtered_df = df_songs.copy()
+        if selected_genre:
+            filtered_df = filtered_df[filtered_df['genre'] == selected_genre]
+
+        x_values = filtered_df[selected_attribute].dropna()
+
+        # Tính histogram
+        counts, bins = np.histogram(x_values, bins='auto')
+        bin_centers = 0.5 * (bins[1:] + bins[:-1])  # Tâm của các bin
+
+        # Tạo dữ liệu mượt bằng interpolation (nội suy bậc 3)
+        from scipy import interpolate
+        x_smooth = np.linspace(min(bin_centers), max(bin_centers), 500)
+        spline = interpolate.make_interp_spline(bin_centers, counts, k=3)  # Bậc 3 để đường cong mượt
+        y_smooth = spline(x_smooth)
+
+        # Tạo màu gradient cho cột
+        colorscale = pc.sample_colorscale('Greens', [i / (len(counts)-1) for i in range(len(counts))])
         
-            features = ['valence 😊', 'energy ⚡', 'danceability 💃', 
-                    'acousticness 🎸', 'instrumentalness 🎻', 'liveness 🎭']
-            
-            # Giá trị mặc định
-            default_vals = {
-                'valence': 0.4,
-                'energy': 0.8,
-                'danceability': 0.11,
-                'acousticness': 0.7,
-                'instrumentalness': 0.2,
-                'liveness': 0.5
-            }
-            
-            # Màu sắc hiện đại (Spotify + gradient)
-            if custom_colors is None:
-                if compare_mode:
-                    colors = [
-                        '#1DB954',  # Spotify green
-                        '#FF9F1C',  # Vivid orange
-                        '#FF6B6B',  # Light red
-                        '#4ECDC4',  # Tiffany blue
-                    ]
-                else:
-                    colors = ['#1DB954']  # Spotify green
-            else:
-                colors = custom_colors
-                
-            # Tạo figure với template hiện đại
-            fig = go.Figure()
-            
-            # Tính toán và thêm dữ liệu
-            for i, comm_id in enumerate(community_ids):
-                comm_data = community_data[community_data['genre'] == comm_id]
-                
-                if comm_data.empty:
-                    print(f"Cảnh báo: Không tìm thấy dữ liệu cho community {comm_id}")
-                    continue
-                    
-                # Lấy feature names không có emoji để tính toán
-                clean_features = [f.split(' ')[0] for f in features]
-                avg_values = [
-                    comm_data[f].mean() if f in comm_data.columns else default_vals[f]
-                    for f in clean_features
+        fig = go.Figure()
+
+        # Vẽ các cột histogram
+        for i in range(len(counts)):
+            fig.add_trace(go.Bar(
+                x=[bin_centers[i]],
+                y=[counts[i]],
+                width=[bins[1] - bins[0]],
+                marker=dict(color=colorscale[i]),
+                showlegend=False,
+                name='Histogram',
+                customdata=[[round(bin_centers[i], 2)]],
+                hovertemplate="<b>Value:</b> %{customdata[0]}<br><b>Count:</b> %{y}<extra></extra>"
+            ))
+
+        # Thêm đường cong mượt màu tím nối các đỉnh
+        fig.add_trace(go.Scatter(
+            x=x_smooth,
+            y=y_smooth,
+            mode='lines',
+            line=dict(color="#177E6D", width=3),  # Màu tím
+            name='Smooth Line',
+            hovertemplate="<b>Value:</b> %{x:.2f}<br><b>Smoothed Count:</b> %{y:.2f}<extra></extra>"
+        ))
+
+        # Thêm các điểm nối màu xanh lá đậm tại đỉnh mỗi cột
+        fig.add_trace(go.Scatter(
+            x=bin_centers,
+            y=counts,
+            mode='markers',
+            marker=dict(
+                color='#006400',  # Xanh lá đậm
+                size=8,
+                line=dict(width=2, color='white')
+            ),
+            name='Peak Points',
+            hovertemplate="<b>Bin Center:</b> %{x:.2f}<br><b>Count:</b> %{y}<extra></extra>"
+        ))
+
+        # Tính mean và median
+        mean_val = np.mean(x_values)
+        median_val = np.median(x_values)
+        
+        # Đường mean (trung bình)
+        fig.add_vline(
+            x=mean_val,
+            line_width=2,
+            line_dash="dash",
+            line_color="#1DB954",
+            annotation_text="Mean",
+            annotation_position="top",
+            annotation_font=dict(color="#1DB954", size=12)
+        )
+        
+        # Đường median (trung vị)
+        fig.add_vline(
+            x=median_val,
+            line_width=2,
+            line_dash="dot",
+            line_color="#FF5733",
+            annotation_text="Median",
+            annotation_position="bottom",
+            annotation_font=dict(color="#FF5733", size=12)
+        )
+
+        # Cấu hình layout
+        fig.update_layout(
+            xaxis_title=selected_attribute.capitalize(),
+            yaxis_title='Frequency',
+            title=f'<b>Distribution of {selected_attribute.capitalize()}</b>',
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            font=dict(color='black'),
+            bargap=0.05,
+            height=600,
+            hovermode='closest',
+            margin=dict(l=40, r=30, t=60, b=40),
+        )
+
+        # Cấu hình grid
+        fig.update_xaxes(showgrid=True, gridcolor='rgba(200,200,200,0.3)')
+        fig.update_yaxes(showgrid=True, gridcolor='rgba(200,200,200,0.3)')
+
+        return fig
+    @app.callback(
+        Output('density-chart', 'figure'),
+        [Input('tabs', 'active_tab'),
+        Input('y-attribute-filter', 'value'),
+        Input('attribute-filter', 'value'),
+        Input('community-dropdown', 'value')]  # thêm genre
+    )
+    def update_density_chart(tab, y_channel, selected_attribute, selected_genre):
+        if tab != 'community':
+            return go.Figure()
+
+        filtered_df = df_songs.copy()
+        if selected_genre:
+            filtered_df = filtered_df[filtered_df['genre'] == selected_genre]
+      
+            fig = px.density_heatmap(
+                filtered_df,
+                x=selected_attribute,
+                y=y_channel,
+                nbinsx=20,
+                nbinsy=20,
+                color_continuous_scale=[
+                    [0.0, "rgba(26,163,74, 0.05)"],  # light mint at 30% opacity
+                    [0.2, "rgba(26,163,74, 0.2)"],
+                    [0.4, "rgba(26,163,74, 0.4)"],
+                    [0.6, "rgba(26,163,74, 0.6)"],
+                    [0.8, "rgba(26,163,74, 0.8)"],
+                    [1.0, "rgba(26,163,74, 1.0)"]
                 ]
-                
-                # Tính độ lệch chuẩn nếu cần
-                if show_stats:
-                    std_values = [
-                        comm_data[f].std() if f in comm_data.columns else 0
-                        for f in clean_features
-                    ]
-                
-                # Tạo tên hiển thị với số lượng bài hát
-                name = f'Genre {comm_id}'
-                if show_stats:
-                    name += f' (n={len(comm_data):,}'
-                
-                # Thêm trace chính với hiệu ứng mượt mà
-                fig.add_trace(go.Scatterpolar(
-                    r=avg_values,
-                    theta=features,
-                    fill='toself',
-                    name=name,
-                    line=dict(
-                        color=colors[i % len(colors)],
-                        width=2.5,
-                        shape='spline',
-                        smoothing=1.3
-                    ),
-                    fillcolor=f'rgba{hex_to_rgb(colors[i % len(colors)], 0.15)}',
-                    hovertemplate='<b>%{theta}</b>: %{r:.2f}<extra></extra>',
-                    hoverlabel=dict(
-                        bgcolor=colors[i % len(colors)],
-                        font_size=12,
-                        font_color='white'
-                    )
-                ))
-                
-                # Thêm dải độ lệch với hiệu ứng trong suốt
-                if show_stats and not compare_mode:
-                    fig.add_trace(go.Scatterpolar(
-                        r=[max(0, avg-std) for avg, std in zip(avg_values, std_values)],
-                        theta=features,
-                        fill=None,
-                        line=dict(color=colors[i % len(colors)], width=0.1),
-                        showlegend=False,
-                        hoverinfo='none'
-                    ))
-                    fig.add_trace(go.Scatterpolar(
-                        r=[min(1, avg+std) for avg, std in zip(avg_values, std_values)],
-                        theta=features,
-                        fill='tonext',
-                        line=dict(color=colors[i % len(colors)], width=0.1),
-                        fillcolor=f'rgba{hex_to_rgb(colors[i % len(colors)], 0.05)}',
-                        showlegend=False,
-                        hoverinfo='none'
-                    ))
-            
-            # Thiết lập layout hiện đại
-            title_text = title if title else (
-                'Audio Features Comparison' if compare_mode else 
-                f'Audio Features - Genre {community_ids[0]}'
             )
-            
             fig.update_layout(
-                polar=dict(
-                    radialaxis=dict(
-                        visible=True,
-                        range=[0, 1],
-                        gridcolor=grid_color,
-                        linecolor=grid_color,
-                        tickvals=[0, 0.2, 0.4, 0.6, 0.8, 1.0],
-                        tickfont=dict(color=text_color, size=10),
-                        tickformat='.1f',
-                        angle=90
-                    ),
-                    angularaxis=dict(
-                        linecolor=grid_color,
-                        gridcolor=grid_color,
-                        rotation=90,
-                        hoverformat='.2f',
-                        tickfont=dict(color=text_color, size=11)
-                    ),
-                    bgcolor='rgba(0,0,0,0)'
-                ),
-                showlegend=True,
-                legend=dict(
-                    orientation="h",
-                    yanchor="bottom",
-                    y=1.15,
-                    xanchor="center",
-                    x=0.5,
-                    font=dict(color=text_color, size=12),
-                    bgcolor='rgba(0,0,0,0)',
-                    bordercolor='rgba(0,0,0,0)'
-                ),
+                title=f'<b>Density of {y_channel.capitalize()} and {selected_attribute.capitalize()}<b>',
+                xaxis_title=selected_attribute.capitalize(),
+                yaxis_title=y_channel.capitalize(),
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)',
-                font_color=text_color,
-                title={
-                    'text': title_text,
-                    'y':0.95,
-                    'x':0.5,
-                    'xanchor': 'center',
-                    'yanchor': 'top',
-                    'font': dict(size=18, color=text_color, family='Montserrat')
-                },
-                margin=dict(l=50, r=50, t=100, b=50),
-                hoverlabel=dict(
-                    bgcolor=text_color,
-                    font_size=12,
-                    font_color=paper_color,
-                    bordercolor=text_color
+                font=dict(color='black'),
+                height=300,
+                xaxis=dict(
+                    showgrid=True,
+                    gridcolor='rgba(255, 255, 255, 1.0)'  # light gray with 20% opacity
                 ),
-                autosize=True,
-                height=350
+                yaxis=dict(
+                    showgrid=True,
+                    gridcolor='rgba(255, 255, 255, 1.0)'  # light gray with 20% opacity
+                )
             )
-            
-            # Thêm annotation nếu có
-            if not compare_mode and show_stats:
-                fig.add_annotation(
-                    text=f"Based on {len(comm_data):,} tracks",
-                    xref="paper", yref="paper",
-                    x=0.5, y=1.1,
-                    showarrow=False,
-                    font=dict(size=10, color=text_color))
-                
             return fig
-            
-        except Exception as e:
-            print(f"Lỗi khi tạo biểu đồ radar: {str(e)}")
+        
+    @app.callback(
+        Output('popularity-by-genre-chart', 'figure'),
+        [Input('tabs', 'active_tab'),
+        Input('y-attribute-filter', 'value')]  # thêm genre
+    )
+    def update_popularity_by_genre_chart(tab, y_channel):
+        if tab != 'community' or not y_channel or y_channel not in df_songs.columns:
             return go.Figure()
+
+        # Dữ liệu không lọc theo genre
+        filtered_df = df_songs.dropna(subset=['genre', y_channel]).copy()
+
+        fig = px.scatter(
+            filtered_df,
+            x=y_channel,
+            y='genre',  # Trục tung là tên genre
+            title=f'<b>{y_channel.capitalize()} by Genre (Horizontal Scatter)</b>',
+            color=y_channel,
+            color_continuous_scale='Viridis',
+            opacity=0.7
+        )
+        
+        fig.update_layout(
+            xaxis_title=y_channel.capitalize(),
+            yaxis_title='Genre',
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            font=dict(color='black'),
+            height=300,
+            margin=dict(t=30, l=60, r=30, b=40),  # 🔻 Giảm khoảng cách trên (top)
+            title=dict(
+                y=0.92,  # 🔻 Gần hơn so với mặc định (0.95 ~ 1)
+                x=0.5,
+                xanchor='center',
+                yanchor='top'
+            ),
+            xaxis=dict(
+                showgrid=True,
+                gridcolor='rgba(200, 200, 200, 0.6)'
+            ),
+            yaxis=dict(
+                showgrid=True,
+                gridcolor='rgba(200, 200, 200, 0.6)',
+                categoryorder='total ascending'
+            )
+        )
+        return fig
 
     # Hàm hỗ trợ chuyển hex sang rgba
     def hex_to_rgb(hex_color, alpha=1):
@@ -920,377 +1320,311 @@ def register_spotify_callbacks(app):
         hlen = len(hex_color)
         rgb = tuple(int(hex_color[i:i+hlen//3], 16) for i in range(0, hlen, hlen//3))
         return rgb + (alpha,)
-
-    def create_feature_comparison_bar(community_data, top_n=3, corner_radius=10):
-        top_genres = community_data['genre'].value_counts().nlargest(top_n).index.tolist()
-        features = ['valence', 'energy', 'danceability', 'acousticness', 'instrumentalness', 'liveness']
-
-        # 🎨 Gradient màu theo feature
-        gradient_colors = {
-            'valence': '#A7FFEB',
-            'energy': '#1ED760',
-            'danceability': '#B2F2C9',
-            'acousticness': '#C8F560',
-            'instrumentalness': '#1DB954',
-            'liveness': '#F8E0E4'
-        }
-
-        data = []
-        for i, genre in enumerate(top_genres):
-            genre_data = community_data[community_data['genre'] == genre]
-            means = [genre_data[f].mean() if f in genre_data.columns else 0 for f in features]
-
-            data.append(go.Bar(
-                name=genre,
-                x=features,
-                y=means,
-                text=[f"{v:.2f}" for v in means],
-                width=0.6,
-                textposition='outside',
-                marker=dict(
-                    color=[gradient_colors[f] for f in features],  # ✅ mỗi cột một màu
-                    line=dict(width=0),
-                    cornerradius=corner_radius  # (Plotly chưa hỗ trợ trực tiếp, đây là để minh họa)
-                ),
-                hovertemplate=(
-                    "<b>%{x}</b><br>" +
-                    "Average: %{y:.2f}<br>" +
-                    "Genre: %{fullData.name}<extra></extra>"
-                ),
-                opacity=0.92
-            ))
-
-            # 🔁 Trend line cho từng genre
-        data.append(go.Scatter(
-            name=f"{genre} (trend)",
-            x=features,
-            y=means,
-            mode='lines+markers',
-            line=dict(color='rgba(30, 215, 96, 1.0)', dash='dot', width=2.5),  # 🔆 màu sáng hơn, đậm hơn
-            marker=dict(symbol='circle', size=7, color='rgba(30, 215, 96, 0.9)', line=dict(width=1, color='white')),
-            hoverinfo='skip',
-            showlegend=False
-        ))
-
-        # 📊 Tạo biểu đồ
-        fig = go.Figure(data=data)
-
-        fig.update_layout(
-            autosize=True,
-            barmode='group',
-            bargap=0.15,
-            title=dict(
-                text='<b>COMPARE MUSIC CHARACTERISTICS BY GENRE</b>',
-                x=0.5,
-                xanchor='center',
-                font=dict(size=18, color='#191414')
-            ),
-            xaxis=dict(
-                title='Music Features',
-                tickangle=-30,
-                gridcolor='rgba(29,185,84,0.08)',
-                automargin=True 
-            ),
-            yaxis=dict(
-                title='Average Value',
-                range=[0, 70],  # các feature đều ở [0, 1]
-                gridcolor='rgba(29,185,84,0.08)',
-                automargin=True 
-            ),
-            plot_bgcolor='rgba(0,0,0,0)',
-            paper_bgcolor='rgba(0,0,0,0)',
-            font=dict(
-                family="Montserrat",
-                color='#191414'
-            ),
-            legend=dict(
-                orientation="h",
-                yanchor="bottom",
-                y=1.02,
-                xanchor="right",
-                x=1,
-                bgcolor='rgba(0,0,0,0)',
-                bordercolor='rgba(0,0,0,0)',
-                borderwidth=1
-            ),
-            hoverlabel=dict(
-                bgcolor='black',
-                font_size=14,
-                font_family="Montserrat"
-            ),
-            height=350,
-            margin=dict(l=50, r=20, t=90, b=60),
-            uniformtext=dict(minsize=10, mode='show')
-        )
-
-        return fig
-
-    
-    # Song sankey community
-    def create_sankey_community(df_songs, viral_track, top_n_similar=3, similarity_threshold=0.8, dark_mode=False):
-        # Validate input
-        if viral_track not in df_songs['track_name'].values:
-            raise ValueError(f"Viral track '{viral_track}' not found in dataset")
-        
+    def create_genre_distribution_map(df, top_n=30, min_count=5, color_scale=None, 
+                                map_style="natural earth", show_animation=True):
+        """
+        Create an advanced global music genre distribution visualization with location icons
+        """
         try:
-            viral_row = df_songs[df_songs['track_name'] == viral_track].iloc[0]
-        except IndexError:
-            raise ValueError(f"Could not retrieve data for viral track '{viral_track}'")
-        
-        viral_artist = viral_row['artist_names']
-        viral_genre = viral_row.get('genre', 'Unknown Genre')
-        
-        # Thiết lập màu sắc theo theme
-        if dark_mode:
-            bg_color = '#121212'
-            text_color = '#FFFFFF'
-            grid_color = 'rgba(255, 255, 255, 0.1)'
-        else:
-            bg_color = '#FFFFFF'
-            text_color = '#2E2E2E'
-            grid_color = 'rgba(0, 0, 0, 0.1)'
-        
-        # Giới hạn số lượng playlist hiển thị (tối đa 5)
-        viral_playlists = []
-        if 'playlist_name' in viral_row and pd.notna(viral_row['playlist_name']):
-            all_playlists = [p.strip() for p in viral_row['playlist_name'].split(',') if p.strip()]
-            viral_playlists = all_playlists[:5]
-        
-        # Tìm bài hát tương tự
-        features = ['valence', 'energy', 'danceability', 'acousticness', 'instrumentalness', 'liveness']
-        
-        # Chuẩn hóa dữ liệu
-        scaler = StandardScaler()
-        feature_matrix = scaler.fit_transform(df_songs[features].values.astype(float))
-        viral_vec = feature_matrix[df_songs['track_name'] == viral_track][0]
-        
-        # Tính độ tương đồng cosine
-        similarities = cosine_similarity([viral_vec], feature_matrix)[0]
-        df_songs['sim_score'] = similarities
-        
-        # Lọc bài hát tương tự
-        similar_mask = (df_songs['track_name'] != viral_track) & (df_songs['sim_score'] >= similarity_threshold)
-        similar_tracks = (df_songs[similar_mask]
-                        .sort_values('sim_score', ascending=False)
-                        .head(top_n_similar)['track_name'].tolist())
-        
-        # Rút gọn tên nếu quá dài
-        def shorten_name(name, max_length=20):
-            return (name[:max_length] + '...') if len(name) > max_length else name
-        
-        # Chuẩn bị các node
-        labels = [f"🎵 {shorten_name(viral_track)}"]  # Bài hát viral (0)
-        labels += [f"🎤 {shorten_name(viral_artist)}"]  # Nghệ sĩ (1)
-        labels += [f"📻 {shorten_name(p)}" for p in viral_playlists]  # Playlists (2...)
-        labels += [f"🎶 {shorten_name(t)}" for t in similar_tracks]  # Bài hát tương tự (...)
-        
-        # Tạo mapping vị trí node
-        node_positions = {
-            "viral": 0,
-            "artist": 1,
-            "playlists": {p: i+2 for i, p in enumerate(viral_playlists)},
-            "similar": {t: i+2+len(viral_playlists) for i, t in enumerate(similar_tracks)}
-        }
-        
-        # Tạo các liên kết
-        sources, targets, values, link_labels = [], [], [], []
-        
-        # Viral track -> Artist
-        sources.append(node_positions["viral"])
-        targets.append(node_positions["artist"])
-        values.append(1.0)
-        link_labels.append("Created by")
-        
-        # Viral track -> Playlists (giới hạn số lượng)
-        for p, idx in node_positions["playlists"].items():
-            sources.append(node_positions["viral"])
-            targets.append(idx)
-            values.append(1.0)
-            link_labels.append("Featured in")
-        
-        # Viral track -> Similar tracks
-        for t, idx in node_positions["similar"].items():
-            sim_score = df_songs[df_songs['track_name'] == t]['sim_score'].values[0]
-            sources.append(node_positions["viral"])
-            targets.append(idx)
-            values.append(sim_score)
-            link_labels.append(f"Similar: {sim_score:.2f}")
-        
-        # Artist -> Similar tracks (chỉ hiển thị nếu cùng nghệ sĩ)
-        for t, idx in node_positions["similar"].items():
-            artist_of_t = df_songs[df_songs['track_name'] == t]['artist_names'].values[0]
-            if artist_of_t == viral_artist:
-                sources.append(node_positions["artist"])
-                targets.append(idx)
-                values.append(1.0)
-                link_labels.append("Same artist")
-        
-        # Playlist -> Similar tracks (chỉ hiển thị nếu có playlist chung)
-        for t, idx in node_positions["similar"].items():
-            if 'playlist_names' in df_songs.columns:
-                playlist_data = df_songs[df_songs['track_name'] == t]['playlist_names'].values
-                if len(playlist_data) > 0 and pd.notna(playlist_data[0]):
-                    common_playlists = set(p.strip() for p in playlist_data[0].split(',')) & set(node_positions["playlists"].keys())
-                    if common_playlists:
-                        sim_score = df_songs[df_songs['track_name'] == t]['sim_score'].values[0]
-                        sources.append(node_positions["playlists"][next(iter(common_playlists))])
-                        targets.append(idx)
-                        values.append(sim_score * 0.7)
-                        link_labels.append("Shared playlist")
-        
-        # Màu sắc
-        viral_color = "#FF69B4"      # Pink
-        artist_color = "#FFB347"    # Orange
-        playlist_color = "#7EC8E3"  # Blue
-        similar_color = "#B39DDB"   # Purple
-        
-        node_colors = [viral_color, artist_color] + [playlist_color]*len(viral_playlists) + [similar_color]*len(similar_tracks)
-        
-        # Màu liên kết với độ trong suốt
-        link_colors = []
-        for label in link_labels:
-            if "Created by" in label:
-                link_colors.append(f"rgba{hex_to_rgb(artist_color, 0.7)}")
-            elif "Featured in" in label:
-                link_colors.append(f"rgba{hex_to_rgb(playlist_color, 0.7)}")
-            elif "Same artist" in label:
-                link_colors.append(f"rgba{hex_to_rgb(artist_color, 0.5)}")
-            elif "Shared playlist" in label:
-                link_colors.append(f"rgba{hex_to_rgb(playlist_color, 0.5)}")
-            else:
-                link_colors.append(f"rgba{hex_to_rgb(similar_color, 0.6)}")
-        
-        # Scale giá trị liên kết
-        scaling_factor = 0.3
-        scaled_values = [v * scaling_factor for v in values]
-        
-        # Tính toán vị trí node để phân bố đều
-        def calculate_node_positions():
-            # Viral track ở giữa bên trái
-            x_pos = [0.1]  # Viral track
-            y_pos = [0.5]
+            import pandas as pd
+            import plotly.express as px
+            import plotly.graph_objects as go
+
+            # Input data validation
+            required_columns = ['genre', 'region_list', 'region_name_list', 'track_name', 'artist_name']
+            if not all(col in df.columns for col in required_columns):
+                missing = [col for col in required_columns if col not in df.columns]
+                raise ValueError(f"Missing required columns: {missing}")
+
+            df = df.dropna(subset=['genre', 'region_list', 'region_name_list']).copy()
+            if df.empty:
+                raise ValueError("No valid data after filtering")
+
+            # Prepare region data
+            region_data = []
+            for _, row in df.iterrows():
+                regions = str(row['region_list']).strip().split(',')
+                region_names = str(row['region_name_list']).strip().split(',')
+
+                regions, region_names = zip(*[
+                    (r.strip(), n.strip()) 
+                    for r, n in zip(regions, region_names) 
+                    if r.strip() and n.strip()
+                ][:min(len(regions), len(region_names))])
+
+                for region, name in zip(regions, region_names):
+                    region_data.append({
+                        'region_code': region,
+                        'region_name': name,
+                        'genre': row['genre'],
+                        'track_name': row.get('track_name', 'Unknown'),
+                        'artist_name': row.get('artist_name', 'Unknown')
+                    })
+
+            region_df = pd.DataFrame(region_data)
+
+            # Filter countries with at least min_count occurrences
+            region_counts = region_df.groupby(['region_code', 'genre']).size().reset_index(name='count')
+            region_counts = region_counts[region_counts['count'] >= min_count]
+
+            # Convert ISO2 to ISO3
+            region_counts['region_code_iso3'] = region_counts['region_code'].apply(convert_iso2_to_iso3)
+            region_counts = region_counts.dropna(subset=['region_code_iso3'])
+
+            # Add country names
+            unique_regions = region_df[['region_code', 'region_name']].drop_duplicates()
+            region_counts = region_counts.merge(unique_regions, on='region_code', how='left')
+
+            # Filter top N countries
+            top_countries = region_counts.groupby('region_code')['count'].sum().nlargest(top_n).index
+            region_counts = region_counts[region_counts['region_code'].isin(top_countries)]
+
+            stats = {
+                'total_countries': len(top_countries),
+                'total_genres': region_counts['genre'].nunique(),
+                'max_count': region_counts['count'].max(),
+                'min_count': region_counts['count'].min(),
+                'avg_count': round(region_counts['count'].mean(), 1)
+            }
             
-            # Artist ở giữa cột thứ 2
-            x_pos.append(0.3)
-            y_pos.append(0.5)
-            
-            # Playlists phân bố đều ở cột thứ 3
-            playlist_count = len(viral_playlists)
-            x_pos.extend([0.5] * playlist_count)
-            if playlist_count > 1:
-                y_pos.extend(np.linspace(0.1, 0.9, playlist_count))
-            else:
-                y_pos.append(0.5)
-            
-            # Similar tracks phân bố đều ở cột thứ 4
-            similar_count = len(similar_tracks)
-            x_pos.extend([0.8] * similar_count)
-            if similar_count > 1:
-                y_pos.extend(np.linspace(0.1, 0.9, similar_count))
-            else:
-                y_pos.append(0.5)
-            
-            return x_pos, y_pos
-        
-        x_pos, y_pos = calculate_node_positions()
-        
-        # Tạo figure
-        fig = go.Figure(go.Sankey(
-            arrangement="snap",
-            node=dict(
-                pad=30,
-                thickness=15,
-                line=dict(color="black", width=0.5),
-                label=labels,
-                color=node_colors,
-                x=x_pos,
-                y=y_pos,
-                hovertemplate="<b>%{label}</b><extra></extra>",
-                hoverlabel=dict(
-                    bgcolor="rgba(0,0,0,0.8)",
-                    font_size=10,
-                    font_family="Montserrat"
+            top_content = region_df.groupby(['region_code', 'genre']).agg({
+                'track_name': lambda x: x.mode()[0] if not x.empty else 'Unknown',
+                'artist_name': lambda x: x.mode()[0] if not x.empty else 'Unknown',
+                'region_name': lambda x: x.mode()[0] if not x.empty else 'Unknown'
+            }).reset_index().rename(columns={'region_name': 'region_name_popular'})
+
+            region_counts = region_counts.merge(top_content, on=['region_code', 'genre'], how='left')
+
+            # Create hover text column
+            region_counts['hover_region_name'] = region_counts.get('region_name', region_counts['region_name_popular'])
+
+            def create_hover_text(row):
+                return (
+                    f"<b>{row['hover_region_name']}</b><br>"
+                    f"<b>Genre:</b> {row['genre']}<br>"
+                    f"<b>Appearances:</b> {row['count']}<br>"
+                    f"<b>Top Track:</b> {row['track_name']}<br>"
+                    f"<b>Top Artist:</b> {row['artist_name']}<br>"
+                    f"<b>Country Code:</b> {row['region_code']} (ISO3: {row['region_code_iso3']})"
                 )
-            ),
-            link=dict(
-                source=sources,
-                target=targets,
-                value=scaled_values,
-                color=link_colors,
-                hovertemplate="<b>%{customdata}</b><extra></extra>",
-                customdata=link_labels,
-                hoverlabel=dict(
-                    bgcolor="rgba(0,0,0,0.8)",
-                    font_size=10,
-                    font_family="Montserrat"
-                )
+
+            region_counts['hover_text'] = region_counts.apply(create_hover_text, axis=1)
+            
+            # Spotify-inspired color scale
+            spotify_green_scale = ['#e1f5e8', '#b7e6c5', '#8dd6a3', '#63c781', '#39b85f', '#1DB954', '#189e47']
+            color_scale = color_scale or spotify_green_scale
+
+            # Create choropleth map
+            fig = px.choropleth(
+                region_counts,
+                locations='region_code_iso3',
+                locationmode='ISO-3',
+                color='count',
+                hover_name='hover_text',
+                animation_frame='genre' if show_animation else None,
+                projection=map_style,
+                color_continuous_scale=color_scale,
+                title=(
+                    f"🌍 Global Music Genre Heatmap<br>"
+                    f"<sup>Top {stats['total_countries']} countries | {stats['total_genres']} genres | "
+                    f"Max: {stats['max_count']} | Avg: {stats['avg_count']}</sup>"
+                ),
+                labels={'count': 'Appearance Count'},
+                custom_data=['hover_region_name', 'genre', 'count', 'track_name', 'artist_name', 'region_code', 'region_code_iso3']
             )
-        ))
-        
-        # Layout hiện đại
-        title = f"<b>NETWORK OF INFLUENCE:</b> {shorten_name(viral_track, 25)}"
-        subtitle = f"<span style='color:#666'>{shorten_name(viral_artist, 30)} • {viral_genre}</span>"
-        
-        fig.update_layout(
-            title_text=f"{title}<br>{subtitle}",
-            font=dict(family="Montserrat", size=10, color=text_color),
-            height=400,
-            width=550,
-            plot_bgcolor='rgba(0,0,0,0)',
-            paper_bgcolor='rgba(0,0,0,0)',
-            margin=dict(l=80, r=80, b=100, t=100),
-            hovermode="x unified",
-            annotations=[
-                dict(
-                    x=0.5, y=-0.15, xref="paper", yref="paper",
-                    text=(
-                        "<b>Chú thích:</b> "
-                        "<span style='color:#FF69B4'>■</span> Viral • "
-                        "<span style='color:#FFB347'>■</span> Nghệ sĩ • "
-                        "<span style='color:#7EC8E3'>■</span> Playlist • "
-                        "<span style='color:#B39DDB'>■</span> Bài tương tự"
+
+            # Enhanced layout for better visibility
+            fig.update_layout(
+                margin=dict(l=0, r=0, t=100, b=0),  # Increased top margin for title
+                coloraxis_colorbar=dict(
+                    title=dict(
+                        text='<b>Appearance<br>Count</b>',
+                        font=dict(size=12, family="Arial", color="#333333")
                     ),
-                    showarrow=False,
-                    font=dict(size=10, color=text_color),
-                    align="center"
-                )
-            ]
-        )
-        
-        # Thêm nút reset view
-        fig.update_layout(
-            updatemenus=[{
-                "type": "buttons",
-                "direction": "left",
-                "buttons": [{
-                    "args": [{"node.x": x_pos, "node.y": y_pos}],
-                    "label": "⟲ Reset View",
-                    "method": "restyle"
-                }],
-                "pad": {"r": 10, "t": 10},
-                "showactive": False,
-                "x": 0.1,
-                "xanchor": "right",
-                "y": 1.1,
-                "yanchor": "top"
-            }]
-        )
-        
-        return fig
+                    thickness=20,  # Thicker colorbar
+                    len=0.8,
+                    yanchor="middle",
+                    y=0.5,
+                    x=1.05  # Move colorbar slightly right
+                ),
+                geo=dict(
+                    showframe=False,
+                    showcoastlines=True,
+                    landcolor='#f0f2f6',  # Lighter land color
+                    subunitcolor='white',
+                    countrycolor='#dddddd',  # Slightly visible country borders
+                    bgcolor='rgba(0,0,0,0)',
+                    lakecolor='#e9ecef',
+                    oceancolor='#e9ecef',
+                    showcountries=True,
+                    countrywidth=0.5
+                ),
+                height=600,  # Taller for better visibility
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(family="Arial", color='#333333'),
+                title={
+                    'y':0.9,
+                    'x':0.5,
+                    'xanchor': 'center',
+                    'yanchor': 'top',
+                    'font': dict(size=24, color='#111111', family="Arial", weight="bold")
+                },
+                hoverlabel=dict(
+                    bgcolor="white",
+                    font_size=14,
+                    font_family="Arial",
+                    bordercolor='#ddd',
+                    align="left"
+                ),
+                hovermode="closest",
+                transition={'duration': 500} if show_animation else None
+            )
+
+            # Animation controls
+            if show_animation:
+                fig.layout.updatemenus = [dict(
+                    type="buttons",
+                    buttons=[dict(
+                        label="▶ Play",
+                        method="animate",
+                        args=[None, {
+                            "frame": {"duration": 800, "redraw": True}, 
+                            "fromcurrent": True, 
+                            "transition": {"duration": 400}
+                        }]
+                    )],
+                    x=0.1,
+                    xanchor="right",
+                    y=1.15,  # Higher position
+                    yanchor="top",
+                    pad=dict(t=0, l=10),
+                    bgcolor="#1DB954",  # Spotify green
+                    font=dict(color="white")
+                )]
+                
+                for frame in fig.frames:
+                    frame.layout.update(transition_duration=400)
+
+            # Add location markers with custom icons
+            if not show_animation:  # Only add markers if not in animation mode
+                # Get coordinates for each country (using country centroids as fallback)
+                # Note: In a real implementation, you should use actual coordinates from your data
+                # Here we'll use a simple approach with country centroids
+                
+                # First get unique countries
+                unique_countries = region_counts[['region_code_iso3', 'hover_region_name']].drop_duplicates()
+                
+                # Add scatter plot with icons for each country
+                fig.add_trace(go.Scattergeo(
+                    lon = [0] * len(unique_countries),  # Replace with actual longitudes
+                    lat = [0] * len(unique_countries),  # Replace with actual latitudes
+                    text = unique_countries['hover_region_name'],
+                    customdata = unique_countries['region_code_iso3'],
+                    hovertemplate = "<b>%{text}</b><extra></extra>",
+                    mode = 'markers+text',
+                    marker = dict(
+                        size = 12,
+                        symbol = 'music',  # Music note icon
+                        color = '#FF5733',  # Orange color for visibility
+                        opacity = 0.9,
+                        line = dict(
+                            width = 1,
+                            color = 'white'
+                        )
+                    ),
+                    textposition = "top center",
+                    textfont = dict(
+                        family = "Arial",
+                        size = 10,
+                        color = "#1DB954"  # Spotify green
+                    ),
+                    name = 'Music Locations'
+                ))
+
+                # Add another layer with custom emoji icons
+                fig.add_trace(go.Scattergeo(
+                    lon = [0] * len(unique_countries),  # Replace with actual longitudes
+                    lat = [0] * len(unique_countries),  # Replace with actual latitudes
+                    text = ["🎵"] * len(unique_countries),  # Music note emoji
+                    textfont = dict(size=14),
+                    mode = 'text',
+                    hoverinfo = 'none',
+                    showlegend = False
+                ))
+
+            # Footer annotation
+            fig.add_annotation(
+                x=0.5,
+                y=0.02,
+                text=(
+                    f"Display threshold: ≥{min_count} appearances | "
+                    f"Data from {len(df)} tracks | "
+                    f"Updated: {pd.Timestamp.now().strftime('%Y-%m-%d')}"
+                ),
+                showarrow=False,
+                font=dict(size=11, color="gray"),
+                xref="paper",
+                yref="paper"
+            )
+
+            # Visual enhancements
+            fig.update_traces(
+                marker_line_width=0.8,
+                marker_line_color='rgba(255,255,255,0.8)',
+                selector=dict(type='choropleth')
+            )
+
+            return fig
+
+        except Exception as e:
+            import traceback
+            error_msg = f"{str(e)}\n\n{traceback.format_exc()}"
+            print(f"[ERROR] {error_msg}")
+
+            error_fig = go.Figure()
+            error_fig.update_layout(
+                title={
+                    'text': f"<b>VISUALIZATION ERROR</b><br><sub>{str(e)}</sub>",
+                    'y':0.5,
+                    'x':0.5,
+                    'xanchor': 'center',
+                    'yanchor': 'middle',
+                    'font': dict(size=16, color='red')
+                },
+                annotations=[
+                    dict(
+                        text="Please check your input data",
+                        x=0.5,
+                        y=0.4,
+                        showarrow=False,
+                        font=dict(size=14, color='gray'))
+                ],
+                height=400,
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)'
+            )
+            return error_fig
+
     #Top Artists (Horizontal Bar Chart)
     def create_top_artists_bar(community_data):
         top_artists = community_data['artist_names'].value_counts().nlargest(5)
-        
-        # Create figure with horizontal bar style
+
+        MAX_LABEL_LENGTH = 18
+        short_artist_names = [
+            name if len(name) <= MAX_LABEL_LENGTH else name[:MAX_LABEL_LENGTH - 3] + "..."
+            for name in top_artists.index
+        ]
+
         fig = go.Figure()
-        
+
         fig.add_trace(go.Bar(
-            y=top_artists.index,
+            y=short_artist_names,
             x=top_artists.values,
             orientation='h',
             text=top_artists.values,
             textposition='outside',
-            textangle=0,  # ✅ Đảm bảo chữ nằm ngang
+            textangle=0,
             textfont=dict(color='black', size=12),
             marker=dict(
                 color=top_artists.values,
@@ -1314,7 +1648,7 @@ def register_spotify_callbacks(app):
                 for artist, count in zip(top_artists.index, top_artists.values)
             ]
         ))
-        
+
         fig.update_layout(
             title=dict(
                 text='<b>TOP 5 ARTISTS IN COMMUNITY</b>',
@@ -1345,7 +1679,7 @@ def register_spotify_callbacks(app):
                 font_family="Montserrat"
             )
         )
-        
+
         return fig
     #Song Recommendations Cards
     def get_image_from_tunebat(url_tunebat):
@@ -1503,7 +1837,7 @@ def register_spotify_callbacks(app):
     ],
     style={
         'width': '200px',
-        'height': '150px', 
+        'height': '100px', 
         'margin': '10px auto',
         'borderRadius': '12px',
         'boxShadow': '0 2px 8px rgba(0,0,0,0.08)',
@@ -1593,9 +1927,9 @@ def register_spotify_callbacks(app):
     # 2. Sửa lại callback để bao gồm nút điều hướng
     @app.callback(
         [
-            Output('community-audio-features', 'figure'),
-            Output('community-sankey-distribution', 'figure'),
-            Output('community-feature-comparison', 'figure'),
+            #Output('distribution-by-channel', 'figure'),
+            #Output('density-chart', 'figure'),
+            Output('community-distribution-map', 'figure'),
             Output('community-top-artists', 'figure'),
             Output('community-song-recommendations', 'children'),
             Output('recommendation-index-store', 'data'),
@@ -1649,9 +1983,9 @@ def register_spotify_callbacks(app):
             viral_track = community_data.sort_values('popularity', ascending=False)['track_name'].iloc[0]
 
             # Tạo các biểu đồ
-            radar_fig = create_audio_features_radar(community_data, [selected_community])
-            sankey_fig = create_sankey_community(community_data, viral_track)
-            bar_fig = create_feature_comparison_bar(community_data)
+            #radar_fig = create_audio_features_radar(community_data, [selected_community])
+            #sankey_fig = create_sankey_community(community_data, viral_track)
+            bar_fig = create_genre_distribution_map(community_data)
             artists_fig = create_top_artists_bar(community_data)
             recommendations = create_song_recommendations(community_data, current_index)
 
@@ -1661,8 +1995,6 @@ def register_spotify_callbacks(app):
             total_songs = str(len(valid_lambda))
 
             return (
-                radar_fig,
-                sankey_fig,
                 bar_fig,
                 artists_fig,
                 recommendations,
@@ -1690,13 +2022,11 @@ def register_spotify_callbacks(app):
    #------------------Tab3-----------------------------
     @app.callback(
         [Output('song-risk-dropdown', 'options'),
-        Output('center-artists', 'options'),
-        Output('genre-risk-dropdown', 'options')],
+        Output('center-artists', 'options')],
         [Input('song-risk-dropdown', 'value'),
-        Input('center-artists', 'value'),
-        Input('genre-risk-dropdown', 'value')]
+        Input('center-artists', 'value')]
     )
-    def update_all_dropdowns(song_value, artist_value, genre_value):
+    def update_all_dropdowns(song_value, artist_value):
         ctx = dash.callback_context
         if not ctx.triggered:
             raise dash.exceptions.PreventUpdate
@@ -1709,622 +2039,770 @@ def register_spotify_callbacks(app):
             df_filtered = df_filtered[df_filtered['track_name'].isin(song_value if isinstance(song_value, list) else [song_value])]
         elif triggered_id == 'center-artists' and artist_value:
             df_filtered = df_filtered[df_filtered['artist_names'].isin(artist_value if isinstance(artist_value, list) else [artist_value])]
-        elif triggered_id == 'genre-risk-dropdown' and genre_value:
-            df_filtered = df_filtered[df_filtered['genre'].isin(genre_value if isinstance(genre_value, list) else [genre_value])]
 
         # Lấy danh sách lọc
         song_options = [{'label': s, 'value': s} for s in sorted(df_filtered['track_name'].unique())]
         artist_options = [{'label': a, 'value': a} for a in sorted(df_filtered['artist_names'].unique())]
-        genre_options = [{'label': g, 'value': g} for g in sorted(df_filtered['genre'].unique())]
+        return song_options, artist_options
 
-        return song_options, artist_options, genre_options
-
-
+    
     @app.callback(
         Output('sensitivity-network', 'figure'),
-        [Input('main-tabs', 'value'),
-        Input('center-artists', 'value'), 
-        Input('genre-risk-dropdown', 'value'),
-        Input('song-risk-dropdown', 'value')]
+        Input('network-view-toggle', 'value'),
+        Input('tabs', 'active_tab'),
+        Input('center-artists', 'value'),
+        Input('song-risk-dropdown', 'value')
     )
-    def draw_crisis_network(tab, selected_artists, selected_genre, selected_songs):
-        if tab != 'risk' or not (selected_artists or selected_songs):
+    def draw_crisis_network(view_mode, tab, selected_artists, selected_songs):
+        df_songs, G, partition = generate_spotify_data()
+
+        if tab != 'risk' or not selected_songs:
             return go.Figure()
 
-        # Process selections
+        if view_mode == 'before':
+            return draw_original_network_for_comparison()
+
+        # Xử lý dữ liệu
+        df_songs['loudness'] = df_songs['loudness'].astype(str).str.replace('db', '', case=False).str.replace('−', '-', regex=False).str.replace(',', '.').str.strip().astype(float)
+
         if isinstance(selected_artists, str):
             selected_artists = [selected_artists]
         if isinstance(selected_songs, str):
             selected_songs = [selected_songs]
-        
-        # Get artists from selected songs if provided
-        song_artists = []
-        if selected_songs:
-            song_artists = df_songs[df_songs['track_name'].isin(selected_songs)]['artist_names'].unique().tolist()
-        
-        # Combine all selected artists
-        all_selected_artists = list(set((selected_artists or []) + song_artists))
-        
-        # Filter by genre if specified
-        if selected_genre:
-            all_selected_artists = df_songs[
-                (df_songs['artist_names'].isin(all_selected_artists)) &
-                (df_songs['genre'] == selected_genre)
-            ]['artist_names'].unique().tolist()
 
-        # CREATE NETWORK
-        G = nx.Graph()
-        edge_weights = []
+        removed_song = selected_songs[0]
+        removed_artists = []
+        H = G.copy()
+        removed_node_info = {}
+        removed_edges_info = []
 
-        # Add selected songs as special nodes
-        song_nodes = {}
-        if selected_songs:
-            for song in selected_songs:
-                song_data = df_songs[df_songs['track_name'] == song].iloc[0]
-                artists = [a.strip() for a in song_data['artist_names'].split(',')]
-                G.add_node(f"SONG:{song}", size=25, color='#FF5722', group=2, 
-                        influence=1.0, type='song', 
-                        customdata=f"{song} - {song_data['artist_names']}")
-                
-                # Connect song to its artists
-                for artist in artists:
-                    if artist in all_selected_artists:
-                        G.add_edge(f"SONG:{song}", artist, weight=2, strength=0.9)
-                        edge_weights.append(2)
+        # Lấy thông tin node sẽ xóa
+        if removed_song in H.nodes:
+            if removed_song in df_songs['track_name'].values:
+                artists_str = df_songs[df_songs['track_name'] == removed_song]['artist_names'].values
+                if len(artists_str) > 0:
+                    removed_artists = [a.strip() for a in artists_str[0].split(',')]
 
-        # Add artist nodes and connections
-        for artist in all_selected_artists:
-            G.add_node(artist, size=30, color='#E53935', group=0, influence=1.0, type='artist')
-            collabs = df_songs[df_songs['artist_names'].str.contains(artist, na=False, regex=False)]
-            
-            # Find related artists through collaborations
-            related = {}
-            for _, row in collabs.iterrows():
-                others = [o.strip() for o in row['artist_names'].split(',') if o.strip() != artist]
-                for other in others:
-                    related[other] = related.get(other, 0) + 1
+            removed_node_info = {
+                'name': removed_song,
+                'genre': df_songs[df_songs['track_name'] == removed_song]['genre'].values[0] if not df_songs[df_songs['track_name'] == removed_song].empty else 'Other',
+                'artist': removed_artists[0] if removed_artists else '',
+                'popularity': df_songs[df_songs['track_name'] == removed_song]['popularity'].values[0] if not df_songs[df_songs['track_name'] == removed_song].empty else 0,
+                'lambda': df_songs[df_songs['track_name'] == removed_song]['Lambda'].values[0] if not df_songs[df_songs['track_name'] == removed_song].empty else 0
+            }
 
-            max_collabs = max(related.values()) if related else 1
-            for other, count in related.items():
-                influence_score = min(1.0, count / max_collabs * 0.8)
-                if other not in G.nodes():
-                    G.add_node(other, size=15 + (count / max_collabs) * 25, 
-                            color='#4ECDC4', group=1, influence=influence_score, type='related')
-                G.add_edge(artist, other, weight=count, strength=influence_score)
-                edge_weights.append(count)
+            # Lưu thông tin các cạnh sẽ bị xóa
+            for neighbor in H.neighbors(removed_song):
+                removed_edges_info.append({
+                    'source': removed_song,
+                    'target': neighbor,
+                    'color': '#1DB954' if neighbor in removed_artists else '#FFD700'  # Màu vàng cho cạnh sẽ xóa
+                })
+            track_names = df_songs['track_name'].tolist()
+            removed_song = selected_songs[0]
 
-        affected = set(all_selected_artists)
-        frontier = set(all_selected_artists)
-        spread_prob = 0.5
-        steps = 3
-        spread_history = []
+            if removed_song in track_names:
+                idx_remove = track_names.index(removed_song)
+                print("[DEBUG] simulate_node_removal_impact được gọi TRƯỚC khi xoá node thật", flush=True)
 
-        for step in range(steps):
-            new_frontier = set()
-            for node in frontier:
-                # Skip song nodes (they don't propagate risk)
-                if isinstance(node, str) and node.startswith('SONG:'):
-                    continue
-                    
-                for neighbor in G.neighbors(node):
-                    if neighbor not in affected:
-                        edge_strength = G[node][neighbor].get('strength', 0.2)
-                        prob = min(1.0, spread_prob * edge_strength)
-                        if np.random.rand() < prob:
-                            new_frontier.add(neighbor)
-                            G.nodes[neighbor]['influence'] = max(
-                                G.nodes[neighbor]['influence'],
-                                G.nodes[node]['influence'] * 0.7
-                            )
-            affected.update(new_frontier)
-            frontier = new_frontier
-            spread_history.append((step, set(affected)))
+                # Chuẩn hóa dữ liệu đầu vào
+                feature_cols = ['energy', 'danceability', 'happiness', 'acousticness', 'instrumentalness',
+                                'liveness', 'speechiness', 'loudness', 'artist_total_followers',
+                                'playlist_num_followers', 'BPM']
+                df_songs[feature_cols] = df_songs[feature_cols].fillna(df_songs[feature_cols].median())
+                X_raw = df_songs[feature_cols].copy()
+                scaler = StandardScaler()
+                X = scaler.fit_transform(X_raw)
+                Y = df_songs['track_popularity'].values
 
-        # PREPARE VISUALIZATION
-        pos = nx.spring_layout(G, seed=42, k=0.6, iterations=100)
-        
-        # Edge traces
-        edge_traces = []
-        for u, v in G.edges():
-            x0, y0 = pos[u]
-            x1, y1 = pos[v]
-            edge_traces.append(go.Scatter(
-                x=[x0, x1, None], y=[y0, y1, None],
-                line=dict(width=0.5 + 2 * G[u][v].get('strength', 0.5),
-                        color=f'rgba(100,100,100,{0.3 + 0.5 * G[u][v].get("strength", 0.5)})'),
-                hoverinfo='none',
-                mode='lines',
-                opacity=0.8
-            ))
+                genre_ids = df_songs['genre'].astype('category').cat.codes.values
+                genre_matrix = (genre_ids[:, None] == genre_ids[None, :])
+                np.fill_diagonal(genre_matrix, False)
+                W = genre_matrix.astype(float)
+                W = W / (W.sum(axis=1, keepdims=True) + 1e-10)
 
-        # Node traces
-        node_x, node_y, node_size, node_color, node_text, node_hover = [], [], [], [], [], []
-        for node in G.nodes():
-            x, y = pos[node]
-            inf = G.nodes[node].get('influence', 0)
-            node_x.append(x)
-            node_y.append(y)
-            node_size.append(G.nodes[node]['size'])
-            
-            # Determine node color and hover text
-            if node.startswith('SONG:'):
-                node_color.append('#FF5722')  # Orange for songs
-                node_text.append(node.split(':')[1][:15] + '...')
-                node_hover.append(G.nodes[node].get('customdata', node))
-            elif node in all_selected_artists:
-                node_color.append('#E53935')  # Red for selected artists
-                node_text.append(node[:15] + ('...' if len(node) > 15 else ''))
-                node_hover.append(f"Artist: {node}<br>Influence: {inf:.2f}")
-            elif node in affected:
-                node_color.append(f'rgba(255, 204, 0, {inf})')  # Yellow for affected
-                node_text.append(node[:15] + ('...' if len(node) > 15 else ''))
-                node_hover.append(f"Artist: {node}<br>Influence: {inf:.2f}")
+                # Load mô hình đã huấn luyện
+                with open('cim_model.pkl', 'rb') as f:
+                    saved_model = pickle.load(f)
+
+                print("[LOG] Gọi simulate_node_removal_impact...", flush=True)
+                start_time = time.time()
+                lambda_new = simulate_node_removal_impact(idx_remove, X, Y, W, saved_model)
+                print(f"[LOG] Tính lambda xong sau {time.time() - start_time:.2f} giây", flush=True)
+
+                # Tạo dict Lambda mới
+                track_names_wo_removed = [node for node in track_names if node != removed_song]
+                lambda_dict = {
+                    node: lambda_new[i]
+                    for i, node in enumerate(track_names_wo_removed)
+                    if not np.isnan(lambda_new[i])
+                }
+
+                print("[DEBUG] lambda_new[:5]:", list(lambda_dict.items())[:5], flush=True)
             else:
-                node_color.append("#000000")  # Black for others
-                node_text.append('')
-                node_hover.append(f"Related Artist: {node}<br>Influence: {inf:.2f}")
+                print(f"[WARNING] removed_song '{removed_song}' không có trong track_names!", flush=True)
 
-        node_trace = go.Scatter(
-            x=node_x, y=node_y,
-            mode='markers+text',
-            text=node_text,
-            textposition='top center',
-            hovertext=node_hover,
-            hoverinfo='text',
-            marker=dict(
-                size=node_size,
-                color=node_color,
-                line=dict(width=1, color='DarkSlateGrey'),
-                opacity=0.9
-            )
-        )
+            # Fallback nếu lambda_dict rỗng
+            if not lambda_dict:
+                print("[DEBUG] Fallback: gán lambda = 0.1 cho toàn bộ node", flush=True)
+                lambda_dict = {node: 0.1 for node in H.nodes}
 
-        # ANIMATION FRAMES
+        ## Tạo layout đặc biệt để gom nhóm theo thể loại
+        # Tạo dict ánh xạ node -> thể loại và lambda
+        node_genre = {}
+        for node in G.nodes():
+            genre = df_songs[df_songs['track_name'] == node]['genre'].values
+            node_genre[node] = genre[0] if len(genre) > 0 else 'Other'
+
+        # Gán lambda mới cho các node còn lại
+        node_lambda = {}
+        for node in H.nodes():
+            if node in lambda_dict:
+                node_lambda[node] = lambda_dict[node]
+            else:
+                node_lambda[node] = 0.1  # fallback
+        
+        # Tạo positions ban đầu với spring layout
+        pos = nx.kamada_kawai_layout(H)
+        
+        # Gom node theo thể loại
+        node_genre = {}
+        genre_centers = {}
+        genre_nodes = {}
+
+        for node in H.nodes():
+            genre = df_songs[df_songs['track_name'] == node]['genre'].values
+            genre = genre[0] if len(genre) > 0 else 'Other'
+            node_genre[node] = genre
+
+            x, y = pos[node]
+            if genre not in genre_centers:
+                genre_centers[genre] = [x, y, 1]
+                genre_nodes[genre] = [node]
+            else:
+                genre_centers[genre][0] += x
+                genre_centers[genre][1] += y
+                genre_centers[genre][2] += 1
+                genre_nodes[genre].append(node)
+
+        for genre in genre_centers:
+            genre_centers[genre][0] /= genre_centers[genre][2]
+            genre_centers[genre][1] /= genre_centers[genre][2]
+
+        alpha = 0.2
+        for genre, nodes in genre_nodes.items():
+            cx, cy, _ = genre_centers[genre]
+            for node in nodes:
+                pos[node][0] = (1 - alpha) * pos[node][0] + alpha * cx
+                pos[node][1] = (1 - alpha) * pos[node][1] + alpha * cy
+        # Lưu vị trí node sẽ xóa
+        if removed_song in pos:
+            removed_node_info['pos'] = pos[removed_song]
+            
+            # Cập nhật vị trí target cho các cạnh bị xóa
+            for edge in removed_edges_info:
+                edge['target_pos'] = pos[edge['target']]
+                edge['source_pos'] = pos[removed_song]
+
+        # Thực hiện xóa node sau khi đã lưu thông tin
+        if removed_song in H.nodes:
+            H.remove_node(removed_song)
+    
+        # Tạo bảng màu theo thể loại
+        genre_list = df_songs['genre'].dropna().unique().tolist()
+        color_palette = px.colors.qualitative.Plotly + px.colors.qualitative.D3 + px.colors.qualitative.Dark24
+        genre_color_map = {g: color_palette[i % len(color_palette)] for i, g in enumerate(genre_list)}
+
+        # Tính toán phạm vi giá trị Lambda để chuẩn hóa kích thước node
+        lambda_values = list(node_lambda.values())
+        min_lambda = min(lambda_values) if lambda_values else 0
+        max_lambda = max(lambda_values) if lambda_values else 1
+        
+        # Hàm chuẩn hóa kích thước node theo Lambda (từ 10 đến 40)
+        def normalize_size(lambda_val):
+            if max_lambda == min_lambda:
+                return 25  # Giá trị mặc định nếu tất cả Lambda bằng nhau
+            return 10 + 30 * ((lambda_val - min_lambda) / (max_lambda - min_lambda))
+
+        # Tạo animation frames
         frames = []
-        for step, affected_nodes in spread_history:
-            frame_size = []
-            frame_color = []
-            frame_border = []
 
-            for node in G.nodes():
-                inf = G.nodes[node].get('influence', 0)
-                base_size = G.nodes[node]['size']
-                
-                if node.startswith('SONG:'):
-                    frame_color.append('#FF5722')
-                    frame_size.append(base_size)
-                    frame_border.append('black')
-                elif node in all_selected_artists:
-                    frame_color.append('#E53935')
-                    frame_size.append(base_size)
-                    frame_border.append('black')
-                elif node in affected_nodes:
-                    frame_color.append(f'rgba(255, 204, 0, {inf})')
-                    frame_size.append(base_size + 10 * inf)
-                    frame_border.append('rgba(255,255,0,0.8)')
-                else:
-                    frame_color.append("#000000")
-                    frame_size.append(base_size)
-                    frame_border.append('rgba(200,200,200,0.4)')
+        ## Frame 1: Trạng thái ban đầu với node sẽ xóa
+        edge_traces_init = []
+        node_x_init, node_y_init, node_color_init, node_size_init = [], [], [], []
+        
+        # Vẽ tất cả các cạnh (mờ)
+        for u, v, data in H.edges(data=True):
+            edge_traces_init.append(go.Scatter(
+                x=[pos[u][0], pos[v][0], None],
+                y=[pos[u][1], pos[v][1], None],
+                line=dict(width=0.5, color='rgba(150,150,150,0.3)'),
+                hoverinfo='none',
+                mode='lines'
+            ))
+        
+        # Vẽ các cạnh sẽ bị xóa (nổi bật)
+        for edge in removed_edges_info:
+            edge_traces_init.append(go.Scatter(
+                x=[edge['source_pos'][0], edge['target_pos'][0]],
+                y=[edge['source_pos'][1], edge['target_pos'][1]],
+                line=dict(width=3, color=edge['color']),
+                hoverinfo='none',
+                mode='lines'
+            ))
+        
+        # Vẽ tất cả các node (mờ)
+        for node in G.nodes():
+            if node != removed_song:
+                node_x_init.append(pos[node][0])
+                node_y_init.append(pos[node][1])
+                genre = node_genre[node]
+                node_color_init.append(f"rgba({int(genre_color_map[genre][1:3],16)},{int(genre_color_map[genre][3:5],16)},{int(genre_color_map[genre][5:7],16)},0.5)")
+                node_size_init.append(normalize_size(node_lambda[node]) * 0.7)  # Giảm kích thước cho các node mờ
+        
+        # Thêm node sẽ xóa (nổi bật)
+        if removed_node_info.get('pos') is not None:
 
+            node_x_init.append(removed_node_info['pos'][0])
+            node_y_init.append(removed_node_info['pos'][1])
+            node_color_init.append('red')
+            node_size_init.append(normalize_size(removed_node_info['lambda']) * 1.5)  # Tăng kích thước node sẽ xóa
+        
+        frames.append(go.Frame(
+            data=[
+                *edge_traces_init,
+                go.Scatter(
+                    x=node_x_init,
+                    y=node_y_init,
+                    mode='markers',
+                    marker=dict(
+                        color=node_color_init,
+                        size=node_size_init,
+                        line=dict(width=1, color='rgba(255,255,255,0.8)'),
+                        opacity=0.9
+                    ),
+                    hoverinfo='none'
+                )
+            ],
+            name="initial"
+        ))
+
+        ## Frame 2-4: Hiệu ứng xóa node và cạnh
+        for progress in [0.3, 0.6, 0.9]:
+            edge_traces = []
+            node_x, node_y, node_color, node_size = [], [], [], []
+            
+            # Vẽ các cạnh thường (mờ)
+            for u, v, data in H.edges(data=True):
+                edge_traces.append(go.Scatter(
+                    x=[pos[u][0], pos[v][0], None],
+                    y=[pos[u][1], pos[v][1], None],
+                    line=dict(width=0.5, color='rgba(150,150,150,0.3)'),
+                    hoverinfo='none',
+                    mode='lines'
+                ))
+            
+            # Vẽ các cạnh đang "biến mất"
+            for edge in removed_edges_info:
+                edge_traces.append(go.Scatter(
+                    x=[edge['source_pos'][0], edge['target_pos'][0]],
+                    y=[edge['source_pos'][1], edge['target_pos'][1]],
+                    line=dict(width=3*(1-progress), color=edge['color']),
+                    hoverinfo='none',
+                    mode='lines'
+                ))
+            
+            # Vẽ các node thường
+            for node in H.nodes():
+                node_x.append(pos[node][0])
+                node_y.append(pos[node][1])
+                genre = node_genre[node]
+                node_color.append(f"rgba({int(genre_color_map[genre][1:3],16)},{int(genre_color_map[genre][3:5],16)},{int(genre_color_map[genre][5:7],16)},0.5)")
+                node_size.append(normalize_size(node_lambda[node]) * 0.7)
+            
+            # Vẽ node đang "biến mất"
+            if removed_node_info.get('pos') is not None:
+
+                node_x.append(removed_node_info['pos'][0])
+                node_y.append(removed_node_info['pos'][1])
+                node_color.append(f'rgba(255,0,0,{1-progress})')
+                node_size.append(normalize_size(removed_node_info['lambda']) * 1.5 * (1-progress))
+            
             frames.append(go.Frame(
                 data=[
                     *edge_traces,
                     go.Scatter(
                         x=node_x,
                         y=node_y,
-                        mode='markers+text',
-                        text=node_text,
-                        textposition='top center',
-                        hovertext=node_hover,
-                        hoverinfo='text',
+                        mode='markers',
                         marker=dict(
-                            size=frame_size,
-                            color=frame_color,
-                            line=dict(width=3, color=frame_border),
+                            color=node_color,
+                            size=node_size,
+                            line=dict(width=1, color='rgba(255,255,255,0.8)'),
                             opacity=0.9
-                        )
+                        ),
+                        hoverinfo='none'
                     )
                 ],
-                name=f"Step {step+1}"
+                name=f"disappearing_{progress}"
             ))
 
-        # CREATE FIGURE
+        ## Frame cuối: Trạng thái sau khi xóa
+        edge_traces_final = []
+        node_x_final, node_y_final, node_text_final, node_color_final, node_size_final = [], [], [], [], []
+        
+        # Vẽ các cạnh
+        for u, v, data in H.edges(data=True):
+            edge_traces_final.append(go.Scatter(
+                x=[pos[u][0], pos[v][0], None],
+                y=[pos[u][1], pos[v][1], None],
+                line=dict(width=1, color='rgba(150,150,150,0.5)'),
+                hoverinfo='none',
+                mode='lines'
+            ))
+        
+        # Vẽ các node với thông tin đầy đủ
+        for node in H.nodes():
+            node_x_final.append(pos[node][0])
+            node_y_final.append(pos[node][1])
+            genre = node_genre[node]
+            artist = df_songs[df_songs['track_name'] == node]['artist_names'].values[0] if not df_songs[df_songs['track_name'] == node].empty else ''
+            popularity = df_songs[df_songs['track_name'] == node]['popularity'].values[0] if not df_songs[df_songs['track_name'] == node].empty else 0
+            lambda_val = node_lambda[node]
+            
+            node_color_final.append(genre_color_map.get(genre, '#CCCCCC'))
+            node_size_final.append(normalize_size(lambda_val))
+            node_text_final.append(
+                f"<b>{node}</b><br>"
+                f"Thể loại: {genre}<br>"
+                f"Nghệ sĩ: {artist}<br>"
+                f"Độ phổ biến: {popularity}<br>"
+                f"Lambda: {lambda_val:.3f}"
+            )
+        
+        # Thêm highlight các node từng nối với node bị xóa
+        neighbor_nodes = [edge['target'] for edge in removed_edges_info]
+        for node in neighbor_nodes:
+            if node in pos:  # Đảm bảo node vẫn còn trong đồ thị
+                idx = list(H.nodes()).index(node)
+                node_size_final[idx] = normalize_size(node_lambda[node]) * 1.3  # Tăng kích thước
+                node_color_final[idx] = '#FFA500'  # Màu cam
+        
+        frames.append(go.Frame(
+            data=[
+                *edge_traces_final,
+                go.Scatter(
+                    x=node_x_final,
+                    y=node_y_final,
+                    mode='markers',
+                    marker=dict(
+                        color=node_color_final,
+                        size=node_size_final,
+                        line=dict(width=1.5, color='rgba(255,255,255,0.8)'),
+                        opacity=0.95
+                    ),
+                    hoverinfo='text',
+                    hovertext=node_text_final
+                )
+            ],
+            name="final"
+        ))
+
+        # Tính toán phạm vi zoom tập trung vào node bị xóa và các node lân cận
+        if removed_node_info.get('pos') is not None:
+
+            neighbor_positions = [pos[edge['target']] for edge in removed_edges_info if edge['target'] in pos]
+            all_x = [removed_node_info['pos'][0]] + [p[0] for p in neighbor_positions]
+            all_y = [removed_node_info['pos'][1]] + [p[1] for p in neighbor_positions]
+            
+            x_min, x_max = min(all_x), max(all_x)
+            y_min, y_max = min(all_y), max(all_y)
+            
+            # Thêm padding
+            x_padding = max((x_max - x_min) * 0.3, 0.2)  # Đảm bảo không zoom quá gần
+            y_padding = max((y_max - y_min) * 0.3, 0.2)
+            
+            x_range = [x_min - x_padding, x_max + x_padding]
+            y_range = [y_min - y_padding, y_max + y_padding]
+        else:
+            x_range = [-1.1, 1.1]
+            y_range = [-1.1, 1.1]
+
+        # Tạo figure
         fig = go.Figure(
-            data=edge_traces + [node_trace],
-            frames=frames
+            data=frames[0]['data'],
+            frames=frames[1:],
+            layout=go.Layout(
+                title=dict(
+                    text=f'<b>QUÁ TRÌNH XOÁ: {removed_song.upper()}</b><br><sup>Kích thước node thể hiện giá trị Lambda</sup>',
+                    font=dict(size=16, family="Montserrat", color='black'),
+                    x=0.05,
+                    y=0.95,
+                    xanchor='left'
+                ),
+                xaxis=dict(
+                    showgrid=False, 
+                    zeroline=False, 
+                    showticklabels=False,
+                    range=x_range
+                ),
+                yaxis=dict(
+                    showgrid=False, 
+                    zeroline=False, 
+                    showticklabels=False,
+                    range=y_range
+                ),
+                hovermode='closest',
+                margin=dict(b=20, l=20, r=20, t=100),
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                showlegend=False,
+                updatemenus=[{
+                    "type": "buttons",
+                    "buttons": [
+                        {
+                            "label": "▶️ Play",
+                            "method": "animate",
+                            "args": [
+                                None, 
+                                {
+                                    "frame": {"duration": 500, "redraw": True},
+                                    "fromcurrent": True, 
+                                    "transition": {"duration": 300}
+                                }
+                            ]
+                        },
+                        {
+                            "label": "⏸ Pause",
+                            "method": "animate",
+                            "args": [
+                                [None], 
+                                {
+                                    "frame": {"duration": 0, "redraw": False},
+                                    "mode": "immediate",
+                                    "transition": {"duration": 0}
+                                }
+                            ]
+                        },
+                        {
+                            "label": "🔄 Reset",
+                            "method": "animate",
+                            "args": [
+                                [None], 
+                                {
+                                    "frame": {"duration": 0, "redraw": True},
+                                    "mode": "immediate",
+                                    "transition": {"duration": 0}
+                                }
+                            ]
+                        }
+                    ],
+                    "x": 0.1,
+                    "y": 0,
+                    "xanchor": "right",
+                    "yanchor": "top"
+                }],
+                annotations=[
+                    dict(
+                        x=0.5,
+                        y=0.02,
+                        xref='paper',
+                        yref='paper',
+                        text=f"Đang xóa: {removed_song} (Thể loại: {removed_node_info.get('genre', 'Unknown')}, Lambda: {removed_node_info.get('lambda', 0):.3f}",
+                        showarrow=False,
+                        font=dict(size=12, color='red'),
+                        bgcolor='rgba(255,255,255,0.7)',
+                        bordercolor='red',
+                        borderwidth=1,
+                        borderpad=4
+                    ),
+                    dict(
+                        x=0.5,
+                        y=0.95,
+                        xref='paper',
+                        yref='paper',
+                        text="Các node màu cam từng kết nối với node bị xóa",
+                        showarrow=False,
+                        font=dict(size=12, color='#FFA500'),
+                        bgcolor='rgba(255,255,255,0.7)',
+                        bordercolor='#FFA500',
+                        borderwidth=1,
+                        borderpad=4
+                    )
+                ]
+            )
         )
 
-        # LAYOUT & ANIMATION
-        title_text = '<b>RISK PROPAGATION NETWORK</b>'
-        if selected_songs:
-            title_text += f'<br><span style="font-size:14px">Selected Songs: {", ".join([s[:15] + ("..." if len(s)>15 else "") for s in selected_songs])}</span>'
-        if all_selected_artists:
-            title_text += f'<br><span style="font-size:14px">Artists: {", ".join([a[:15] + ("..." if len(a)>15 else "") for a in all_selected_artists])}</span>'
-        if selected_genre:
-            title_text += f'<br><span style="font-size:14px">Genre: {selected_genre}</span>'
+        return fig
+    
+    @app.callback(
+    Output('community-impact-bar', 'figure'),
+    [Input('tabs', 'active_tab'),
+     Input('center-artists', 'value'),
+     Input('song-risk-dropdown', 'value')]
+    )
+    def update_community_impact(tab, selected_artists, selected_songs):
+        if tab != 'risk':
+            return empty_figure()
+        
+        # Tính ảnh hưởng trung bình theo thể loại
+        genre_impact = df_songs.groupby('genre')['Lambda'].mean().reset_index()
+        genre_impact = genre_impact.sort_values('Lambda', ascending=False).reset_index(drop=True)
+        
+        # Chuẩn hóa giá trị Lambda để ánh xạ màu
+        norm = (genre_impact['Lambda'] - genre_impact['Lambda'].min()) / (genre_impact['Lambda'].max() - genre_impact['Lambda'].min() + 1e-6)
+        
+        # Dùng dải màu xanh (Tealgrn hoặc Greens)
+        colors = px.colors.sample_colorscale('Tealgrn', norm)
+
+        # Tạo biểu đồ
+        fig = go.Figure(go.Bar(
+            x=genre_impact['Lambda'],
+            y=genre_impact['genre'],
+            orientation='h',
+            marker=dict(color=colors),
+            text=genre_impact['Lambda'].round(2),
+            textposition='outside',
+            hovertemplate='<b>%{y}</b><br>Mean λ: %{x:.2f}<extra></extra>'
+        ))
 
         fig.update_layout(
             title=dict(
-                text=title_text,
-                font=dict(size=20, color='#191414', family='Montserrat'),
-                x=0.5, xanchor='center', y=0.95, yanchor='top'
-            ),
-            showlegend=False,
-            hovermode='closest',
-            margin=dict(b=20, l=20, r=20, t=100),
-            plot_bgcolor='rgba(0,0,0,0)',
-            paper_bgcolor='rgba(0,0,0,0)',
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-            dragmode='pan',
-            updatemenus=[dict(
-                type="buttons",
-                direction="right",
+                text="Ảnh hưởng theo thể loại",
                 x=0.5,
-                y=1.15,
-                xanchor="center",
-                yanchor="top",
-                showactive=True,
-                buttons=[
-                    dict(label="▶️ Play", method="animate",
-                        args=[None, {"frame": {"duration": 1000, "redraw": True}, "fromcurrent": True}]),
-                    dict(label="⏸ Pause", method="animate",
-                        args=[[None], {"frame": {"duration": 0}, "mode": "immediate"}])
-                ]
-            )],
-            sliders=[dict(
-                steps=[dict(
-                    method="animate",
-                    args=[[f"Step {i+1}"], {"mode": "immediate", "frame": {"duration": 800}, "transition": {"duration": 300}}],
-                    label=f"Step {i+1}"
-                ) for i in range(len(frames))],
-                transition={"duration": 300},
-                x=0.1,
-                y=-0.1,
-                currentvalue={"prefix": "Current: ", "font": {"size": 14}},
-                len=0.8
-            )],
-            transition=dict(duration=500)
-        )
-
-        return fig
-
-    @app.callback(
-    Output('community-impact-bar', 'figure'),
-    Input('main-tabs', 'value')
-    )
-    def update_risk_estimate(tab):
-        if tab != 'risk':
-            return go.Figure()
-
-        genres = df_songs['genre'].dropna().unique()
-        results = []
-
-        for genre in genres:
-            genre_songs = df_songs[df_songs['genre'] == genre]['track_name'].tolist()
-            if not genre_songs:
-                results.append(0)
-                continue
-
-            affected_ratios = []
-            for _ in range(300):  # số lần mô phỏng
-                affected = set(genre_songs)
-                frontier = set(genre_songs)
-                while frontier:
-                    new_frontier = set()
-                    for node in frontier:
-                        for nb in G.neighbors(node):
-                            if nb not in affected and np.random.rand() < 0.25:
-                                new_frontier.add(nb)
-                    affected.update(new_frontier)
-                    frontier = new_frontier
-                affected_ratios.append(
-                    (len(affected) - len(genre_songs)) / max(1, G.number_of_nodes() - len(genre_songs))
-                )
-            results.append(np.mean(affected_ratios))
-
-        fig = go.Figure()
-        fig.add_trace(go.Bar(
-            y=genres,
-            x=results,
-            orientation='h',
-            name='Impact',
-            marker=dict(
-                color=results,
-                colorscale=[
-                        [0.0, "#178A3E"],   # đậm nhất
-                        [0.3, "#1AA34A"],
-                        [0.6, "#1DB954"],   # Spotify green
-                        [0.85, "#1ED760"],
-                        [1.0, "#B2F2C9"]    # nhạt nhất
-                    ],
-                line=dict(color='rgba(255,255,255,0.5)', width=1),
-                cmin=0,
-                cmax=max(results)
+                xanchor='center',
+                font=dict(size=18, family='Montserrat', color='black')
             ),
-            hovertemplate="<b>%{y}</b><br>Impact: %{x:.2f}<extra></extra>",
-            text=[f"{x:.2f}" for x in results],
-            textposition='outside',
-            textfont=dict(color='black')
-        ))
-
-
-        fig.update_layout(
-            title='<b>Genre Impact Analysis</b>',
-            xaxis_title='Propagation Risk Score',
-            yaxis_title='Genre',
-            plot_bgcolor='rgba(0,0,0,0)',
-            paper_bgcolor='rgba(0,0,0,0)',
-            font=dict(color='black'),
-            xaxis=dict(
-                showgrid=True,
-                tick0=0,
-                dtick=0.1,
-                range=[0, 0.3],
-                ticks="outside",
-                ticklen=8,
-                tickwidth=1,
-                tickcolor='rgba(150,150,150,0.6)'
-            ),
-            bargap=0.25,
-            transition={'duration': 500}
-        )
-
-        return fig
-
-    @app.callback(
-        Output('influence-heatmap', 'figure'),
-        [Input('main-tabs', 'value'),
-        Input('center-artists', 'value'),
-        Input('genre-risk-dropdown', 'value'),
-        Input('song-risk-dropdown', 'value')]
-    )
-    def draw_influence_heatmap(tab, selected_artists, selected_genre, selected_songs):
-        if tab != 'risk':
-            return go.Figure()
-
-        # Get all affected artists from selections
-        affected_artists = set()
-        
-        if selected_artists:
-            if isinstance(selected_artists, str):
-                selected_artists = [selected_artists]
-            affected_artists.update(selected_artists)
-        
-        if selected_songs:
-            if isinstance(selected_songs, str):
-                selected_songs = [selected_songs]
-            song_artists = df_songs[df_songs['track_name'].isin(selected_songs)]['artist_names'].unique().tolist()
-            affected_artists.update(song_artists)
-        
-        # Filter by genre if specified
-        if selected_genre:
-            affected_artists = set(df_songs[
-                (df_songs['artist_names'].isin(affected_artists)) &
-                (df_songs['genre'] == selected_genre)
-            ]['artist_names'].unique().tolist())
-
-        # Calculate influence scores
-        if affected_artists:
-            # Calculate average eigenvector centrality for genres based on affected artists
-            genre_influence = df_songs[df_songs['artist_names'].isin(affected_artists)].groupby('genre')['Lambda'].mean().reset_index()
-        else:
-            # Fallback to all data if no selections
-            genre_influence = df_songs.groupby('genre')['Lambda'].mean().reset_index()
-        
-        genre_influence['Lambda'] = genre_influence['Lambda'].fillna(0)
-        genre_influence = genre_influence.sort_values('Lambda', ascending=False)
-
-        # Create heatmap
-        fig = go.Figure(data=go.Heatmap(
-            z=[genre_influence['Lambda'].values],
-            x=genre_influence['genre'],
-            y=['Mức độ ảnh hưởng'],
-            colorscale='Tealgrn',
-            colorbar=dict(
-                title=dict(
-                    text="Lambda",
-                    side="right",
-                    font=dict(size=12, family='Montserrat')
-                ),
-                tickfont=dict(size=10, family='Montserrat')
-            ),
-            hovertemplate=(
-                "<b>Thể loại</b>: %{x}<br>"
-                "<b>Điểm ảnh hưởng</b>: %{z:.3f}<extra></extra>"
-            )
-        ))
-
-        fig.update_layout(
-            title={
-                'text': 'ẢNH HƯỞNG TRUNG BÌNH CỦA THỂ LOẠI',
-                'font': {
-                    'family': 'Montserrat',
-                    'size': 18,
-                    'color': '#191414'
-                },
-                'x': 0.5,
-                'xanchor': 'center'
-            },
-            plot_bgcolor='rgba(0,0,0,0)',
-            paper_bgcolor='rgba(0,0,0,0)',
-            font=dict(family='Montserrat'),
-            margin=dict(l=50, r=50, t=80, b=50),
-            xaxis=dict(
-                title=dict(
-                    text='Thể loại âm nhạc',
-                    font=dict(size=14)
-                ),
-                tickfont=dict(size=12),
-                tickangle=-45
-            ),
-            yaxis=dict(
-                showticklabels=True,
-                title=None,
-                tickfont=dict(size=14)
-            ),
+            xaxis_title="Điểm ảnh hưởng trung bình (λ)",
+            yaxis_title="Thể loại",
+            xaxis=dict(color='black'),
+            yaxis=dict(color='black'),
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(family='Montserrat', color='black'),
             height=400,
-            hoverlabel=dict(
-                bgcolor='white',
-                font_size=12,
-                font_family='Montserrat'
-            )
+            margin=dict(l=100, r=20, t=60, b=40)
         )
-        
-        max_influence = genre_influence['Lambda'].max()
-        if max_influence > 0:
-            fig.add_annotation(
-                text=f"Thể loại ảnh hưởng nhất: {genre_influence.iloc[0]['genre']}",
-                xref="paper", yref="paper",
-                x=0.95, y=1.1,
-                showarrow=False,
-                font=dict(size=12, color='#1DB954')
-            )
-        
-        return fig
 
+        return fig
     @app.callback(
-    [Output('risk-prediction', 'figure'),
-     Output('high-risk-songs', 'data')],
-    [Input('main-tabs', 'value'),
+    Output('influence-heatmap', 'figure'),
+    [Input('tabs', 'active_tab'),
      Input('center-artists', 'value'),
-     Input('genre-risk-dropdown', 'value'),
      Input('song-risk-dropdown', 'value')]
     )
-  
-    def update_risk_forecast(tab, selected_artists, selected_genre, selected_songs, song_reduction_percent=0):
+    def draw_influence_heatmap(tab, selected_artists, selected_songs):
         if tab != 'risk':
-            return go.Figure(), []
+            return go.Figure()
 
-        if not selected_songs:
-            return go.Figure(), []
+        # Lấy dữ liệu dựa trên selection
+        df_filtered = df_songs.copy()
+        
+        if selected_artists or selected_songs:
+            conditions = []
+            if selected_artists:
+                if isinstance(selected_artists, str):
+                    selected_artists = [selected_artists]
+                conditions.append(df_filtered['artist_names'].isin(selected_artists))
+            if selected_songs:
+                if isinstance(selected_songs, str):
+                    selected_songs = [selected_songs]
+                conditions.append(df_filtered['track_name'].isin(selected_songs))
+            
+            df_filtered = df_filtered[np.logical_or.reduce(conditions)]
+        
+        # Tính toán influence theo genre và artist
+        genre_artist_impact = df_filtered.pivot_table(
+            values='Lambda',
+            index='genre',
+            columns='artist_names',
+            aggfunc='mean',
+            fill_value=0
+        )
+        
+        # Chuẩn hóa dữ liệu
+        genre_artist_impact = genre_artist_impact.div(
+            genre_artist_impact.max(axis=1), axis=0)
+        
+        fig = px.imshow(
+            genre_artist_impact,
+            color_continuous_scale='Tealgrn',
+            labels=dict(x="Nghệ sĩ", y="Thể loại", color="Ảnh hưởng"),
+            aspect="auto"
+        )
+        
+        fig.update_layout(
+            title={
+                'text': 'BẢN ĐỒ NHIỆT ẢNH HƯỞNG NGHỆ SĨ-THỂ LOẠI',
+                'font': {'family': 'Montserrat', 'size': 18},
+                'x': 0.5
+            },
+            xaxis_title="Nghệ sĩ",
+            yaxis_title="Thể loại",
+            height=400,
+            hovermode='closest',
+            font=dict(family='Montserrat')
+        )
+        
+        fig.update_traces(
+            hovertemplate=(
+                "<b>Thể loại</b>: %{y}<br>"
+                "<b>Nghệ sĩ</b>: %{x}<br>"
+                "<b>Điểm ảnh hưởng</b>: %{z:.2f}<extra></extra>"
+            )
+        )
+        
+        return fig
 
-        df_songs['release_date'] = pd.to_datetime(df_songs['release_date'], format='mixed', errors='coerce')
-        selected_release_dates = df_songs[df_songs['track_name'].isin(selected_songs)]['release_date']
-        if selected_release_dates.empty:
-            return go.Figure(), []
+    @app.callback(
+        [Output('risk-prediction', 'figure'),
+        Output('high-risk-songs', 'data')],
+        [Input('tabs', 'active_tab'),
+        Input('center-artists', 'value'),
+        Input('song-risk-dropdown', 'value')]
+    )
+    def update_propagation_timeline(tab, selected_artists, selected_songs):
+        if tab != 'risk':
+            return empty_figure(), []
 
-        viral_start_date = pd.to_datetime(selected_release_dates.min())
-        df_recent = df_songs[pd.to_datetime(df_songs['release_date']) >= viral_start_date]
+        if not selected_artists and not selected_songs:
+            return empty_figure("Vui lòng chọn nghệ sĩ hoặc bài hát"), []
 
-        if selected_artists:
-            df_recent = df_recent[df_recent['artist_names'].isin(selected_artists)]
-        if selected_genre:
-            df_recent = df_recent[df_recent['genre'] == selected_genre]
+        df, G, _ = generate_spotify_data()
+        propagation_data = get_propagation_data(selected_artists, selected_songs, df, G)
 
-        affected_artists = df_recent['artist_names'].unique().tolist()
-        artist_to_index = {a: i for i, a in enumerate(affected_artists)}
-        num_artists = len(affected_artists)
+        if not propagation_data or len(propagation_data['nodes']) == 0:
+            return empty_figure("Không có dữ liệu lan truyền"), []
 
-        if num_artists == 0:
-            return go.Figure(), []
+        # Tạo palette màu Spotify-inspired
+        spotify_colors = {
+            'background': '#ffffff',
+            'primary': '#1DB954',       # Màu xanh lá Spotify
+            'secondary': '#111111',     # Chữ đậm
+            'accent': '#1ED760',        # Xanh sáng
+            'neutral': '#4d4d4d',       # Xám đậm hơn
+            'edge': 'rgba(30, 215, 96, 0.2)'
+        }
 
-        W = np.zeros((num_artists, num_artists))
-        song_counts = {}
-
-        for _, row in df_recent.iterrows():
-            artist = row['artist_names']
-            idx = artist_to_index[artist]
-            song_counts[artist] = song_counts.get(artist, 0) + 1
-            same_genre_artists = df_recent[df_recent['genre'] == row['genre']]['artist_names'].unique()
-            for other_artist in same_genre_artists:
-                if other_artist in artist_to_index and other_artist != artist:
-                    jdx = artist_to_index[other_artist]
-                    W[idx][jdx] += 1
-
-        if song_reduction_percent > 0:
-            factor = 1 - song_reduction_percent / 100
-            for artist in song_counts:
-                idx = artist_to_index[artist]
-                W[idx] *= factor
-                W[:, idx] *= factor
-
-        # Thêm tự ảnh hưởng và chuẩn hóa
-        W += np.eye(num_artists) * 0.5
-        W = W / (W.sum(axis=1, keepdims=True) + 1e-6)
-
-        λ = 1.0
-        num_simulations = 500
-        num_days = 30
-        risk_over_time = np.zeros((num_simulations, num_days))
-        infected_counts = np.zeros((num_simulations, num_days))
-
-        for sim in range(num_simulations):
-            state = np.zeros(num_artists)
-            for song in selected_songs:
-                artist = df_songs[df_songs['track_name'] == song]['artist_names'].values
-                if len(artist) > 0 and artist[0] in artist_to_index:
-                    state[artist_to_index[artist[0]]] = 1
-
-            for t in range(num_days):
-                new_state = state.copy()
-                for i in range(num_artists):
-                    if state[i] == 1:
-                        continue
-                    influence_sum = np.dot(W[i], state)
-                    p = 1 - np.exp(-λ * influence_sum)
-                    new_state[i] = np.random.rand() < p
-                state = new_state
-                risk_over_time[sim, t] = np.mean(state)
-                infected_counts[sim, t] = np.sum(state)
-
-        risk_mean = np.mean(risk_over_time, axis=0)
-        infected_mean = np.mean(infected_counts, axis=0)
-        days = pd.date_range(start=viral_start_date, periods=num_days).strftime('%Y-%m-%d')
-
+        # Tạo figure
         fig = go.Figure()
 
-        # Đường tỷ lệ ảnh hưởng
-        fig.add_trace(go.Scatter(
-            x=days,
-            y=risk_mean,
-            name='Tỷ lệ nghệ sĩ bị ảnh hưởng',
-            mode='lines+markers',
-            line=dict(color='firebrick', width=3),
-            marker=dict(size=6),
-            hovertemplate='Ngày: %{x}<br>Tỷ lệ: %{y:.2%}<extra></extra>',
-        ))
+        # Thêm edges với màu mới
+        for edge in propagation_data['edges']:
+            fig.add_trace(go.Scatter(
+                x=[edge['source_time'], edge['target_time']],
+                y=[edge['source'], edge['target']],
+                mode='lines',
+                line=dict(width=edge['width'], color=spotify_colors['edge']),
+                hoverinfo='none',
+                showlegend=False
+            ))
 
-        # Biểu đồ phụ: số nghệ sĩ bị ảnh hưởng
-        fig.add_trace(go.Scatter(
-            x=days,
-            y=infected_mean,
-            name='Số nghệ sĩ bị ảnh hưởng',
-            mode='lines',
-            yaxis='y2',
-            line=dict(color='royalblue', width=2, dash='dot'),
-            hovertemplate='Ngày: %{x}<br>Số nghệ sĩ: %{y:.0f}<extra></extra>'
-        ))
+        # Thêm nodes với màu gradient dựa trên giá trị
+        for node in propagation_data['nodes']:
+            # Tính màu gradient từ giá trị (value) của node
+            value_norm = node['value'] / max(n['value'] for n in propagation_data['nodes'])
+            base_color = spotify_colors['primary']
+            # Tạo màu gradient từ xanh đậm đến xanh sáng
+            node_color = f'rgba(29, 185, 84, {0.5 + 0.5*value_norm})'
+            
+            fig.add_trace(go.Scatter(
+                x=[node['time']],
+                y=[node['id']],
+                mode='markers+text',
+                marker=dict(
+                    size=node['size'],
+                    color=node_color,
+                    line=dict(width=1.5, color=spotify_colors['secondary'])
+                ),
+                name=node['full_label'],
+                text=node['label'],
+                textposition="top center",
+                hoverinfo='text',
+                hovertext=f"""
+                <b>{node['full_label']}</b><br>
+                Nghệ sĩ: {node['artist']}<br>
+                Thể loại: {node['genre']}<br>
+                Độ phổ biến: {node['popularity']}<br>
+                Giá trị Lambda: {node['value']:.2f}<br>
+                Thời điểm ảnh hưởng: {node['time']}
+                """,
+                showlegend=False
+            ))
 
-        fig.add_shape(
-            type="rect", x0=days[0], x1=days[-1], y0=0.6, y1=1.0,
-            fillcolor="rgba(255, 0, 0, 0.08)", layer="below", line_width=0
-        )
-        fig.add_annotation(
-            x=days[np.argmax(risk_mean)],
-            y=np.max(risk_mean),
-            text=f'⚠ Đỉnh rủi ro: {np.max(risk_mean):.2%}',
-            showarrow=True,
-            arrowhead=2,
-            bgcolor='white',
-            font=dict(size=13, color='crimson'),
-        )
-
+        # Cập nhật layout với theme mới
         fig.update_layout(
-            title='📊 Dự báo lan truyền rủi ro sau bài hát viral',
-            xaxis=dict(title='Ngày', tickangle=45),
-            yaxis=dict(title='Tỷ lệ ảnh hưởng', range=[0, 1], tickformat=".0%"),
-            yaxis2=dict(title='Số nghệ sĩ', overlaying='y', side='right', showgrid=False),
-            font=dict(family="Arial", size=14),
-            plot_bgcolor='rgba(255,255,255,0.95)',
-            paper_bgcolor='rgba(255,255,255,0.95)',
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        title='TIMELINE LAN TRUYỀN ẢNH HƯỞNG',
+        xaxis=dict(
+            title=dict(
+                text='Thời gian (bước lan truyền)',
+                font=dict(color=spotify_colors['secondary'])
+            ),
+            tickmode='linear',
+            tick0=0,
+            dtick=1,
+            range=[-0.5, max([n['time'] for n in propagation_data['nodes']]) + 0.5],
+            gridcolor='rgba(255, 255, 255, 0.1)',
+            tickfont=dict(color=spotify_colors['neutral'])
+        ),
+        yaxis=dict(
+            title=dict(
+                text='Bài hát',
+                font=dict(color=spotify_colors['secondary'])
+            ),
+            tickmode='array',
+            tickvals=list(range(len(propagation_data['nodes']))),
+            ticktext=[n['label'] for n in propagation_data['nodes']],
+            range=[-1, len(propagation_data['nodes'])],
+            gridcolor='rgba(255, 255, 255, 0.1)',
+            tickfont=dict(color=spotify_colors['neutral'])
+        ),
+        showlegend=False,
+        hovermode='closest',
+        plot_bgcolor='rgba(0,0,0,0)',     # Nền plot trong suốt
+        paper_bgcolor='rgba(0,0,0,0)',    # Nền tổng thể trong suốt
+        height=450,
+        margin=dict(l=100, r=50, t=80, b=50),
+        font=dict(family="Montserrat", color=spotify_colors['secondary']),
+        title_font=dict(color=spotify_colors['primary'], size=18)
+    )
+
+        # Tạo bảng dữ liệu liên quan
+        table_data = [
+            {
+                'track_name': node['label'],
+                'artist_names': node['artist'],
+                'genre': node['genre'],
+                'influence': node['value']
+            }
+            for node in propagation_data['nodes']
+        ]
+
+        # Sort theo điểm ảnh hưởng giảm dần
+        table_data = sorted(table_data, key=lambda x: x['influence'], reverse=True)
+
+        return fig, table_data
+
+
+    # Hàm tạo figure rỗng
+    def empty_figure(message="Không có dữ liệu để hiển thị"):
+        fig = go.Figure()
+        fig.update_layout(
+            xaxis=dict(visible=False),
+            yaxis=dict(visible=False),
+            annotations=[
+                dict(
+                    text=message,
+                    xref="paper",
+                    yref="paper",
+                    showarrow=False,
+                    font=dict(size=16)
+                )
+            ],
+            plot_bgcolor='white',
+            height=400
         )
+        return fig
 
-        # Top 10 rủi ro
-        top_risk = df_recent[['track_name', 'artist_names', 'genre', 'Betweenness']].nlargest(10, 'Betweenness')
-        top_risk.rename(columns={'Betweenness': 'influence'}, inplace=True)
 
-        return fig, top_risk.to_dict('records')
 

@@ -45,8 +45,9 @@ tab_style = {
         'fontWeight': 'bold',
         'border':'none',
         'textDecoration': 'underline',
-        'backgroundColor': '#7691f2',
-        'fontSize': '18px'  
+        'backgroundColor': "#2a3f8f",
+        'fontSize': '20px',
+        'color': '#ffffff'
     }
 }
 
@@ -119,23 +120,34 @@ layout_stock = dbc.Container([
     dbc.Row([
         dbc.Col(
             html.Div([
-                html.Img(src="/assets/img/logo.png", style={'height': '50px', 'width': '120px', 'marginRight': '15px'}),
+                html.Img(
+                    src="/assets/img/logo.png",
+                    style={'height': '45px', 'width': '100px', 'marginRight': '15px'
+                }),
                 html.H1(
-                    "STOCK MARKET INFLUENCE ANALYSIS",
+                    "Stock Market Influence Analysis",
                     style={
                         'fontFamily': 'Montserrat',
-                        'fontWeight': 'bold',
-                        'color': '#FFFFFF',
+                        'color': '#2a3f8f',
                         'display': 'inline-block',
-                        'verticalAlign': 'middle',
-                        'margin': dict(l=50, r=50, t=30, b=80)
+                        'margin': '0',
+                        'font-weight': '700',
+                        'vertical-align': 'middle'
                     }
                 )
-            ], style={'display': 'flex', 'alignItems': 'center', 'justifyContent': 'flex-start'}),
-            md=9  # hoặc md=8 nếu muốn rộng hơn
+            ], style={
+                'display': 'flex', 
+                'align-items': 'center', 
+                'margin-bottom': '20px',
+                'margin-top': '20px',
+                'padding': '15px',
+                'background': 'transparent',
+                'border-radius': '8px',
+                'border-bottom': f"2px solid #2a3f8f"
+            }),
+            md=9, className="mb-2", width=12
         ),
-        dbc.Col([], md=3)  # Cột trống để title lệch trái
-    ], className="mb-2"),
+    ]),
     dcc.Interval(id='refresh', interval=300 * 1000),
 
     # 2. Tabs + Filter
@@ -148,11 +160,12 @@ layout_stock = dbc.Container([
                 children=[
                     dcc.Tab(label='Network Visualization', value='network_visualize', style=tab_style['idle'], selected_style=tab_style['active']),
                     dcc.Tab(label='Community Analysis', value='community_analysis', style=tab_style['idle'], selected_style=tab_style['active']),
-                    dcc.Tab(label='Portfolio Recommendation', value='stock_analysis', style=tab_style['idle'], selected_style=tab_style['active'])
+                    dcc.Tab(label='Porfolio Recommendation', value='stock_analysis', style=tab_style['idle'], selected_style=tab_style['active'])
                 ],
                 style={'marginTop': '15px', 
                        'height': '50px', 
                        'width': '900px',
+                       'box-shadow': '0 4px 20px rgba(0,0,0,0.08)'
                        } #  bỏ 'width': '900px' để nội dung không cố định trong một kích thước
             ),
             md=8,  
@@ -165,13 +178,14 @@ layout_stock = dbc.Container([
             dcc.Dropdown(
                 id='sector-filter',
                 options=[{'label': s, 'value': s} for s in sorted(df['Sector'].unique())],
-                multi=True,
+                multi=False,
                 placeholder='Select Sector',
                 style={
                     'fontFamily': 'Montserrat',
-                    'color': '#fff',
-                    'backgroundColor': '#222b3a',
+                    'color': '#2a3f8f',
+                    'backgroundColor': 'rgba(0,0,0,0.08)',
                     'borderRadius': '10px',
+                    'box-shadow': '0 4px 20px rgba(0,0,0,0.02)'
                     #'display': 'block'  # Mặc định ẩn
                 }
             ),
@@ -184,11 +198,11 @@ layout_stock = dbc.Container([
                 placeholder='Select Community',
                 style={
                     'fontFamily': 'Montserrat',
-                    'color': '#fff',
-                    'backgroundColor': '#222b3a',
+                    'color': '#2a3f8f',
+                    'backgroundColor': 'rgba(0,0,0,0.08)',
                     'borderRadius': '10px',
-                    'width': '100%'
-                    #'display': 'block'  # Mặc định hiển thị
+                    'box-shadow': '0 4px 20px rgba(0,0,0,0.02)'
+                    #'display': 'block'  # Mặc định ẩn
                 }
             ),
             md=2, style={'justifyContent': 'flex-end', 'alignItems': 'flex-end'}

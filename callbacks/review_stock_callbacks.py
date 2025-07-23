@@ -28,7 +28,8 @@ def generate_stats_card (title, subtitle, value, image_path):
                 html.H4(title, className="card-title", style={'margin': '0px','fontSize': '18px','fontWeight': 'bold'}),
                 html.P(subtitle, className="card-subtitle", style={'margin': '0px', 'fontSize': '14px', 'color': '#333'})
             ], style={'textAlign': 'center'}),
-        ], style={'width': '97%', 'height': '100%', 'margin': '10px', 'padding': '20px 10px',"backgroundColor":'#f8f9fa','border':'none','borderRadius':'10px'})
+        ], style={'width': '97%', 'height': '100%', 'margin': '0px', "backgroundColor":'#ffffff','border':'none','borderRadius':'10px', 
+                  'textAlign': 'center', 'paddingTop': '20px', 'paddingBottom': '20px', 'box-shadow': '0 4px 20px rgba(0,0,0,0.08)'})
     )
 
 def review_stock_callbacks(app):
@@ -133,7 +134,7 @@ def review_stock_callbacks(app):
             paper_bgcolor='#fff',
             font_color='#111',
             yaxis_title='Count',
-            height=400
+            height=400,
         )
         
         # Pie char
@@ -229,7 +230,7 @@ def review_stock_callbacks(app):
         # Horizontal barchart: top 5 stocks by selected_num_col
         top5 = dff.nlargest(5, selected_num_col)
         bar_fig = px.bar(
-            top5.sort_values(selected_num_col),
+            top5.sort_values(selected_num_col, ascending=False),
             x=selected_num_col,
             y='Id',
             orientation='h',
@@ -237,18 +238,38 @@ def review_stock_callbacks(app):
             color_discrete_sequence=px.colors.sequential.Blues[-1::-1],
             title=f"Top 5 Stocks by {selected_num_col}"
         )
+        # 👉 Update layout & trace
+        bar_fig.update_traces(
+            marker_line_width=1,
+            marker_line_color='white',
+            width=0.7  # 👈 làm thanh bar nhỏ lại
+        )
+
         bar_fig.update_layout(
             plot_bgcolor='#fff',
             paper_bgcolor='#fff',
             font_color='#111',
-            height=415,
+            height=480,
             showlegend=False,
-            margin=dict(t=40, b=40, l=40, r=40)
+            margin=dict(t=40, b=40, l=40, r=40),
+            xaxis=dict(
+                showgrid=True,
+                gridcolor='lightgrey',  # 👈 màu đường chia
+                zeroline=False
+            )
         )
+        # bar_fig.update_layout(
+        #     plot_bgcolor='#fff',
+        #     paper_bgcolor='#fff',
+        #     font_color='#111',
+        #     height=480,
+        #     showlegend=False,
+        #     margin=dict(t=40, b=40, l=40, r=40)
+        # )
 
         # DataTable
         cols = ['Id', 'Name', 'Sector', 'Close', 'Change', 'Volume', 'Market Cap', 'EPS', 'P/E Ratio', 'Beta (1Y)']
-        dff_table = dff.sort_values('EPS', ascending=False).head(12).copy()
+        dff_table = dff.sort_values('EPS', ascending=False).head(10).copy()
         dff_table = dff_table[cols]
 
         # Tạo cột MarketCap% để tô nền
