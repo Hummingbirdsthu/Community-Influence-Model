@@ -15,7 +15,6 @@ from scipy.linalg import det, inv
 import numpy as np
 from scipy.optimize import least_squares
 from bs4 import BeautifulSoup
-import numpy as np
 import networkx as nx
 import community as community_louvain
 from datetime import datetime
@@ -32,6 +31,7 @@ import matplotlib.cm as cm
 import random
 import string
 import pycountry
+import json
 
 # ✅ Hàm chuyển mã ISO-2 → ISO-3
 def convert_iso2_to_iso3(code):
