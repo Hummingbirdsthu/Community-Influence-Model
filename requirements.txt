@@ -8,7 +8,7 @@ dash_html_components==2.0.0
 dash_table==5.0.0
 matplotlib==3.8.4
 networkx==3.4.2
-numpy==2.3.1
+numpy
 pandas==2.3.1
 plotly==6.0.1
 pycountry==24.6.1
