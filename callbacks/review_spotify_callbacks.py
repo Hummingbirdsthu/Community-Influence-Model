@@ -5,11 +5,6 @@ from dash_bootstrap_templates import load_figure_template
 import plotly.express as px
 import networkx as nx
 import pandas as pd
-import numpy as np
-import community.community_louvain as community_louvain
-from datetime import datetime
-import pytz
-import base64
 import dash
 import dash_core_components as dcc
 import dash_html_components as html

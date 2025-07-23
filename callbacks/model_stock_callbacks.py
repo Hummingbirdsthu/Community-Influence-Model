@@ -1,14 +1,12 @@
 from dash import Dash, html, dcc
 from dash.dependencies import Output, Input, State
 import dash_table
-import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 from plotly.subplots import make_subplots
 import numpy as np
 import pickle
-import itertools
 import pandas as pd
 
 # Màu sắc theo phong cách Spotify

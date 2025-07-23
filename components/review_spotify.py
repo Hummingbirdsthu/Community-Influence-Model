@@ -4,11 +4,7 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 import dash_table
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
-from dash.dependencies import Input, Output, State
-from dash.exceptions import PreventUpdate
-from datetime import datetime
 
 data = pd.read_csv("merged_spotify_data_clean.csv") 
 df = pd.DataFrame(data)

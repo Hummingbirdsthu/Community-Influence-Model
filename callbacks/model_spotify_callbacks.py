@@ -8,7 +8,6 @@ import pandas as pd
 from plotly.subplots import make_subplots
 import numpy as np
 import pickle
-import itertools
 
 # Màu sắc theo phong cách Spotify
 SPOTIFY_COLORS = {

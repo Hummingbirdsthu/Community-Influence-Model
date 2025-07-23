@@ -1,44 +1,13 @@
 from dash import Dash, html, dcc
-from dash.dependencies import Output, Input, State
 import dash_bootstrap_components as dbc
-import plotly.express as px
 import pandas as pd
 from dash import dash_table
 import numpy as np
 import networkx as nx
-import community as community_louvain
-from datetime import datetime
-import pytz
 import base64
-import plotly.graph_objects as go
 import requests
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics.pairwise import cosine_similarity
-from io import BytesIO
-from matplotlib.colors import to_hex
-import matplotlib.cm as cm
-import random
-import string
-from dash.dependencies import Output, Input, State
 import dash_bootstrap_components as dbc
-import plotly.express as px
-import pandas as pd
-from dash import dash_table
-import numpy as np
-import networkx as nx
-import community as community_louvain
-from datetime import datetime
-import pytz
-import base64
-import plotly.graph_objects as go
-import requests
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics.pairwise import cosine_similarity
-from io import BytesIO
-from matplotlib.colors import to_hex
-import matplotlib.cm as cm
-import random
-import string
+import community.community_louvain as community_louvain
 
 # Màu sắc theo phong cách Spotify
 SPOTIFY_COLORS = {

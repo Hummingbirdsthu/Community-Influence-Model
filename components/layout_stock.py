@@ -1,16 +1,7 @@
 from dash import Dash, html, dcc
-from dash.dependencies import Output, Input, State
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
-import plotly.express as px
-import networkx as nx
 import pandas as pd
-import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
-import community.community_louvain as community_louvain
-from datetime import datetime
-import pytz
-import base64
 
 
 # define color scheme

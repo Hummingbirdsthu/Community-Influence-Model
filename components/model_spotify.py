@@ -1,15 +1,11 @@
 from dash import Dash, html, dcc
-from dash.dependencies import Output, Input, State
-import dash_table
 import dash_bootstrap_components as dbc
-import plotly.express as px
-import plotly.graph_objects as go
+import requests
+import base64
 import pandas as pd
 import numpy as np
 import networkx as nx
-import community as community_louvain
-import pickle
-import itertools
+import community.community_louvain as community_louvain
 
 # Màu sắc theo phong cách Spotify
 SPOTIFY_COLORS = {
@@ -35,6 +31,12 @@ SPOTIFY_COLORS = {
     'purple': '#5038A0'
 }
 SPOTIFY_LOGO = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1200px-Spotify_logo_without_text.svg.png"
+def image_to_base64(url):
+    try:
+        response = requests.get(url)
+        return "data:image/jpeg;base64," + base64.b64encode(response.content).decode('utf-8')
+    except:
+        return "data:image/jpeg;base64," + base64.b64encode(requests.get("https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228").content).decode('utf-8')
 
 def generate_spotify_data():
     df= pd.read_csv("merged_with_lambda.csv")

@@ -6,9 +6,6 @@ from dash import dcc
 import dash_bootstrap_components as dbc
 # import dash_table
 import pandas as pd
-import plotly.graph_objects as go
-from dash.dependencies import Input, Output
-import plotly.express as px
 from dash_bootstrap_templates import load_figure_template
 from src.const import get_constants
 

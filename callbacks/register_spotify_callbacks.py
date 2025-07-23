@@ -7,29 +7,20 @@ import plotly.colors as pc
 import dash
 import time
 import requests
-from plotly.colors import sample_colorscale
 import pickle
 from scipy.optimize import minimize
-from scipy.sparse import lil_matrix
 from scipy.linalg import det, inv
 import numpy as np
-from scipy.optimize import least_squares
 from bs4 import BeautifulSoup
 import networkx as nx
-import community as community_louvain
+import community.community_louvain as community_louvain
 from datetime import datetime
 from sklearn.preprocessing import StandardScaler
 import pytz
 import base64
 import plotly.graph_objects as go
 import requests
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics.pairwise import cosine_similarity
-from io import BytesIO
-from matplotlib.colors import to_hex
-import matplotlib.cm as cm
 import random
-import string
 import pycountry
 import json
 
