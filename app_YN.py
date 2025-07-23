@@ -30,6 +30,8 @@ app = Dash(
     assets_folder='assets',  # Chỉ định thư mục assets
     assets_url_path='assets'  # Đường dẫn URL cho assets
 )
+server = app.server
+
 app.css.append_css({
     'external_url': '/assets/custom.css'
 })
