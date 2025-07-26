@@ -28,7 +28,8 @@ df = pd.read_csv('data/filtered_lambda_output.csv')
 df['Id'] = df['Symbol'].apply(lambda x: str(x)[7:])
 df1 = df
 # global df_lambda
-df_lambda = df.nlargest(70, 'Market Cap').copy()
+#df_lambda = df.nlargest(70, 'Market Cap').copy()
+df_lambda = df.groupby(['Sector', 'Cluster'], group_keys=False).head(20)
 # df_lambda =df.copy()
 
 # def create_stock_graph(df, selected_sectors=None, threshold=0.8):
